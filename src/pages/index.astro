@@ -9,15 +9,16 @@ const currentPage = '/';
   <NavBar currentPage={currentPage} />
 
   <!-- Hero -->
-  <section class="pt-32 pb-24 px-6">
+  <section class="pt-40 pb-24 px-6">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div class="relative z-10">
-          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">เกี่ยวกับเรา</p>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-sage mb-4">ยืนหยัดคุณภาพ ตั้งแต่วันแรก</p>
           <h1 class="text-5xl lg:text-6xl font-serif leading-[1.1] mb-6">ผู้จำหน่ายและติดตั้ง<span class="text-terracotta">หินอ่อน</span><br/><span class="text-sage">หินแกรนิต</span><br/><span class="text-brown/60">หินสังเคราะห์</span></h1>
           <p class="text-lg text-brown/70 leading-relaxed max-w-md">
             ด้วยประสบการณ์และทีมช่างมืออาชีพ เราพร้อมส่งมอบงานคุณภาพและดีไซน์ ที่ตอบโจทย์ทุกความต้องการของคุณ
           </p>
+          <a href="/contact" class="inline-block bg-terracotta text-cream px-6 py-3 rounded-md font-medium hover:bg-terracotta/90 transition-colors mt-6">นัดประเมินราคาฟรี</a>
         </div>
         <div class="relative rounded-md overflow-hidden aspect-[4/3]">
           <img src="/assets/hero.jpg" alt="ไวยศิลา" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'" />
@@ -146,6 +147,51 @@ const currentPage = '/';
           </div>
           <h3 class="font-serif text-lg mb-1">หินเทียม | หินสังเคราะห์</h3>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-24 px-6 bg-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">รีวิวจากลูกค้า</p>
+        <h2 class="text-3xl font-serif">ลูกค้าของเราพูดอย่างไร</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-cream p-6 rounded-md">
+          <div class="flex gap-1 mb-3 text-terracotta">★★★★★</div>
+          <p class="text-brown/80 mb-4 text-base leading-relaxed">"งานเสร็จเร็ว ช่างเป็นมิตร ประทับใจมากครับ หินอ่อนที่ติดตั้งให้บ้านสวยมาก คุ้มค่าจริงๆ"</p>
+          <div class="flex items-center gap-3">
+            <div class="bg-sage/20 w-10 h-10 rounded-full flex items-center justify-center text-sage font-bold text-sm">สก</div>
+            <div>
+              <p class="font-medium text-sm">คุณสกุล ใจดี</p>
+              <p class="text-xs text-brown/60">รีวิว Google</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-cream p-6 rounded-md">
+          <div class="flex gap-1 mb-3 text-terracotta">★★★★★</div>
+          <p class="text-brown/80 mb-4 text-base leading-relaxed">"ไวยศิลาช่วยแนะนำหินแกรนิตให้เหมาะกับงบประมาณ บริการดีเยี่ยม งานเสร็จตรงเวลาครับ"</p>
+          <div class="flex items-center gap-3">
+            <div class="bg-sage/20 w-10 h-10 rounded-full flex items-center justify-center text-sage font-bold text-sm">ว</div>
+            <div>
+              <p class="font-medium text-sm">คุณวิชัย รักษาเจริญ</p>
+              <p class="text-xs text-brown/60">รีวิว Facebook</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-cream p-6 rounded-md">
+          <div class="flex gap-1 mb-3 text-terracotta">★★★★★</div>
+          <p class="text-brown/80 mb-4 text-base leading-relaxed">"เคยใช้บริการ 3 ครั้งแล้ว ทุกครั้งไม่เคยผิดหวัง ราคาโดนใจ ช่างเซี้ยมมากครับ"</p>
+          <div class="flex items-center gap-3">
+            <div class="bg-sage/20 w-10 h-10 rounded-full flex items-center justify-center text-sage font-bold text-sm">ป</div>
+            <div>
+              <p class="font-medium text-sm">คุณปองพล ชัยวัฒน์</p>
+              <p class="text-xs text-brown/60">รีวิว LINE</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
