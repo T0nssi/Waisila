@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+
+const currentPage = '/';
+---
+
+<Layout title="เกี่ยวกับเรา">
+  <NavBar currentPage={currentPage} />
+
+  <!-- Hero -->
+  <section class="pt-32 pb-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="relative z-10">
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">เกี่ยวกับเรา</p>
+          <h1 class="text-5xl lg:text-6xl font-serif leading-[1.1] mb-6">ผู้จำหน่ายและติดตั้ง<span class="text-terracotta">หินอ่อน</span><br/><span class="text-sage">หินแกรนิต</span><br/><span class="text-brown/60">หินสังเคราะห์</span></h1>
+          <p class="text-lg text-brown/70 leading-relaxed max-w-md">
+            ด้วยประสบการณ์และทีมช่างมืออาชีพ เราพร้อมส่งมอบงานคุณภาพและดีไซน์ ที่ตอบโจทย์ทุกความต้องการของคุณ
+          </p>
+        </div>
+        <div class="relative rounded-md overflow-hidden aspect-[4/3]">
+          <img src="/assets/hero.jpg" alt="ไวยศิลา" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'" />
+          <div class="absolute inset-0 bg-[#d4d0cb]"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">บริการ</p>
+          <h2 class="text-3xl font-serif">บริการของเรา</h2>
+        </div>
+        <a href="/services" class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">ดูทั้งหมด</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div class="text-center">
+          <div class="bg-[#e0dcd7] rounded-md aspect-square mb-3 flex items-center justify-center overflow-hidden">
+            <img src="/assets/services/cut.jpg" alt="ตัดหิน" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          <p class="text-sm font-medium">ตัด</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-[#e0dcd7] rounded-md aspect-square mb-3 flex items-center justify-center overflow-hidden">
+            <img src="/assets/services/drill.jpg" alt="เจาะหิน" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          <p class="text-sm font-medium">เจาะ</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-[#e0dcd7] rounded-md aspect-square mb-3 flex items-center justify-center overflow-hidden">
+            <img src="/assets/services/grind.jpg" alt="เจียร์หิน" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          <p class="text-sm font-medium">เจียร์</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-[#e0dcd7] rounded-md aspect-square mb-3 flex items-center justify-center overflow-hidden">
+            <img src="/assets/services/engrave.jpg" alt="แกะสลัก" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          <p class="text-sm font-medium">แกะสลัก</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-[#e0dcd7] rounded-md aspect-square mb-3 flex items-center justify-center overflow-hidden">
+            <img src="/assets/services/spray.jpg" alt="พ่นผิวหน้า" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          <p class="text-sm font-medium">พ่นผิวหน้า</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-[#e0dcd7] rounded-md aspect-square mb-3 flex items-center justify-center overflow-hidden">
+            <img src="/assets/services/seal.jpg" alt="ทากันซึม" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          <p class="text-sm font-medium">ทากันซึม</p>
+        </div>
+      </div>
+      <p class="text-center text-brown/60 text-sm mt-8">
+        บริการตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม พร้อมวัดขนาดหน้างานและจัดส่งสินค้า
+      </p>
+    </div>
+  </section>
+
+  <!-- Products Preview -->
+  <section class="py-24 px-6 bg-[#e0dcd7]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">หมวดสินค้า</p>
+          <h2 class="text-3xl font-serif">สินค้าของเรา</h2>
+        </div>
+        <a href="/products" class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">ดูทั้งหมด</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/products" class="group">
+          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+            <img src="/assets/products/category-marble.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+          </div>
+          <h3 class="font-serif text-xl mb-1">หินอ่อน</h3>
+          <p class="text-sm text-brown/60">Marble</p>
+        </a>
+        <a href="/products" class="group">
+          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+            <img src="/assets/products/category-granite.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+          </div>
+          <h3 class="font-serif text-xl mb-1">หินแกรนิต</h3>
+          <p class="text-sm text-brown/60">Granite</p>
+        </a>
+        <a href="/products" class="group">
+          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+            <img src="/assets/products/category-quartz.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+          </div>
+          <h3 class="font-serif text-xl mb-1">หินสังเคราะห์</h3>
+          <p class="text-sm text-brown/60">Artificial & Quartz</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Preview -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">ผลงาน</p>
+          <h2 class="text-3xl font-serif">ผลงานติดตั้ง</h2>
+        </div>
+        <a href="/portfolio" class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">ดูทั้งหมด</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/portfolio" class="group">
+          <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+            <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน | Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+          </div>
+          <h3 class="font-serif text-lg mb-1">หินอ่อน | Marble</h3>
+        </a>
+        <a href="/portfolio" class="group">
+          <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+            <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต | Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+          </div>
+          <h3 class="font-serif text-lg mb-1">หินแกรนิต | Granite</h3>
+        </a>
+        <a href="/portfolio" class="group">
+          <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+            <img src="/assets/portfolio/quartz-01.jpg" alt="หินเทียม | หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+          </div>
+          <h3 class="font-serif text-lg mb-1">หินเทียม | หินสังเคราะห์</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="py-24 px-6 bg-terracotta/10">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-3xl font-serif mb-4">สนใจสินค้าหรือบริการ?</h2>
+      <p class="text-brown/70 mb-8">ติดต่อเราได้ตลอดเวลา 098-519-2696</p>
+      <a href="/contact" class="inline-block bg-brown text-cream px-8 py-4 rounded-md font-medium hover:bg-brown/90 transition-colors">ติดต่อเลย</a>
+    </div>
+  </section>
+
+  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <p class="font-serif text-xl mb-1">ไวยศิลา</p>
+        <p class="text-sm text-brown/60">WAISIRA</p>
+      </div>
+      <ul class="flex gap-6 text-sm text-brown/60">
+        <li><a href="/services" class="hover:text-sage transition-colors">บริการ</a></li>
+        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
+        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
+      </ul>
+    </div>
+  </footer>
+</Layout>

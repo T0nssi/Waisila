@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+
+const currentPage = '/portfolio';
+---
+
+<Layout title="ผลงาน">
+  <NavBar currentPage={currentPage} />
+
+  <section class="pt-32 pb-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ผลงาน</p>
+      <h1 class="text-5xl font-serif leading-[1.1] mb-6">ผลงานติดตั้ง</h1>
+      <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16">
+        รวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา
+      </p>
+
+      <div class="space-y-16">
+        <div>
+          <h2 class="text-2xl font-serif mb-6 pb-3 border-b border-[#d4d0cb]">หินอ่อน | Marble</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/marble-02.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/marble-03.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-serif mb-6 pb-3 border-b border-[#d4d0cb]">หินแกรนิต | Granite</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/granite-02.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/granite-03.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-serif mb-6 pb-3 border-b border-[#d4d0cb]">หินเทียม | หินสังเคราะห์ | Quartz</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/quartz-01.jpg" alt="หินเทียม" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/quartz-02.jpg" alt="หินเทียม" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
+              <img src="/assets/portfolio/quartz-03.jpg" alt="หินเทียม" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <p class="font-serif text-xl mb-1">ไวยศิลา</p>
+        <p class="text-sm text-brown/60">WAISIRA</p>
+      </div>
+      <ul class="flex gap-6 text-sm text-brown/60">
+        <li><a href="/" class="hover:text-sage transition-colors">เกี่ยวกับเรา</a></li>
+        <li><a href="/services" class="hover:text-sage transition-colors">บริการ</a></li>
+        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
+        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
+      </ul>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,222 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+
+const currentPage = '/products';
+
+const marbleProducts = [
+  { name: "ไวท์วาลากัส", en: "White Valencia" },
+  { name: "อาราเบสคาโต้", en: "Arabescato" },
+  { name: "ไวท์ คาราร่า", en: "White Carrara" },
+  { name: "ไวท์ วีนัส", en: "White Venus" },
+  { name: "สตาร์ตูดิโอ้", en: "Statuario" },
+  { name: "ซีเวค", en: "Cive" },
+  { name: "ครีมมาเฟล", en: "Crema Marfil" },
+  { name: "นิวมาเฟล", en: "Nuova Marble" },
+  { name: "นิว เอ็มพาราโด้", en: "New Emperador" },
+  { name: "ไลท์ เอ็มพาราโด้", en: "Light Emperador" },
+  { name: "ดาร์ก เอ็มพาราโด้", en: "Dark Emperador" },
+  { name: "เกรย์ เอ็มพาราโด้", en: "Grey Emperador" },
+  { name: "แบล็ค เอ็มพาราโด้", en: "Black Emperador" },
+  { name: "แบล็ค มาคิวน่า", en: "Black Macchina" },
+  { name: "แบล็ค ฟอร์เรส", en: "Black Forest" },
+  { name: "เขียว อิตาลี", en: "Green Italy" },
+];
+
+const graniteProducts = [
+  { name: "ดำเกล็ดทอง", en: "Dark Green" },
+  { name: "ดำอัฟริกา", en: "Dark Africa" },
+  { name: "ดำอินเดีย", en: "Dark India" },
+  { name: "ดำไทย", en: "Dark Thai" },
+  { name: "ดำจีน", en: "Dark China" },
+  { name: "เทาลายเมฆ", en: "Grey Cloud Pattern" },
+  { name: "ขาวจีน 603", en: "White China 603" },
+  { name: "ขาวจีน 604", en: "White China 604" },
+  { name: "เทาจีน 623", en: "Grey China 623" },
+  { name: "เทาจีน 624", en: "Grey China 624" },
+  { name: "ชมพูจีน", en: "Pink China" },
+  { name: "นิวพิ้งค์", en: "New Pink" },
+  { name: "ซากุระ", en: "Sakura" },
+  { name: "แดงอินเดีย (S)", en: "Red India (S)" },
+  { name: "แดงอินเดีย (L)", en: "Red India (L)" },
+  { name: "บลูเพิร์ล", en: "Blue Pearl" },
+  { name: "เอ็มเมอร์รัลเพิร์ล", en: "Emerald Pearl" },
+  { name: "แบล็ค ฟอร์เรส", en: "Black Forest" },
+  { name: "มัลติคัลเลอร์ บราว", en: "Multi Color Brown" },
+  { name: "มัลติคัลเลอร์ เรด", en: "Multi Color Red" },
+];
+
+const artificialProducts = [
+  { name: "คลิสตัสไวท์", en: "Crystal White" },
+  { name: "เมจิกไวท์", en: "Magic White" },
+  { name: "คลิสตัสไวท์เมจิกโกลด์", en: "Crystal White Magic Gold" },
+];
+
+const quartzProducts = [
+  { name: "ไวท์ คารากัสต้า", en: "White Caracutta" },
+  { name: "เอเดล ไวท์", en: "Adel White" },
+  { name: "มาม่าไวท์", en: "Mama White" },
+  { name: "ไลท์ เกรย์", en: "Light Grey" },
+  { name: "คาปูชิโน่", en: "Cappuccino" },
+  { name: "คลาสิค เกรย์", en: "Classic Grey" },
+  { name: "ควอทซ์ดำ", en: "Black Quartz" },
+  { name: "ควอทซ์แดง", en: "Red Quartz" },
+];
+
+const contact = {
+  phone: "098-519-2696",
+  facebook: "https://www.facebook.com/waisira8",
+  line: "https://line.me/ti/p/-lmFbFbMFo",
+  instagram: "https://www.instagram.com/waisira_/",
+};
+---
+
+<Layout title="สินค้า">
+  <NavBar currentPage={currentPage} />
+
+  <section class="pt-32 pb-16 px-6">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">หมวดสินค้า</p>
+      <h1 class="text-5xl font-serif leading-[1.1] mb-4">สินค้าของเรา</h1>
+      <p class="text-lg text-brown/70 max-w-2xl">ไวยศิลานำเข้าและจำหน่ายหินอ่อน หินแกรนิต หินเทียม และหินควอทซ์คุณภาพ premium จากทั่วโลก</p>
+    </div>
+  </section>
+
+  <section class="px-6 pb-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex gap-4 border-b border-[#d4d0cb]">
+        <button onclick="showCategory('marble')" id="tab-marble" class="pb-4 px-2 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน (Marble)</button>
+        <button onclick="showCategory('granite')" id="tab-granite" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">หินแกรนิต (Granite)</button>
+        <button onclick="showCategory('artificial')" id="tab-artificial" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">หินเทียม (Artificial)</button>
+        <button onclick="showCategory('quartz')" id="tab-quartz" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">หินควอทซ์ (Quartz)</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="cat-marble" class="px-6 pb-24">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {marbleProducts.map(p => (
+          <div class="group">
+            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+              <img src={`/assets/products/marble/${p.en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}.jpg`} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <h3 class="font-serif text-base mb-0.5">{p.name}</h3>
+            <p class="text-xs text-brown/60">{p.en}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="cat-granite" class="px-6 pb-24 hidden">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {graniteProducts.map(p => (
+          <div class="group">
+            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+              <img src={`/assets/products/granite/${p.en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}.jpg`} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <h3 class="font-serif text-base mb-0.5">{p.name}</h3>
+            <p class="text-xs text-brown/60">{p.en}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="cat-artificial" class="px-6 pb-24 hidden">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {artificialProducts.map(p => (
+          <div class="group">
+            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+              <img src={`/assets/products/artificial/${p.en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}.jpg`} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <h3 class="font-serif text-base mb-0.5">{p.name}</h3>
+            <p class="text-xs text-brown/60">{p.en}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="cat-quartz" class="px-6 pb-24 hidden">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {quartzProducts.map(p => (
+          <div class="group">
+            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+              <img src={`/assets/products/quartz/${p.en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}.jpg`} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            </div>
+            <h3 class="font-serif text-base mb-0.5">{p.name}</h3>
+            <p class="text-xs text-brown/60">{p.en}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="max-w-6xl mx-auto">
+      <div class="p-8 bg-terracotta/10 rounded-md border border-terracotta/20">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-2">โทร</p>
+            <p class="font-serif text-lg">{contact.phone}</p>
+          </div>
+          <div>
+            <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-2">Facebook</p>
+            <a href={contact.facebook} target="_blank" class="text-brown hover:text-sage">Facebook</a>
+          </div>
+          <div>
+            <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-2">Line</p>
+            <a href={contact.line} target="_blank" class="text-brown hover:text-sage">Line</a>
+          </div>
+          <div>
+            <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-2">Instagram</p>
+            <a href={contact.instagram} target="_blank" class="text-brown hover:text-sage">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <p class="font-serif text-xl mb-1">ไวยศิลา</p>
+        <p class="text-sm text-brown/60">WAISIRA</p>
+      </div>
+      <ul class="flex gap-6 text-sm text-brown/60">
+        <li><a href="/" class="hover:text-sage transition-colors">เกี่ยวกับเรา</a></li>
+        <li><a href="/services" class="hover:text-sage transition-colors">บริการ</a></li>
+        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
+        <li><a href="/portfolio" class="hover:text-sage transition-colors">ผลงาน</a></li>
+        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script is:inline>
+    function showCategory(cat) {
+      document.getElementById('cat-marble').classList.add('hidden');
+      document.getElementById('cat-granite').classList.add('hidden');
+      document.getElementById('cat-artificial').classList.add('hidden');
+      document.getElementById('cat-quartz').classList.add('hidden');
+      document.getElementById('cat-' + cat).classList.remove('hidden');
+      
+      document.getElementById('tab-marble').classList.remove('border-sage', 'text-sage');
+      document.getElementById('tab-marble').classList.add('border-transparent', 'text-brown/60');
+      document.getElementById('tab-granite').classList.remove('border-sage', 'text-sage');
+      document.getElementById('tab-granite').classList.add('border-transparent', 'text-brown/60');
+      document.getElementById('tab-artificial').classList.remove('border-sage', 'text-sage');
+      document.getElementById('tab-artificial').classList.add('border-transparent', 'text-brown/60');
+      document.getElementById('tab-quartz').classList.remove('border-sage', 'text-sage');
+      document.getElementById('tab-quartz').classList.add('border-transparent', 'text-brown/60');
+      
+      document.getElementById('tab-' + cat).classList.remove('border-transparent', 'text-brown/60');
+      document.getElementById('tab-' + cat).classList.add('border-sage', 'text-sage');
+    }
+  </script>
+</Layout>

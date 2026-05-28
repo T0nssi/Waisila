@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+
+const currentPage = '/services';
+---
+
+<Layout title="บริการ">
+  <NavBar currentPage={currentPage} />
+
+  <section class="pt-32 pb-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">บริการ</p>
+      <h1 class="text-5xl font-serif leading-[1.1] mb-6">บริการของเรา</h1>
+      <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16">
+        ทางร้านมีบริการ ตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม และยังมีบริการวัดขนาดหน้างาน พร้อมจัดส่งสินค้า
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 bg-[#e0dcd7] rounded-md p-10 lg:p-12">
+          <span class="text-6xl font-serif text-brown/10 block mb-6">01</span>
+          <h2 class="text-3xl font-serif mb-3">ตัดหิน</h2>
+          <p class="text-brown/60 leading-relaxed">บริการตัดหินด้วยเครื่องจักรคุณภาพสูง ตัดได้ทุกขนาด ตามความต้องการของลูกค้า รองรับงานทั้งหินอ่อน หินแกรนิต และหินสังเคราะห์</p>
+        </div>
+        <div class="bg-[#e0dcd7] rounded-md p-8">
+          <span class="text-5xl font-serif text-brown/10 block mb-4">02</span>
+          <h2 class="text-2xl font-serif mb-3">เจาะหิน</h2>
+          <p class="text-brown/60 leading-relaxed text-sm">เจาะรูและร่องลึกบนหิน สำหรับติดตั้งอุปกรณ์หรือตกแต่งตามแบบแปลน</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        <div class="bg-[#e0dcd7] rounded-md p-6">
+          <span class="text-4xl font-serif text-brown/10 block mb-3">03</span>
+          <h2 class="text-xl font-serif mb-2">เจียร์หิน</h2>
+          <p class="text-sm text-brown/60">ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง พร้อมส่งมอบงานคุณภาพ</p>
+        </div>
+        <div class="bg-[#e0dcd7] rounded-md p-6">
+          <span class="text-4xl font-serif text-brown/10 block mb-3">04</span>
+          <h2 class="text-xl font-serif mb-2">แกะสลัก</h2>
+          <p class="text-sm text-brown/60">แกะสลักป้ายและลวดลายต่างๆ บนหิน ตามแบบที่ต้องการ</p>
+        </div>
+        <div class="bg-[#e0dcd7] rounded-md p-6">
+          <span class="text-4xl font-serif text-brown/10 block mb-3">05</span>
+          <h2 class="text-xl font-serif mb-2">พ่นผิวหน้า</h2>
+          <p class="text-sm text-brown/60">พ่นทราย พ่นไฟ เซาะร่อง สร้างผิวสัมผัสที่ต้องการ</p>
+        </div>
+        <div class="bg-[#e0dcd7] rounded-md p-6">
+          <span class="text-4xl font-serif text-brown/10 block mb-3">06</span>
+          <h2 class="text-xl font-serif mb-2">ทากันซึม</h2>
+          <p class="text-sm text-brown/60">ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <p class="font-serif text-xl mb-1">ไวยศิลา</p>
+        <p class="text-sm text-brown/60">WAISIRA</p>
+      </div>
+      <ul class="flex gap-6 text-sm text-brown/60">
+        <li><a href="/" class="hover:text-sage transition-colors">เกี่ยวกับเรา</a></li>
+        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
+        <li><a href="/portfolio" class="hover:text-sage transition-colors">ผลงาน</a></li>
+        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
+      </ul>
+    </div>
+  </footer>
+</Layout>
