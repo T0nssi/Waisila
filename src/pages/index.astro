@@ -40,40 +40,48 @@ const currentPage = '/';
       </div>
       <div class="flex gap-6 flex-wrap justify-center">
         <div class="text-center flex-shrink-0">
-          <div class="bg-[#e0dcd7] rounded-md mb-3 overflow-hidden" style="width: 200px; height: 200px;">
-            <img src="/assets/services/cut.jpg" alt="ตัดหิน" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
+            <img src="/assets/services/photo/cut.jpg" alt="ตัดหิน" class="w-full h-full object-cover rounded-md" />
           </div>
-          <p class="text-base font-medium">ตัด</p>
+          <p class="text-base font-bold">ตัด</p>
+          <p class="text-xs text-brown/60 mt-1 px-2">ตัดหินด้วยเครื่องจักรคุณภาพสูง รองรับทุกขนาด</p>
         </div>
         <div class="text-center flex-shrink-0">
-          <div class="bg-[#e0dcd7] rounded-md mb-3 overflow-hidden" style="width: 200px; height: 200px;">
-            <img src="/assets/services/drill.jpg" alt="เจาะหิน" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
+            <img src="/assets/services/photo/drill.jpg" alt="เจาะหิน" class="w-full h-full object-cover rounded-md" />
           </div>
-          <p class="text-base font-medium">เจาะ</p>
+          <p class="text-base font-bold">เจาะ</p>
+          <p class="text-xs text-brown/60 mt-1 px-2">เจาะรูและร่องลึก สำหรับติดตั้งอุปกรณ์</p>
         </div>
         <div class="text-center flex-shrink-0">
-          <div class="bg-[#e0dcd7] rounded-md mb-3 overflow-hidden" style="width: 200px; height: 200px;">
-            <img src="/assets/services/grind.jpg" alt="เจียร์หิน" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
+            <img src="/assets/services/photo/grind.jpg" alt="เจียร์หิน" class="w-full h-full object-cover rounded-md" />
           </div>
-          <p class="text-base font-medium">เจียร์</p>
+          <p class="text-base font-bold">เจียร์</p>
+          <p class="text-xs text-brown/60 mt-1 px-2">ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง</p>
         </div>
         <div class="text-center flex-shrink-0">
-          <div class="bg-[#e0dcd7] rounded-md mb-3 overflow-hidden" style="width: 200px; height: 200px;">
-            <img src="/assets/services/engrave.jpg" alt="แกะสลัก" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
+            <img src="/assets/services/photo/engrave.jpg" alt="แกะสลัก" class="w-full h-full object-cover rounded-md" />
           </div>
-          <p class="text-base font-medium">แกะสลัก</p>
+          <p class="text-base font-bold">แกะสลัก</p>
+          <p class="text-xs text-brown/60 mt-1 px-2">แกะสลักป้ายและลวดลายตามแบบ</p>
+        </div>
+      </div>
+      <div class="flex gap-6 flex-wrap justify-center mt-6">
+        <div class="text-center flex-shrink-0">
+          <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
+            <img src="/assets/services/photo/spray.jpg" alt="พ่นผิวหน้า" class="w-full h-full object-cover rounded-md" />
+          </div>
+          <p class="text-base font-bold">พ่นผิวหน้า</p>
+          <p class="text-xs text-brown/60 mt-1 px-2">พ่นทราย พ่นไฟ เซาะร่อง สร้างผิวสัมผัส</p>
         </div>
         <div class="text-center flex-shrink-0">
-          <div class="bg-[#e0dcd7] rounded-md mb-3 overflow-hidden" style="width: 200px; height: 200px;">
-            <img src="/assets/services/spray.jpg" alt="พ่นผิวหน้า" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
+            <img src="/assets/services/photo/seal.jpg" alt="ทากันซึม" class="w-full h-full object-cover rounded-md" />
           </div>
-          <p class="text-base font-medium">พ่นผิวหน้า</p>
-        </div>
-        <div class="text-center flex-shrink-0">
-          <div class="bg-[#e0dcd7] rounded-md mb-3 overflow-hidden" style="width: 200px; height: 200px;">
-            <img src="/assets/services/seal.jpg" alt="ทากันซึม" class="w-full h-full object-cover" onerror="this.style.display='none'" />
-          </div>
-          <p class="text-base font-medium">ทากันซึม</p>
+          <p class="text-base font-bold">ทากันซึม</p>
+          <p class="text-xs text-brown/60 mt-1 px-2">ทาน้ำยากันซึม ป้องกันน้ำ ยืดอายุการใช้งาน</p>
         </div>
       </div>
       <p class="text-center text-brown/60 text-sm mt-8">
@@ -81,6 +89,37 @@ const currentPage = '/';
       </p>
     </div>
   </section>
+  <!-- Testimonials + Auto-scroll Random Loop -->
+  <section class="py-24 px-6 bg-[#d4d0cb] overflow-hidden">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="text-base font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">รีวิวจากลูกค้า</p>
+        <h2 class="text-4xl font-serif">ลูกค้าของเราพูดอย่างไร</h2>
+      </div>
+    </div>
+    <div class="relative">
+      <div id="testimonial-track" class="flex gap-6" style="width: max-content;"></div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function() {
+      var reviews = [{name:"สก*** ห***",i:"สก",txt:"งานเสร็จเร็ว ช่างเป็นมิตร ประทับใจมากครับ หินสวยมาก",icon:"📘"},{name:"วิ*** ร***",i:"ว",txt:"แนะนำหินให้เหมาะกับงบ บริการดีเยี่ยม งานเสร็จตรงเวลา",icon:"📘"},{name:"ป*** ช***",i:"ป",txt:"ใช้บริการ 3 ครั้งแล้ว ทุกครั้งไม่ผิดหวัง ราคาโดนใจ",icon:"📱"},{name:"ทนง ศ***",i:"ท",txt:"หินควอทซ์ทำเคาน์เตอร์ครัว ผลงานเนียน ราคาโปร่งใส",icon:"📘"},{name:"อรุช ส***",i:"อ",txt:"ติดตั้งหินอ่อนโรงแรม ทีมช่างเซี้ยม ละเอียดมาก",icon:"📷"},{name:"สมศรี ไ***",i:"ส",txt:"หินสวยมากค่ะ เทียบแล้วคุณภาพดีกว่า ราคาถูกกว่าด้วย",icon:"📘"},{name:"ธนา ว***",i:"ธ",txt:"ดูแลตั้งแต่เลือกหินจนติดตั้งเสร็จ ประทับใจมาก",icon:"📱"},{name:"พิชัย ส***",i:"พ",txt:"หินแกรนิตที่สั่งมาสีสวยมาก ติดตั้งเสร็จเร็ว ช่างเป็นมืออาชีพ",icon:"📘"},{name:"สุภาพ ค***",i:"ส",txt:"บริการดีมากครับ พนักงานเป็นมิตร งานเนียนที่สุด",icon:"📘"},{name:"รัชพล ม***",i:"ร",txt:"ติดตั้งหินบันได สวยงามมากค่ะ ขอบคุณมาก",icon:"📱"},{name:"ณิชา น***",i:"ณ",txt:"ไวยศิลาแนะนำหินให้ดีมาก งานออกมาเกินความคาดหมาย",icon:"📷"},{name:"ประเสริฐ วั***",i:"ป",txt:"ราคาโดนใจ คุณภาพดีมาก ส่งมอบตรงเวลาครับ",icon:"📘"},{name:"มานพ อ***",i:"ม",txt:"หินอ่อน Italy สวยมากครับ ลูกค้าที่บ้านชมเยอะ",icon:"📘"},{name:"ศิริพร ส***",i:"ศ",txt:"งานประตูหินอ่อน สวยที่สุดเท่าที่เคยเห็นมา",icon:"📱"},{name:"วิทยา พ***",i:"ว",txt:"ติดตั้งหินปูทางเดิน รอบบ้าน สวยมากครับ",icon:"📘"},{name:"อุบล ร***",i:"อ",txt:"ไวยศิลารับงานเร็ว ช่างทำงานละเอียด พูดจาเป็นมิตร",icon:"📷"},{name:"ชัชวาล ส***",i:"ช",txt:"หินควอทซ์ขาว งานเสร็จเร็ว ช่างเซี้ยมมาก",icon:"📘"},{name:"นภา ท***",i:"น",txt:"ประทับใจมากค่ะ จะแนะนำเพื่อนๆ ต่อไป",icon:"📱"},{name:"สมชาย ว***",i:"ส",txt:"หินแกรนิตดำ ตกแต่งห้องน้น ดูหรูมากครับ",icon:"📘"},{name:"ปิยะ ศ***",i:"ป",txt:"บริการหลังการขายดีมาก โทรไปได้ตลอด",icon:"📘"},{name:"สุรชัย ว***",i:"ส",txt:"ทำงานเสร็จเร็วกว่าที่คุยกันไว้ ประทับใจใจมาก",icon:"📱"},{name:"พรพรรณ ส***",i:"พ",txt:"หินสวย ราคายุติธรรม ช่างเป็นมืออาชีพ",icon:"📷"},{name:"จิระ ณ***",i:"จ",txt:"สั่งหินจากที่นี่ 3 ครั้งแล้ว ทุกครั้งพอใจ",icon:"📘"},{name:"ธีระ อ***",i:"ธ",txt:"หินอ่อน Carmen แต่งห้องนั่งเล่น สวยมากครับ",icon:"📘"},{name:"สุนีย์ ม***",i:"ส",txt:"งานติดตั้งเรียบร้อยมาก ช่างเซี้ยมสุดๆ",icon:"📱"},{name:"นรินทร์ ส***",i:"น",txt:"แนะนำให้ทำหินครัว งานออกมาดีเยี่ยม",icon:"📘"},{name:"วรรณา ว***",i:"ว",txt:"ไวยศิลาให้คำปรึกษาดีมาก ช่วยเลือกหินให้เหมาะ",icon:"📷"},{name:"ฐาปนา ส***",i:"ฐ",txt:"งานสำเร็จลุล่วง ประทับใจในคุณภาพมากครับ",icon:"📘"},{name:"รุ่งโรจน์ ว***",i:"ร",txt:"หินสวยทั้งน้ำ ทีมงานเป็นมืออาชีพ ขอบคุณมาก",icon:"📱"},];
+      function card(n,i,t,ico){return'<div class="bg-cream p-6 rounded-md w-80 flex-shrink-0"><div class="flex gap-1 mb-3 text-terracotta text-lg">★★★★★</div><p class="text-brown/80 mb-4 text-lg leading-relaxed">"'+t+'"</p><div class="flex items-center gap-3"><div class="bg-sage/20 w-12 h-12 rounded-full flex items-center justify-center text-sage font-bold">'+i+'</div><div><p class="font-medium text-lg">'+n+'</p><div class="flex items-center gap-2 text-sm text-brown/60">'+ico+'</div></div></div></div>';}
+      // Fisher-Yates shuffle
+      function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+      var tr=document.getElementById('testimonial-track');
+      if(!tr)return;
+      var shuffled = shuffle(reviews.slice());
+      var all='';
+      for(var k=0;k<shuffled.length;k++){var r=shuffled[k];all+=card(r.name,r.i,r.txt,r.icon);}
+      // Duplicate for seamless loop
+      tr.innerHTML=all+all;
+      var pos=0;
+      function s(){pos+=0.5;var half=tr.scrollWidth/2;if(pos>=half)pos=0;tr.style.transform='translateX(-'+pos+'px)';requestAnimationFrame(s);}
+      setTimeout(s,600);
+    })();
+  </script>
 
   <!-- Products Preview -->
   <section class="py-24 px-6 bg-[#e0dcd7]">
