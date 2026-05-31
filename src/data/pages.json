@@ -1,0 +1,94 @@
+{
+  "pages": [
+    {
+      "id": "homepage",
+      "key": "homepage",
+      "name": "หน้าแรก",
+      "active": true,
+      "images": [
+        "/assets/hero.jpg"
+      ],
+      "colorStyle": "คลาสสิก, หรูหรา",
+      "sizeText": "60x60 ซม., 80x80 ซม., 40x40 ซม.",
+      "information": "ด้วยประสบการณ์และทีมช่างมืออาชีพ เราพร้อมส่งมอบงานคุณภาพและดีไซน์ ที่ตอบโจทย์ทุกความต้องการของคุณ",
+      "contact": "098-519-2696"
+    },
+    {
+      "id": "service",
+      "key": "service",
+      "name": "บริการ",
+      "active": true,
+      "images": [
+        "/assets/services/workshop-hero.jpg"
+      ],
+      "colorStyle": "มืออาชีพ, ทันสมัย",
+      "sizeText": "รองรับทุกขนาด ตั้งแต่ 30x30 ซม. ถึง 150x150 ซม.",
+      "information": "ทางร้านมีบริการ ตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม และยังมีบริการวัดขนาดหน้างาน พร้อมจัดส่งสินค้า",
+      "contact": "098-519-2696",
+      "services": [
+        {
+          "num": "01",
+          "title": "ตัดหิน",
+          "desc": "บริการตัดหินด้วยเครื่องจักรคุณภาพสูง ตัดได้ทุกขนาด ตามความต้องการของลูกค้า รองรับงานทั้งหินอ่อน หินแกรนิต และหินสังเคราะห์",
+          "image": "/assets/services/cut-service.jpg"
+        },
+        {
+          "num": "02",
+          "title": "เจาะหิน",
+          "desc": "เจาะรูและร่องลึกบนหิน สำหรับติดตั้งอุปกรณ์หรือตกแต่งตามแบบแปลน",
+          "image": "/assets/services/drill-service.jpg"
+        },
+        {
+          "num": "03",
+          "title": "เจียร์หิน",
+          "desc": "ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง พร้อมส่งมอบงานคุณภาพ",
+          "image": "/assets/services/grind-service.jpg"
+        },
+        {
+          "num": "04",
+          "title": "แกะสลัก",
+          "desc": "แกะสลักป้ายและลวดลายต่างๆ บนหิน ตามแบบที่ต้องการ",
+          "image": "/assets/services/engrave.jpg"
+        },
+        {
+          "num": "05",
+          "title": "พ่นผิวหน้า",
+          "desc": "พ่นทราย พ่นไฟ เซาะร่อง สร้างผิวสัมผัสที่ต้องการ",
+          "image": "/assets/services/spray.jpg"
+        },
+        {
+          "num": "06",
+          "title": "ทากันซึม",
+          "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
+          "image": "/assets/services/seal.jpg"
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "key": "contact",
+      "name": "ติดต่อ",
+      "active": true,
+      "images": [],
+      "colorStyle": "เข้าถึงง่าย, เป็นมิตร",
+      "sizeText": "",
+      "information": "พร้อมให้บริการตลอดเวลา ติดต่อได้ตามช่องทางด้านล่าง",
+      "contact": "098-519-2696, Line: @waisira"
+    },
+    {
+      "id": "portfolio",
+      "key": "portfolio",
+      "name": "ผลงาน",
+      "active": true,
+      "images": [
+        "/assets/portfolio/marble-01.jpg",
+        "/assets/portfolio/marble-02.jpg",
+        "/assets/portfolio/marble-03.jpg"
+      ],
+      "colorStyle": "สวยงาม, หรูหรา",
+      "sizeText": "ผลงานติดตั้งทั้งหมด",
+      "information": "รวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา",
+      "contact": "098-519-2696"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import NavBar from '../../components/NavBar.astro';
+import { readJson } from '../../lib/jsonDb';
+
+const { slug } = Astro.params;
+
+const data = readJson();
+const product = data.products.find((p: any) => p.slug === slug);
+
+if (!product) {
+  return Astro.redirect('/products');
+}
+
+const categoryLabel: Record<string, string> = {
+  marble: 'หินอ่อน (Marble)',
+  granite: 'หินแกรนิต (Granite)',
+  quartz: 'หินควอทซ์ (Quartz)',
+  artificial: 'หินเทียม (Artificial)',
+};
+
+const categoryLink: Record<string, string> = {
+  marble: '/products#cat-marble',
+  granite: '/products#cat-granite',
+  quartz: '/products#cat-quartz',
+  artificial: '/products#cat-artificial',
+};
+
+const otherProducts = data.products
+  .filter((p: any) => p.category === product.category && p.slug !== product.slug && p.active)
+  .slice(0, 4);
+---
+
+<Layout title={`${product.name} | ไวยศิลา`}>
+  <NavBar currentPage="/products" />
+
+  <!-- Breadcrumb -->
+  <div class="pt-28 px-6 bg-[#e0dcd7]/50">
+    <div class="max-w-6xl mx-auto py-4">
+      <nav class="flex items-center gap-2 text-sm text-brown/60">
+        <a href="/" class="hover:text-sage transition-colors">หน้าแรก</a>
+        <span>/</span>
+        <a href="/products" class="hover:text-sage transition-colors">สินค้า</a>
+        <span>/</span>
+        <a href={categoryLink[product.category]} class="hover:text-sage transition-colors">{categoryLabel[product.category]}</a>
+        <span>/</span>
+        <span class="text-brown font-medium">{product.name}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Product Section -->
+  <section class="px-6 py-16">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        
+        <!-- Image -->
+        <div class="relative">
+          <div class="sticky top-28 rounded-md overflow-hidden bg-[#d4d0cb] aspect-square lg:aspect-[4/5]">
+            {product.image ? (
+              <img src={product.image} alt={product.name} class="w-full h-full object-contain" />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-brown/40">ไม่มีรูปภาพ</div>
+            )}
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <span class="inline-block text-xs font-medium tracking-[0.2em] uppercase text-sage mb-3">
+            {categoryLabel[product.category]}
+          </span>
+
+          <h1 class="text-4xl lg:text-5xl font-heading leading-tight mb-2">{product.name}</h1>
+          <p class="text-xl text-brown/60 mb-8">{product.en || '-'}</p>
+
+          <div class="border-t border-[#d4d0cb] mb-8"></div>
+
+          <div class="space-y-4 mb-10">
+            {product.origin && (
+              <div class="flex items-start gap-4">
+                <span class="text-sm font-medium text-brown/50 w-20 flex-shrink-0">แหล่งที่มา</span>
+                <span class="text-brown font-medium">{product.origin}</span>
+              </div>
+            )}
+            {product.finish && (
+              <div class="flex items-start gap-4">
+                <span class="text-sm font-medium text-brown/50 w-20 flex-shrink-0">ผิว</span>
+                <span class="text-brown font-medium">{product.finish}</span>
+              </div>
+            )}
+            {product.usage && (
+              <div class="flex items-start gap-4">
+                <span class="text-sm font-medium text-brown/50 w-20 flex-shrink-0">ใช้งาน</span>
+                <span class="text-brown font-medium">{product.usage}</span>
+              </div>
+            )}
+          </div>
+
+          {product.description && (
+            <div class="bg-[#e0dcd7]/50 rounded-md p-6 mb-8">
+              <p class="text-brown/80 leading-relaxed">{product.description}</p>
+            </div>
+          )}
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/contact" class="inline-block bg-terracotta text-cream px-8 py-4 rounded-md font-medium text-center hover:bg-terracotta/90 transition-colors">
+              สอบถามราคา
+            </a>
+            <a href={categoryLink[product.category]} class="inline-block border border-brown/30 text-brown px-8 py-4 rounded-md font-medium text-center hover:bg-brown/5 transition-colors">
+              ดูสินค้าอื่นในหมวด
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Other Products -->
+  {otherProducts.length > 0 && (
+    <section class="px-6 py-16 bg-[#e0dcd7]/50">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-heading mb-8">สินค้าในหมวดเดียวกัน</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {otherProducts.map((p: any) => (
+            <a href={`/product/${p.slug}`} class="group">
+              <div class="bg-cream rounded-md aspect-square mb-3 overflow-hidden">
+                {p.image ? (
+                  <img src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                ) : (
+                  <div class="w-full h-full bg-[#d4d0cb]"></div>
+                )}
+              </div>
+              <h3 class="font-heading text-base mb-0.5 group-hover:text-sage transition-colors">{p.name}</h3>
+              <p class="text-xs text-brown/60">{p.en || ''}</p>
+            </a>
+          ))}
+        </div>
+        <div class="text-center mt-8">
+          <a href={categoryLink[product.category]} class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">
+            ดูสินค้าทั้งหมดในหมวด →
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Contact CTA -->
+  <section class="px-6 py-16">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-2xl font-heading mb-4">สนใจสินค้านี้?</h2>
+      <p class="text-brown/70 mb-6">ติดต่อเราได้ตลอดเวลา 098-519-2696</p>
+      <a href="/contact" class="inline-block bg-terracotta text-cream px-8 py-4 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
+        ติดต่อเลย
+      </a>
+    </div>
+  </section>
+
+  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <p class="font-heading text-xl mb-1">ไวยศิลา</p>
+        <p class="text-sm text-brown/60">WAISIRA</p>
+      </div>
+      <ul class="flex gap-6 text-sm text-brown/60">
+        <li><a href="/" class="hover:text-sage transition-colors">หน้าแรก</a></li>
+        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
+        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
+      </ul>
+    </div>
+  </footer>
+</Layout>

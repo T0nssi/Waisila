@@ -18,7 +18,7 @@ const { title, description = "ไวยศิลา | ผู้จำหน่�
     <title>{title} | ไวยศิลา WAISIRA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body class="bg-cream text-brown font-sans antialiased">
     <slot />
@@ -32,11 +32,17 @@ const { title, description = "ไวยศิลา | ผู้จำหน่�
 <style is:global>
   :root {
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-sans: 'Inter', 'Prompt', system-ui, sans-serif;
+    --font-thai: 'Prompt', sans-serif;
+    --font-heading: 'Kanit', sans-serif;
     --color-cream: #EDE9E6;
     --color-terracotta: #C9996B;
     --color-brown: #5C4F4A;
     --color-sage: #5C766D;
+    --color-gold: #B8860B;
+    /* Auto contrast: set via JS, fallback to WCAG-safe defaults */
+    --text-primary: #5C4F4A;
+    --text-inverse: #FFFFFF;
   }
   
   html {
@@ -45,10 +51,106 @@ const { title, description = "ไวยศิลา | ผู้จำหน่�
   
   body {
     font-family: var(--font-sans);
+    font-display: swap;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-weight: 500;
+  }
+  
+  p, li, td, span, a {
+    font-family: var(--font-thai);
+  }
+  
+  /* Auto contrast utility classes */
+  .text-auto {
+    color: var(--text-primary);
+  }
+  .bg-auto {
+    background-color: var(--bg-primary);
+  }
+  /* Sections with auto contrast */
+  [data-bg] {
+    --section-bg: attr(data-bg color);
   }
 </style>
+
+<script is:inline>
+  // Auto contrast: calculate luminance and set font color
+  function getLuminance(hex) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const rgb = hex.match(/.{2}/g).map(x => {
+      let c = parseInt(x, 16) / 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+  }
+  
+  function getContrastColor(bgHex) {
+    return getLuminance(bgHex) > 0.179 ? '#5C4F4A' : '#FFFFFF';
+  }
+  
+  // Tailwind color map for auto-detection
+  const tailwindColors = {
+    'cream': '#EDE9E6', 'terracotta': '#C9996B', 'brown': '#5C4F4A',
+    'sage': '#5C766D', 'gold': '#B8860B',
+    'black': '#000000', 'white': '#FFFFFF', 'gray': '#6b7280',
+    'red': '#ef4444', 'blue': '#3b82f6', 'green': '#22c55e',
+  };
+  
+  // Extract hex from Tailwind class or inline style
+  function extractBgColor(el) {
+    // Check data-bg first
+    if (el.dataset.bg) return el.dataset.bg;
+    
+    // Check inline style
+    const style = el.getAttribute('style') || '';
+    const bgMatch = style.match(/background-color:\s*([^;]+)/);
+    if (bgMatch) return bgMatch[1];
+    
+    // Check Tailwind classes for bg-[color]
+    const classes = el.className || '';
+    const bgMatch = classes.match(/bg\[([^\]]+)\]/) || classes.match(/bg-([a-z]+)-(\d+)/);
+    if (bgMatch) {
+      const colorName = bgMatch[1] || bgMatch[0].replace('bg-', '').replace(/-\d+$/, '');
+      if (tailwindColors[colorName]) return tailwindColors[colorName];
+    }
+    
+    // Check hex colors in classes bg-[#xxx]
+    const hexMatch = classes.match(/bg-\[#([a-fA-F0-9]+)\]/);
+    if (hexMatch) return '#' + hexMatch[1];
+    
+    return null;
+  }
+  
+  // Apply auto contrast to all sections
+  function applyAutoContrast() {
+    // Find all sections with backgrounds
+    document.querySelectorAll('section, div[bg-auto], header, footer').forEach(el => {
+      const bg = extractBgColor(el);
+      if (!bg) return;
+      
+      const textColor = getContrastColor(bg);
+      // Apply to direct text children only
+      el.querySelectorAll(':scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6, :scope > p, :scope > span, :scope > a, :scope > li').forEach(text => {
+        if (!text.closest('[data-contrast="manual"]') && !text.hasAttribute('data-contrast')) {
+          text.style.color = textColor;
+        }
+      });
+    });
+  }
+  
+  // Apply on load and after dynamic content
+  document.addEventListener('DOMContentLoaded', applyAutoContrast);
+  window.addEventListener('load', applyAutoContrast);
+  
+  // Re-apply after dynamic content loads (testimonials, sliders)
+  setTimeout(applyAutoContrast, 500);
+  setTimeout(applyAutoContrast, 1500);
+  
+  // Watch for DOM changes
+  const observer = new MutationObserver(() => setTimeout(applyAutoContrast, 300));
+  observer.observe(document.body, { childList: true, subtree: true });
+</script>

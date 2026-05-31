@@ -3,6 +3,20 @@ import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
 
 const currentPage = '/portfolio';
+
+let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true, portfolio: [] };
+
+import { readJson } from '../lib/jsonDb';
+const allData = readJson();
+const pageRecord = allData.pages?.find((p: any) => p.key === 'portfolio');
+if (pageRecord) {
+  pageData = pageRecord;
+}
+
+const portfolioImages = pageData.images?.length > 0 ? pageData.images : [];
+const colorStyle = pageData.colorStyle || '';
+const information = pageData.information || '';
+const portfolioData = pageData.portfolio || [];
 ---
 
 <Layout title="ผลงาน">
@@ -11,56 +25,19 @@ const currentPage = '/portfolio';
   <section class="pt-32 pb-24 px-6">
     <div class="max-w-6xl mx-auto">
       <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ผลงาน</p>
-      <h1 class="text-5xl font-serif leading-[1.1] mb-6">ผลงานติดตั้ง</h1>
-      <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16">
-        รวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา
+      <h1 class="text-5xl font-heading leading-[1.1] mb-6">ผลงานติดตั้ง</h1>
+      <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16" id="infoText">
+        {information || 'รวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา'}
       </p>
 
-      <div class="space-y-16">
-        <div>
-          <h2 class="text-2xl font-serif mb-6 pb-3 border-b border-[#d4d0cb]">หินอ่อน | Marble</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/marble-02.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/marble-03.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-          </div>
+      {colorStyle && (
+        <div class="mb-8 px-4 py-3 bg-sage/10 rounded-md inline-block" id="colorStyleBadge">
+          <span class="text-sm text-brown/70">สไตล์: {colorStyle}</span>
         </div>
+      )}
 
-        <div>
-          <h2 class="text-2xl font-serif mb-6 pb-3 border-b border-[#d4d0cb]">หินแกรนิต | Granite</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/granite-02.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/granite-03.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h2 class="text-2xl font-serif mb-6 pb-3 border-b border-[#d4d0cb]">หินเทียม | หินสังเคราะห์ | Quartz</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/quartz-01.jpg" alt="หินเทียม" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/quartz-02.jpg" alt="หินเทียม" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-            <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group">
-              <img src="/assets/portfolio/quartz-03.jpg" alt="หินเทียม" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
-            </div>
-          </div>
-        </div>
+      <div class="space-y-16" id="portfolioContainer">
+        <!-- Portfolio sections will be rendered by JS -->
       </div>
     </div>
   </section>
@@ -68,7 +45,7 @@ const currentPage = '/portfolio';
   <footer class="py-12 px-6 border-t border-[#d4d0cb]">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
       <div>
-        <p class="font-serif text-xl mb-1">ไวยศิลา</p>
+        <p class="font-heading text-xl mb-1">ไวยศิลา</p>
         <p class="text-sm text-brown/60">WAISIRA</p>
       </div>
       <ul class="flex gap-6 text-sm text-brown/60">
@@ -79,4 +56,57 @@ const currentPage = '/portfolio';
       </ul>
     </div>
   </footer>
+
+  <script is:inline>
+    (function() {
+      const defaultPortfolio = [
+        {
+          category: 'หินอ่อน | Marble',
+          images: [
+            '/assets/portfolio/marble-01.jpg',
+            '/assets/portfolio/marble-02.jpg',
+            '/assets/portfolio/marble-03.jpg'
+          ]
+        },
+        {
+          category: 'หินแกรนิต | Granite',
+          images: [
+            '/assets/portfolio/granite-01.jpg',
+            '/assets/portfolio/granite-02.jpg',
+            '/assets/portfolio/granite-03.jpg'
+          ]
+        },
+        {
+          category: 'หินเทียม | หินสังเคราะห์ | Quartz',
+          images: [
+            '/assets/portfolio/quartz-01.jpg',
+            '/assets/portfolio/quartz-02.jpg',
+            '/assets/portfolio/quartz-03.jpg'
+          ]
+        }
+      ];
+      
+      const portfolioData = [];
+      const sections = portfolioData.length > 0 ? portfolioData : defaultPortfolio;
+      
+      const container = document.getElementById('portfolioContainer');
+      if (container) {
+        let html = '';
+        sections.forEach(section => {
+          html += '<div>' +
+            '<h2 class=\"text-2xl font-heading mb-6 pb-3 border-b border-[#d4d0cb]\">' + section.category + '</h2>' +
+            '<div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">';
+          
+          section.images.forEach((img, i) => {
+            html += '<div class=\"bg-[#d4d0cb] rounded-md aspect-[4/3] overflow-hidden group\">' +
+              '<img src=\"' + img + '\" alt=\"' + section.category + ' ' + (i+1) + '\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-500\" onerror=\"this.style.display=\\'none\\'\" />' +
+            '</div>';
+          });
+          
+          html += '</div></div>';
+        });
+        container.innerHTML = html;
+      }
+    })();
+  </script>
 </Layout>

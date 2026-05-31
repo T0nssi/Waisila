@@ -1,0 +1,608 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import { SESSION_COOKIE } from '../../middleware/auth';
+
+const session = Astro.cookies.get(SESSION_COOKIE);
+if (!session || session.value !== 'authenticated') {
+  return Astro.redirect('/admin/login');
+}
+---
+
+<Layout title="Admin | ไวยศิลา">
+  <div class="min-h-screen bg-[#e0dcd7]">
+    <!-- Header -->
+    <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <h1 class="text-xl font-serif">Admin Panel</h1>
+          <span class="text-brown/40">|</span>
+          <span class="text-sm text-brown/60">ไวยศิลา</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="/" target="_blank" class="text-sm text-brown/60 hover:text-sage transition-colors">
+            ดูเว็บไซต์ →
+          </a>
+          <button id="logoutBtn" class="text-sm text-red-500 hover:text-red-600 transition-colors">
+            ออกจากระบบ
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <!-- Main Tab Navigation -->
+      <div class="flex gap-2 mb-6">
+        <button data-main="products" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-terracotta text-cream">สินค้า</button>
+        <button data-main="pages" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">หน้าเพจ</button>
+      </div>
+
+      <!-- PRODUCTS SECTION -->
+      <div id="productsSection">
+        <!-- Stats -->
+        <div class="grid grid-cols-4 gap-4 mb-8">
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">หินอ่อน</p>
+            <p class="text-2xl font-serif" id="count-marble">-</p>
+          </div>
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">หินแกรนิต</p>
+            <p class="text-2xl font-serif" id="count-granite">-</p>
+          </div>
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">หินเทียม</p>
+            <p class="text-2xl font-serif" id="count-artificial">-</p>
+          </div>
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">หินควอทซ์</p>
+            <p class="text-2xl font-serif" id="count-quartz">-</p>
+          </div>
+        </div>
+
+        <!-- Product Tabs -->
+        <div class="bg-white rounded-md border border-[#d4d0cb]">
+          <div class="flex border-b border-[#d4d0cb]">
+            <button data-tab="marble" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน</button>
+            <button data-tab="granite" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินแกรนิต</button>
+            <button data-tab="artificial" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินเทียม</button>
+            <button data-tab="quartz" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินควอทซ์</button>
+          </div>
+
+          <!-- Actions -->
+          <div class="p-4 border-b border-[#d4d0cb] flex justify-between items-center">
+            <p class="text-sm text-brown/60"><span id="totalCount">-</span> รายการ</p>
+            <button id="addBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
+              + เพิ่มสินค้าใหม่
+            </button>
+          </div>
+
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-[#f5f3f0]">
+                <tr>
+                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">ชื่อ</th>
+                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">Slug</th>
+                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">สถานะ</th>
+                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="productTable" class="divide-y divide-[#d4d0cb]">
+                <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGES SECTION (Hidden by default) -->
+      <div id="pagesSection" class="hidden">
+        <div class="bg-white rounded-md border border-[#d4d0cb]">
+          <div class="flex border-b border-[#d4d0cb]">
+            <button data-page="homepage" class="page-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หน้าแรก</button>
+            <button data-page="service" class="page-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">บริการ</button>
+            <button data-page="contact" class="page-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">ติดต่อ</button>
+            <button data-page="portfolio" class="page-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">ผลงาน</button>
+          </div>
+
+          <!-- Page CMS Content -->
+          <div class="p-6">
+            <input type="hidden" id="pageId" />
+            
+            <div class="flex items-center justify-between mb-4">
+              <div class="grid grid-cols-2 gap-4 flex-1">
+                <div>
+                  <label class="block text-sm font-medium text-brown mb-2">ชื่อหน้า</label>
+                  <input type="text" id="pageName" readonly class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md bg-gray-100 text-brown/60" />
+                </div>
+                <div class="flex items-center gap-4 pt-6">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="pageActive" class="w-5 h-5 accent-sage" />
+                    <span class="text-sm text-brown">เปิดใช้งาน</span>
+                  </label>
+                  <a href="#" id="viewPageBtn" target="_blank" class="text-sm text-sage hover:underline">ดูหน้าเพจ →</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-brown mb-2">รูปภาพ (URL หลายรูป ขั้นด้วย comma)</label>
+              <textarea id="pageImages" rows="3" placeholder="/assets/img1.jpg, /assets/img2.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-brown mb-2">สี/สไตล์</label>
+                <input type="text" id="pageColorStyle" placeholder="เช่น สีขาว, ดำ, คลาสสิก" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-brown mb-2">ขนาด/ไซต์</label>
+                <input type="text" id="pageSizeText" placeholder="เช่น 60x60 ซม., 30x30 ซม." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-brown mb-2">ข้อมูล/รายละเอียด</label>
+              <textarea id="pageInformation" rows="4" placeholder="รายละเอียดเพิ่มเติม..." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-brown mb-2">ติดต่อ/ช่องทาง</label>
+              <textarea id="pageContact" rows="3" placeholder="ข้อมูลติดต่อ..." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-brown mb-2">รายการบริการ (JSON format)</label>
+              <textarea id="pageServices" rows="6" placeholder='[{"num":"01","title":"ตัดหิน","desc":"...","image":"/assets/services/cut.jpg"}]' class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-sm"></textarea>
+              <p class="text-xs text-brown/40 mt-1">ใส่ JSON array ของบริการ หรือเว้นว่างไว้ใช้ค่าเริ่มต้น</p>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-brown mb-2">รายการผลงาน (JSON format)</label>
+              <textarea id="pagePortfolio" rows="6" placeholder='[{"category":"หินอ่อน","title":"หินอ่อน | Marble","images":["/assets/portfolio/marble-01.jpg"]}]' class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-sm"></textarea>
+              <p class="text-xs text-brown/40 mt-1">ใส่ JSON array ของหมวดหมู่ผลงาน หรือเว้นว่างไว้ใช้ค่าเริ่มต้น</p>
+            </div>
+
+            <div class="flex gap-4 pt-4 border-t border-[#d4d0cb]">
+              <button id="savePageBtn" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
+                บันทึก
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
+    <div class="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between">
+        <h2 id="modalTitle" class="text-lg font-serif">เพิ่มสินค้าใหม่</h2>
+        <button id="closeModal" class="text-brown/60 hover:text-brown">&times;</button>
+      </div>
+      <form id="productForm" class="p-6 space-y-4">
+        <input type="hidden" name="id" id="productId" />
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">ชื่อ (ไทย) *</label>
+            <input type="text" name="name" id="name" required class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">ชื่อ (EN)</label>
+            <input type="text" name="en" id="en" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">Slug</label>
+            <input type="text" name="slug" id="slug" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <p class="text-xs text-brown/40 mt-1">ว่างไว้ = สร้างอัตโนมัติ</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">หมวดหมู่ *</label>
+            <select name="category" id="category" required class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50">
+              <option value="marble">หินอ่อน</option>
+              <option value="granite">หินแกรนิต</option>
+              <option value="artificial">หินเทียม</option>
+              <option value="quartz">หินควอทซ์</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-brown mb-2">รูปภาพ (path)</label>
+          <input type="text" name="image" id="image" placeholder="/assets/products/marble/example.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">แหล่งที่มา</label>
+            <input type="text" name="origin" id="origin" placeholder="เช่น อิตาลี" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">ผิว</label>
+            <input type="text" name="finish" id="finish" placeholder="เช่น Polish" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">การใช้งาน</label>
+            <input type="text" name="usage" id="usage" placeholder="เช่น พื้น, ผนัง" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 pt-4 border-t border-[#d4d0cb]">
+          <button type="submit" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
+            บันทึก
+          </button>
+          <button type="button" id="cancelBtn" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
+            ยกเลิก
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div id="deleteModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
+    <div class="bg-white rounded-lg w-full max-w-md p-6 text-center">
+      <h3 class="text-lg font-serif mb-4">ยืนยันการลบ?</h3>
+      <p class="text-brown/60 mb-6" id="deleteProductName"></p>
+      <div class="flex gap-4 justify-center">
+        <button id="confirmDelete" class="bg-red-500 text-white px-6 py-2 rounded-md font-medium hover:bg-red-600 transition-colors">
+          ลบ
+        </button>
+        <button id="cancelDelete" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
+          ยกเลิก
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let products = [];
+    let pages = [];
+    let currentCategory = 'marble';
+    let currentPageKey = 'homepage';
+    let deleteTargetId = null;
+
+    const modal = document.getElementById('modal');
+    const deleteModal = document.getElementById('deleteModal');
+    const productForm = document.getElementById('productForm');
+    const productTable = document.getElementById('productTable');
+
+    // Main tab switching
+    document.querySelectorAll('.main-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.main-tab').forEach(b => {
+          b.classList.remove('bg-terracotta', 'text-cream');
+          b.classList.add('bg-white', 'text-brown', 'border', 'border-[#d4d0cb]');
+        });
+        btn.classList.add('bg-terracotta', 'text-cream');
+        btn.classList.remove('bg-white', 'text-brown', 'border', 'border-[#d4d0cb]');
+        
+        const main = btn.dataset.main;
+        if (main === 'products') {
+          document.getElementById('productsSection').classList.remove('hidden');
+          document.getElementById('pagesSection').classList.add('hidden');
+        } else {
+          document.getElementById('productsSection').classList.add('hidden');
+          document.getElementById('pagesSection').classList.remove('hidden');
+          if (pages.length === 0) loadPages();
+        }
+      });
+    });
+
+    // Load products
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/admin/products', { credentials: 'include' });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        products = await res.json();
+        updateStats();
+        renderTable();
+      } catch (err) { console.error(err); }
+    }
+
+    // Load pages
+    async function loadPages() {
+      try {
+        const res = await fetch('/api/admin/pages', { credentials: 'include' });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        pages = await res.json();
+        renderPageForm(currentPageKey);
+        updateViewPageLink(currentPageKey);
+      } catch (err) { console.error(err); }
+    }
+
+    function updateStats() {
+      document.getElementById('count-marble').textContent = products.filter(p => p.category === 'marble').length;
+      document.getElementById('count-granite').textContent = products.filter(p => p.category === 'granite').length;
+      document.getElementById('count-artificial').textContent = products.filter(p => p.category === 'artificial').length;
+      document.getElementById('count-quartz').textContent = products.filter(p => p.category === 'quartz').length;
+    }
+
+    function renderTable() {
+      const filtered = products.filter(p => p.category === currentCategory);
+      document.getElementById('totalCount').textContent = filtered.length;
+      
+      if (filtered.length === 0) {
+        productTable.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">ไม่มีสินค้าในหมวดนี้</td></tr>';
+        return;
+      }
+
+      productTable.innerHTML = filtered.map(p => `
+        <tr class="hover:bg-[#f5f3f0]/50">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-3">
+              ${p.image ? `<img src="${p.image}" class="w-10 h-10 object-cover rounded bg-[#d4d0cb]" />` : '<div class="w-10 h-10 rounded bg-[#d4d0cb]"></div>'}
+              <div>
+                <p class="font-medium">${p.name}</p>
+                <p class="text-xs text-brown/50">${p.en || '-'}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-sm text-brown/60 font-mono">${p.slug}</td>
+          <td class="px-4 py-3 text-center">
+            <button data-id="${p.id}" data-active="${p.active}" class="toggle-btn px-3 py-1 rounded-full text-xs font-medium ${p.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+              ${p.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}
+            </button>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <button data-id="${p.id}" class="edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button>
+            <button data-id="${p.id}" data-name="${p.name}" class="delete-btn text-sm text-red-500 hover:underline">ลบ</button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => toggleActive(btn.dataset.id, btn.dataset.active === 'true'));
+      });
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => editProduct(btn.dataset.id));
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => showDeleteConfirm(btn.dataset.id, btn.dataset.name));
+      });
+    }
+
+    // Page tab switching
+    document.querySelectorAll('.page-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.page-tab-btn').forEach(b => {
+          b.classList.remove('border-sage', 'text-sage');
+          b.classList.add('border-transparent', 'text-brown/60');
+        });
+        btn.classList.add('border-sage', 'text-sage');
+        btn.classList.remove('border-transparent', 'text-brown/60');
+        const pageKey = btn.dataset.page;
+        currentPageKey = pageKey;
+        renderPageForm(pageKey);
+        updateViewPageLink(pageKey);
+      });
+    });
+
+    function updateViewPageLink(pageKey) {
+      const viewBtn = document.getElementById('viewPageBtn');
+      const pageUrls = {
+        'homepage': '/',
+        'service': '/services',
+        'contact': '/contact',
+        'portfolio': '/portfolio'
+      };
+      if (viewBtn && pageUrls[pageKey]) {
+        viewBtn.href = pageUrls[pageKey];
+      }
+    }
+
+    function renderPageForm(pageKey) {
+      const page = pages.find(p => p.key === pageKey);
+      if (!page) {
+        console.log('Page not found for key:', pageKey, 'Available:', pages.map(p => p.key));
+        return;
+      }
+      
+      document.getElementById('pageId').value = page.id || '';
+      document.getElementById('pageName').value = page.name || '';
+      document.getElementById('pageActive').checked = page.active !== false;
+      document.getElementById('pageImages').value = (page.images || []).join(', ');
+      document.getElementById('pageColorStyle').value = page.colorStyle || '';
+      document.getElementById('pageSizeText').value = page.sizeText || '';
+      document.getElementById('pageInformation').value = page.information || '';
+      document.getElementById('pageContact').value = page.contact || '';
+      
+      // Services field for service page
+      const servicesField = document.getElementById('pageServices');
+      if (servicesField) {
+        servicesField.value = page.services ? JSON.stringify(page.services, null, 2) : '';
+      }
+      
+      // Portfolio field for portfolio page
+      const portfolioField = document.getElementById('pagePortfolio');
+      if (portfolioField) {
+        portfolioField.value = page.portfolio ? JSON.stringify(page.portfolio, null, 2) : '';
+      }
+    }
+
+    // Save page
+    document.getElementById('savePageBtn').addEventListener('click', async () => {
+      const id = document.getElementById('pageId').value;
+      const imagesRaw = document.getElementById('pageImages').value;
+      const images = imagesRaw.split(',').map(s => s.trim()).filter(s => s);
+      
+      const data = {
+        id,
+        active: document.getElementById('pageActive').checked,
+        images,
+        colorStyle: document.getElementById('pageColorStyle').value,
+        sizeText: document.getElementById('pageSizeText').value,
+        information: document.getElementById('pageInformation').value,
+        contact: document.getElementById('pageContact').value
+      };
+      
+      // Add services if the field exists and has value
+      const servicesField = document.getElementById('pageServices');
+      if (servicesField && servicesField.value.trim()) {
+        try {
+          data.services = JSON.parse(servicesField.value);
+        } catch (e) {
+          alert('รูปแบบ JSON ไม่ถูกต้อง กรุณาตรวจสอบ');
+          return;
+        }
+      }
+      
+      // Add portfolio if the field exists and has value
+      const portfolioField = document.getElementById('pagePortfolio');
+      if (portfolioField && portfolioField.value.trim()) {
+        try {
+          data.portfolio = JSON.parse(portfolioField.value);
+        } catch (e) {
+          alert('รูปแบบ JSON ไม่ถูกต้อง กรุณาตรวจสอบ');
+          return;
+        }
+      }
+      
+      try {
+        const res = await fetch('/api/admin/pages', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
+        if (res.ok) {
+          alert('บันทึกสำเร็จ!');
+          loadPages();
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    // Product tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('border-sage', 'text-sage');
+          b.classList.add('border-transparent', 'text-brown/60');
+        });
+        btn.classList.add('border-sage', 'text-sage');
+        btn.classList.remove('border-transparent', 'text-brown/60');
+        currentCategory = btn.dataset.tab;
+        document.getElementById('category').value = currentCategory;
+        renderTable();
+      });
+    });
+
+    // Add button
+    document.getElementById('addBtn').addEventListener('click', () => {
+      document.getElementById('modalTitle').textContent = 'เพิ่มสินค้าใหม่';
+      document.getElementById('productId').value = '';
+      productForm.reset();
+      document.getElementById('category').value = currentCategory;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+
+    // Edit product
+    function editProduct(id) {
+      const p = products.find(pr => pr.id === id);
+      if (!p) return;
+      document.getElementById('modalTitle').textContent = 'แก้ไขสินค้า';
+      document.getElementById('productId').value = p.id;
+      document.getElementById('name').value = p.name;
+      document.getElementById('en').value = p.en || '';
+      document.getElementById('slug').value = p.slug || '';
+      document.getElementById('category').value = p.category;
+      document.getElementById('image').value = p.image || '';
+      document.getElementById('origin').value = p.origin || '';
+      document.getElementById('finish').value = p.finish || '';
+      document.getElementById('usage').value = p.usage || '';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // Toggle active
+    async function toggleActive(id, currentActive) {
+      try {
+        const res = await fetch('/api/admin/products', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, active: !currentActive }),
+          credentials: 'include'
+        });
+        if (res.ok) loadProducts();
+      } catch (err) { console.error(err); }
+    }
+
+    // Delete confirm
+    function showDeleteConfirm(id, name) {
+      deleteTargetId = id;
+      document.getElementById('deleteProductName').textContent = `ลบ "${name}" ?`;
+      deleteModal.classList.remove('hidden');
+      deleteModal.classList.add('flex');
+    }
+
+    document.getElementById('confirmDelete').addEventListener('click', async () => {
+      if (!deleteTargetId) return;
+      try {
+        const res = await fetch(`/api/admin/products?id=${deleteTargetId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        if (res.ok) {
+          deleteModal.classList.add('hidden');
+          deleteModal.classList.remove('flex');
+          loadProducts();
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    document.getElementById('cancelDelete').addEventListener('click', () => {
+      deleteModal.classList.add('hidden');
+      deleteModal.classList.remove('flex');
+    });
+
+    // Form submit
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      
+      const isEdit = !!data.id;
+      const method = isEdit ? 'PUT' : 'POST';
+      
+      try {
+        const res = await fetch('/api/admin/products', {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
+        
+        if (res.ok) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          loadProducts();
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    // Close modal
+    document.getElementById('closeModal').addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+      window.location.href = '/admin/login';
+    });
+
+    // Init
+    loadProducts();
+  </script>
+</Layout>

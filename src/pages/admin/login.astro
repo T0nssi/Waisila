@@ -1,0 +1,64 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="เข้าสู่ระบบ | Admin">
+  <div class="min-h-screen bg-[#e0dcd7] flex items-center justify-center px-6">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-serif mb-2">ไวยศิลา Admin</h1>
+        <p class="text-brown/60 text-sm">กรุณาใส่รหัสผ่านเพื่อเข้าใช้งาน</p>
+      </div>
+      
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-brown mb-2">รหัสผ่าน</label>
+          <input 
+            type="password" 
+            name="password" 
+            id="password"
+            class="w-full px-4 py-3 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+        
+        <div id="errorMsg" class="text-red-500 text-sm hidden"></div>
+        
+        <button 
+          type="submit"
+          class="w-full bg-terracotta text-cream py-3 rounded-md font-medium hover:bg-terracotta/90 transition-colors"
+        >
+          เข้าสู่ระบบ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const errorMsg = document.getElementById('errorMsg');
+      
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (res.ok) {
+          window.location.href = '/admin';
+        } else {
+          const data = await res.json();
+          errorMsg.textContent = data.error || 'เข้าสู่ระบบไม่สำเร็จ';
+          errorMsg.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorMsg.textContent = 'เกิดข้อผิดพลาด กรุณาลองใหม่';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+  </script>
+</Layout>

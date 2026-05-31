@@ -5,7 +5,9 @@ export default {
     extend: {
       fontFamily: {
         serif: ['Playfair Display', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Prompt', 'system-ui', 'sans-serif'],
+        thai: ['Prompt', 'sans-serif'],
+        heading: ['Kanit', 'sans-serif'],
       },
       colors: {
         cream: '#EDE9E6',

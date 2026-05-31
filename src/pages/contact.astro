@@ -4,71 +4,89 @@ import NavBar from '../components/NavBar.astro';
 
 const currentPage = '/contact';
 
-const contact = {
-  phone: "098-519-2696",
-  facebook: "https://www.facebook.com/waisira8",
-  line: "https://line.me/ti/p/-lmFbFbMFo",
-  instagram: "https://www.instagram.com/waisira_/",
-  address: "45/10 ตำบลลาดสวาย อำเภอลำลูกกา จังหวัดปทุมธานี 12150",
-};
+// Read directly from JSON for SSR
+import { readJson } from '../lib/jsonDb';
+let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true };
+
+const allData = readJson();
+const pageRecord = allData.pages?.find((p: any) => p.key === 'contact');
+if (pageRecord) {
+  pageData = pageRecord;
+}
+
+const contactImages = pageData.images?.length > 0 ? pageData.images : [];
+const colorStyle = pageData.colorStyle || '';
+const information = pageData.information || '';
+const contact = pageData.contact || '098-519-2696';
 ---
 
-<Layout title="ติดต่อเรา">
+<Layout title="ติดต่อ">
   <NavBar currentPage={currentPage} />
 
   <section class="pt-32 pb-24 px-6">
     <div class="max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-        <div>
-          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ติดต่อ</p>
-          <h1 class="text-5xl font-serif leading-[1.1] mb-6">พูดคุยกับเรา</h1>
-          <p class="text-lg text-brown/70 leading-relaxed mb-12">
-            หากสนใจใช้บริการหรือต้องการสอบถามรายละเอียดเพิ่มเติม ติดต่อเราได้ตลอดเวลา เราพร้อมให้คำปรึกษาฟรี
-          </p>
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ติดต่อ</p>
+      <h1 class="text-5xl font-heading leading-[1.1] mb-6">ติดต่อเรา</h1>
+      
+      {information && (
+        <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-12" id="infoText">{information}</p>
+      )}
 
-          <div class="space-y-8">
+      {contactImages.length > 0 && (
+        <div class="mb-12 rounded-md overflow-hidden" style="height: 280px;" id="heroImage">
+          <img src={contactImages[0]} alt="ไวยศิลา" class="w-full h-full object-cover" />
+        </div>
+      )}
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Contact Info -->
+        <div class="bg-[#e0dcd7] rounded-md p-8 lg:p-10">
+          <h2 class="text-2xl font-heading mb-6">ข้อมูลติดต่อ</h2>
+          
+          <div class="space-y-6">
             <div>
-              <h2 class="font-serif text-xl mb-2">ที่อยู่</h2>
-              <p class="text-brown/60">{contact.address}</p>
+              <p class="text-sm text-brown/50 mb-1">โทรศัพท์</p>
+              <p class="text-xl font-medium" id="contactPhone">{contact.split(',')[0].trim()}</p>
             </div>
+            
             <div>
-              <h2 class="font-serif text-xl mb-2">โทรศัพท์</h2>
-              <p class="text-brown/60">{contact.phone}</p>
+              <p class="text-sm text-brown/50 mb-1">Line</p>
+              <p class="text-lg" id="contactLine">@waisira</p>
             </div>
+            
             <div>
-              <h2 class="font-serif text-xl mb-2">อีเมล</h2>
-              <p class="text-brown/60">contact@waisira.com</p>
+              <p class="text-sm text-brown/50 mb-1">ที่อยู่</p>
+              <p class="text-brown/70">66/8 หมู่ที่ 5 ตำบลบางเสาธง<br/>อำเภอบางเสาธง จังหวัดสมุทรสาคร 10550</p>
             </div>
-            <div class="flex gap-4">
-              <a href={contact.facebook} target="_blank" class="text-sm px-4 py-2 bg-[#e0dcd7] rounded-md hover:bg-[#d4d0cb] transition-colors">Facebook</a>
-              <a href={contact.line} target="_blank" class="text-sm px-4 py-2 bg-[#e0dcd7] rounded-md hover:bg-[#d4d0cb] transition-colors">Line</a>
-              <a href={contact.instagram} target="_blank" class="text-sm px-4 py-2 bg-[#e0dcd7] rounded-md hover:bg-[#d4d0cb] transition-colors">Instagram</a>
+
+            <div>
+              <p class="text-sm text-brown/50 mb-1">เปิดให้บริการ</p>
+              <p class="text-brown/70">วันจันทร์ - วันเสาร์ เวลา 08:00 - 17:00 น.</p>
             </div>
           </div>
+
+          {colorStyle && (
+            <div class="mt-8 pt-6 border-t border-brown/20" id="colorStyleBox">
+              <p class="text-sm text-brown/50">สไตล์: {colorStyle}</p>
+            </div>
+          )}
         </div>
 
-        <div class="bg-[#e0dcd7] rounded-md p-8 lg:p-10">
-          <form class="space-y-6">
-            <div>
-              <label class="block text-sm font-medium mb-2" for="name">ชื่อ</label>
-              <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-cream border border-[#d4d0cb] rounded-md focus:outline-none focus:border-sage transition-colors" />
+        <!-- Map / Image -->
+        <div>
+          <div class="bg-[#d4d0cb] rounded-md overflow-hidden" style="height: 400px;" id="mapImage">
+            <img src="/assets/map.jpg" alt="แผนที่ไวยศิลา" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+          
+          {contactImages.length > 1 && (
+            <div class="mt-6 grid grid-cols-2 gap-4" id="additionalImages">
+              {contactImages.slice(1, 3).map((img, i) => (
+                <div class="bg-[#d4d0cb] rounded-md overflow-hidden" style="height: 150px;">
+                  <img src={img} alt={`ไวยศิลา ${i + 2}`} class="w-full h-full object-cover" />
+                </div>
+              ))}
             </div>
-            <div>
-              <label class="block text-sm font-medium mb-2" for="phone">โทรศัพท์</label>
-              <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 bg-cream border border-[#d4d0cb] rounded-md focus:outline-none focus:border-sage transition-colors" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-2" for="email">อีเมล</label>
-              <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-cream border border-[#d4d0cb] rounded-md focus:outline-none focus:border-sage transition-colors" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-2" for="message">ข้อความ</label>
-              <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 bg-cream border border-[#d4d0cb] rounded-md focus:outline-none focus:border-sage transition-colors resize-none"></textarea>
-            </div>
-            <button type="submit" class="w-full bg-brown text-cream py-4 rounded-md font-medium hover:bg-brown/90 transition-colors">
-              ส่งข้อความ
-            </button>
-          </form>
+          )}
         </div>
       </div>
     </div>
@@ -77,7 +95,7 @@ const contact = {
   <footer class="py-12 px-6 border-t border-[#d4d0cb]">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
       <div>
-        <p class="font-serif text-xl mb-1">ไวยศิลา</p>
+        <p class="font-heading text-xl mb-1">ไวยศิลา</p>
         <p class="text-sm text-brown/60">WAISIRA</p>
       </div>
       <ul class="flex gap-6 text-sm text-brown/60">
