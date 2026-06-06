@@ -35,6 +35,7 @@ if (!session || session.value !== 'authenticated') {
       <div class="flex gap-2 mb-6">
         <button data-main="products" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-terracotta text-cream">สินค้า</button>
         <button data-main="pages" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">หน้าเพจ</button>
+        <button data-main="settings" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">ตั้งค่า</button>
       </div>
 
       <!-- PRODUCTS SECTION -->
@@ -95,6 +96,34 @@ if (!session || session.value !== 'authenticated') {
         </div>
       </div>
 
+      <!-- SETTINGS SECTION (Hidden by default) -->
+      <div id="settingsSection" class="hidden">
+        <div class="bg-white rounded-md border border-[#d4d0cb] p-6">
+          <h2 class="text-lg font-serif mb-6">ตั้งค่าระบบ</h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-2">Telegram Bot Token</label>
+              <input type="text" id="telegramBotToken" placeholder="เช่น 123456789:ABCdefGHIjklMNOpqrsTUVwxyz" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+              <p class="text-xs text-brown/40 mt-1">รับ Token จาก @BotFather บน Telegram</p>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-brown mb-2">Telegram Chat ID</label>
+              <input type="text" id="telegramChatId" placeholder="เช่น 123456789" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+              <p class="text-xs text-brown/40 mt-1">รับ Chat ID จาก @userinfobot บน Telegram</p>
+            </div>
+            
+            <div class="pt-4 border-t border-[#d4d0cb]">
+              <button id="saveSettingsBtn" class="bg-sage text-cream px-6 py-2 rounded-md font-medium hover:bg-sage/90 transition-colors">
+                บันทึกตั้งค่า
+              </button>
+              <p id="settingsStatus" class="text-sm mt-2 hidden"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- PAGES SECTION (Hidden by default) -->
       <div id="pagesSection" class="hidden">
         <div class="bg-white rounded-md border border-[#d4d0cb]">
@@ -149,6 +178,12 @@ if (!session || session.value !== 'authenticated') {
             <div class="mb-4">
               <label class="block text-sm font-medium text-brown mb-2">ติดต่อ/ช่องทาง</label>
               <textarea id="pageContact" rows="3" placeholder="ข้อมูลติดต่อ..." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-brown mb-2">โซเชียลมีเดีย (JSON)</label>
+              <textarea id="pageSocial" rows="4" placeholder='{"phone":"098-xxx-xxxx","line":"@xxx","facebook":"https://...","instagram":"https://...","lineQR":"/assets/line-qr.png"}' class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-xs"></textarea>
+              <p class="text-xs text-brown/40 mt-1">JSON object: phone, line, facebook, instagram, lineQR</p>
             </div>
 
             <div class="mb-4">
@@ -215,6 +250,9 @@ if (!session || session.value !== 'authenticated') {
         <div>
           <label class="block text-sm font-medium text-brown mb-2">รูปภาพ (path)</label>
           <input type="text" name="image" id="image" placeholder="/assets/products/marble/example.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          <div id="imagePreview" class="mt-2 hidden">
+            <img id="previewImg" src="" alt="Preview" class="w-32 h-32 object-cover rounded-md border border-[#d4d0cb]" />
+          </div>
         </div>
 
         <div class="grid grid-cols-3 gap-4">
@@ -286,9 +324,16 @@ if (!session || session.value !== 'authenticated') {
         if (main === 'products') {
           document.getElementById('productsSection').classList.remove('hidden');
           document.getElementById('pagesSection').classList.add('hidden');
+          document.getElementById('settingsSection').classList.add('hidden');
+        } else if (main === 'settings') {
+          document.getElementById('productsSection').classList.add('hidden');
+          document.getElementById('pagesSection').classList.add('hidden');
+          document.getElementById('settingsSection').classList.remove('hidden');
+          loadSettings();
         } else {
           document.getElementById('productsSection').classList.add('hidden');
           document.getElementById('pagesSection').classList.remove('hidden');
+          document.getElementById('settingsSection').classList.add('hidden');
           if (pages.length === 0) loadPages();
         }
       });
@@ -306,6 +351,51 @@ if (!session || session.value !== 'authenticated') {
     }
 
     // Load pages
+    // Settings functions
+    async function loadSettings() {
+      try {
+        const res = await fetch('/api/admin/settings');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('telegramBotToken').value = data.telegramBotToken || '';
+          document.getElementById('telegramChatId').value = data.telegramChatId || '';
+        }
+      } catch (err) {
+        console.error('Failed to load settings:', err);
+      }
+    }
+
+    async function saveSettings() {
+      const botToken = document.getElementById('telegramBotToken').value.trim();
+      const chatId = document.getElementById('telegramChatId').value.trim();
+      const status = document.getElementById('settingsStatus');
+      
+      try {
+        const res = await fetch('/api/admin/settings', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            telegramBotToken: botToken,
+            telegramChatId: chatId
+          })
+        });
+        
+        if (res.ok) {
+          status.textContent = '✅ บันทึกสำเร็จ!';
+          status.classList.remove('hidden', 'text-red-500');
+          status.classList.add('text-green-600');
+        } else {
+          throw new Error('Failed');
+        }
+      } catch (err) {
+        status.textContent = '❌ เกิดข้อผิดพลาด';
+        status.classList.remove('hidden', 'text-green-600');
+        status.classList.add('text-red-500');
+      }
+    }
+
+    document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+
     async function loadPages() {
       try {
         const res = await fetch('/api/admin/pages', { credentials: 'include' });
@@ -412,6 +502,12 @@ if (!session || session.value !== 'authenticated') {
       document.getElementById('pageInformation').value = page.information || '';
       document.getElementById('pageContact').value = page.contact || '';
       
+      // Social field for contact page
+      const socialField = document.getElementById('pageSocial');
+      if (socialField) {
+        socialField.value = page.social ? JSON.stringify(page.social, null, 2) : '';
+      }
+      
       // Services field for service page
       const servicesField = document.getElementById('pageServices');
       if (servicesField) {
@@ -440,6 +536,17 @@ if (!session || session.value !== 'authenticated') {
         information: document.getElementById('pageInformation').value,
         contact: document.getElementById('pageContact').value
       };
+      
+      // Add social if the field exists and has value
+      const socialField = document.getElementById('pageSocial');
+      if (socialField && socialField.value.trim()) {
+        try {
+          data.social = JSON.parse(socialField.value);
+        } catch (e) {
+          alert('รูปแบบ JSON ไม่ถูกต้อง กรุณาตรวจสอบ');
+          return;
+        }
+      }
       
       // Add services if the field exists and has value
       const servicesField = document.getElementById('pageServices');
@@ -600,6 +707,24 @@ if (!session || session.value !== 'authenticated') {
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
       window.location.href = '/admin/login';
+    });
+
+    // Image preview for product
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    
+    imageInput.addEventListener('input', () => {
+      const src = imageInput.value.trim();
+      if (src) {
+        previewImg.src = src;
+        imagePreview.classList.remove('hidden');
+        previewImg.onerror = () => {
+          previewImg.src = '/assets/placeholder.jpg';
+        };
+      } else {
+        imagePreview.classList.add('hidden');
+      }
     });
 
     // Init

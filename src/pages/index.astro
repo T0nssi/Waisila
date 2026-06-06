@@ -25,7 +25,7 @@ const contact = pageData.contact || '098-519-2696';
   <NavBar currentPage={currentPage} />
 
   <!-- Hero -->
-  <section class="pt-40 pb-24 px-6 relative">
+  <section class="pt-40 pb-24 px-6 relative" id="hero-section">
     <div class="absolute inset-0 z-0">
       <div id="hero-slides" class="absolute inset-0">
         <img src="/assets/hero-slider/marble-crema-marfil.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover" />
@@ -35,22 +35,19 @@ const contact = pageData.contact || '098-519-2696';
         <img src="/assets/hero-slider/granite-nero-absolute.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
         <img src="/assets/hero-slider/install-marble-staircase.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
       </div>
-      <div class="absolute inset-0 bg-gradient-to-r from-cream/30 via-cream/10 to-transparent"></div>
+      <!-- Dark gradient overlay for text contrast -->
+      <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
     </div>
     <div class="max-w-6xl mx-auto relative z-10">
       <div class="max-w-2xl">
-        <p class="text-xs font-medium tracking-[0.2em] uppercase text-sage mb-4">สุดหรู สุดประณีต สำหรับคนพิเศษ</p>
-        <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6">งาน<span class="text-terracotta">หินอ่อน</span><br/><span class="text-sage">หินแกรนิต</span><br/><span class="text-brown/60">หินสังเคราะห์</span><br/><span class="text-gold">ระดับพรีเมียม</span></h1>
-        <p class="text-lg text-brown/80 leading-relaxed max-w-md mb-6" id="heroInfo">
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/90 mb-4">สุดหรู สุดประณีต สำหรับคนพิเศษ</p>
+        <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6 text-white">งาน<span class="text-cream">หินอ่อน</span><br/><span class="text-cream/80">หินแกรนิต</span><br/><span class="text-cream/60">หินสังเคราะห์</span><br/><span class="text-cream">ระดับพรีเมียม</span></h1>
+        <p class="text-lg text-white/80 leading-relaxed max-w-md mb-6" id="heroInfo">
           {information || 'ยกระดับความหรูหราให้พื้นที่ของคุณ ด้วยหินธรรมชาติคุณภาพระดับ World Class ที่คัดสรรมาอย่างพิถีพิถัน'}
         </p>
-        <a href="/contact" class="inline-block bg-terracotta text-cream px-6 py-3 rounded-md font-medium hover:bg-terracotta/90 transition-colors">นัดประเมินราคาฟรี</a>
+        <a href="/contact" class="inline-block bg-cream text-brown px-6 py-3 rounded-md font-medium hover:bg-white transition-colors">นัดประเมินราคาฟรี</a>
       </div>
-      {information && (
-        <div class="mt-8 p-4 bg-sage/10 rounded-md max-w-md relative z-10" id="infoBox">
-          <p class="text-sm text-brown/80">{information}</p>
-        </div>
-      )}
+  
     </div>
   </section>
 

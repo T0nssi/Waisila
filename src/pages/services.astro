@@ -19,6 +19,9 @@ const sizeText = pageData.sizeText || '';
 const information = pageData.information || '';
 const contact = pageData.contact || '';
 const servicesList = pageData.services || [];
+
+// Serialize for client
+const servicesJson = JSON.stringify(servicesList);
 ---
 
 <Layout title="บริการ">
@@ -70,52 +73,55 @@ const servicesList = pageData.services || [];
     </div>
   </footer>
 
-  <script is:inline>
-    (function() {
-      const servicesData = [];
-      
-      const defaultServices = [
-        { num: '01', title: 'ตัดหิน', desc: 'บริการตัดหินด้วยเครื่องจักรคุณภาพสูง ตัดได้ทุกขนาด ตามความต้องการของลูกค้า รองรับงานทั้งหินอ่อน หินแกรนิต และหินสังเคราะห์', image: '/assets/services/cut-service.jpg' },
-        { num: '02', title: 'เจาะหิน', desc: 'เจาะรูและร่องลึกบนหิน สำหรับติดตั้งอุปกรณ์หรือตกแต่งตามแบบแปลน', image: '/assets/services/worker.jpg' },
-        { num: '03', title: 'เจียร์หิน', desc: 'ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง พร้อมส่งมอบงานคุณภาพ', image: '/assets/services/crane-loading.jpg' },
-        { num: '04', title: 'แกะสลัก', desc: 'แกะสลักป้ายและลวดลายต่างๆ บนหิน ตามแบบที่ต้องการ', image: '/assets/services/engrave.jpg' },
-        { num: '05', title: 'พ่นผิวหน้า', desc: 'พ่นทราย พ่นไฟ เซาะร่อง สร้างผิวสัมผัสที่ต้องการ', image: '/assets/services/spray.jpg' },
-        { num: '06', title: 'ทากันซึม', desc: 'ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน', image: '/assets/services/seal.jpg' }
-      ];
-      
-      const services = servicesData.length > 0 ? servicesData : defaultServices;
-      
-      const servicesGrid = document.getElementById('servicesGrid');
-      const additionalServices = document.getElementById('additionalServices');
-      
-      if (servicesGrid && services.length >= 2) {
-        servicesGrid.innerHTML = 
-          '<div class="lg:col-span-2 bg-[#e0dcd7] rounded-md p-10 lg:p-12">' +
-            '<div class="rounded-md overflow-hidden mb-6" style="height: 240px;">' +
-              '<img src="' + services[0].image + '" alt="' + services[0].title + '" class="w-full h-full object-cover" />' +
-            '</div>' +
-            '<span class="text-6xl font-heading text-brown/10 block mb-4">' + services[0].num + '</span>' +
-            '<h2 class="text-3xl font-heading mb-3">' + services[0].title + '</h2>' +
-            '<p class="text-brown/60 leading-relaxed">' + services[0].desc + '</p>' +
+  <script is:inline define:vars={{ servicesJson, heroImages, colorStyle, sizeText, information, contact }}>
+    const defaultServices = [
+      { num: '01', title: 'ตัดหิน', desc: 'บริการตัดหินด้วยเครื่องจักรคุณภาพสูง ตัดได้ทุกขนาด ตามความต้องการของลูกค้า รองรับงานทั้งหินอ่อน หินแกรนิต และหินสังเคราะห์', image: '/assets/services/cut-service.jpg' },
+      { num: '02', title: 'เจาะหิน', desc: 'เจาะรูและร่องลึกบนหิน สำหรับติดตั้งอุปกรณ์หรือตกแต่งตามแบบแปลน', image: '/assets/services/worker.jpg' },
+      { num: '03', title: 'เจียร์หิน', desc: 'ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง พร้อมส่งมอบงานคุณภาพ', image: '/assets/services/crane-loading.jpg' },
+      { num: '04', title: 'แกะสลัก', desc: 'แกะสลักป้ายและลวดลายต่างๆ บนหิน ตามแบบที่ต้องการ', image: '/assets/services/engrave.jpg' },
+      { num: '05', title: 'พ่นผิวหน้า', desc: 'พ่นทราย พ่นไฟ เซาะร่อง สร้างผิวสัมผัสที่ต้องการ', image: '/assets/services/spray.jpg' },
+      { num: '06', title: 'ทากันซึม', desc: 'ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน', image: '/assets/services/seal.jpg' }
+    ];
+    
+    let servicesData = [];
+    try {
+      servicesData = JSON.parse(servicesJson);
+    } catch (e) {
+      console.error('Failed to parse servicesJson:', e);
+    }
+    
+    const services = servicesData.length > 0 ? servicesData : defaultServices;
+    
+    const servicesGrid = document.getElementById('servicesGrid');
+    const additionalServices = document.getElementById('additionalServices');
+    
+    if (servicesGrid && services.length >= 2) {
+      servicesGrid.innerHTML = 
+        '<div class="lg:col-span-2 bg-[#e0dcd7] rounded-md p-10 lg:p-12">' +
+          '<div class="rounded-md overflow-hidden mb-6" style="height: 240px;">' +
+            '<img src="' + services[0].image + '" alt="' + services[0].title + '" class="w-full h-full object-cover" />' +
           '</div>' +
-          '<div class="bg-[#e0dcd7] rounded-md p-8">' +
-            '<span class="text-5xl font-heading text-brown/10 block mb-4">' + services[1].num + '</span>' +
-            '<h2 class="text-2xl font-heading mb-3">' + services[1].title + '</h2>' +
-            '<p class="text-brown/60 leading-relaxed text-sm">' + services[1].desc + '</p>' +
-          '</div>';
+          '<span class="text-6xl font-heading text-brown/10 block mb-4">' + services[0].num + '</span>' +
+          '<h2 class="text-3xl font-heading mb-3">' + services[0].title + '</h2>' +
+          '<p class="text-brown/60 leading-relaxed">' + services[0].desc + '</p>' +
+        '</div>' +
+        '<div class="bg-[#e0dcd7] rounded-md p-8">' +
+          '<span class="text-5xl font-heading text-brown/10 block mb-4">' + services[1].num + '</span>' +
+          '<h2 class="text-2xl font-heading mb-3">' + services[1].title + '</h2>' +
+          '<p class="text-brown/60 leading-relaxed text-sm">' + services[1].desc + '</p>' +
+        '</div>';
+    }
+    
+    if (additionalServices && services.length > 2) {
+      let html = '';
+      for (let i = 2; i < services.length; i++) {
+        html += '<div class="bg-[#e0dcd7] rounded-md p-6">' +
+          '<span class="text-4xl font-heading text-brown/10 block mb-3">' + services[i].num + '</span>' +
+          '<h2 class="text-xl font-heading mb-2">' + services[i].title + '</h2>' +
+          '<p class="text-sm text-brown/60">' + services[i].desc + '</p>' +
+        '</div>';
       }
-      
-      if (additionalServices && services.length > 2) {
-        let html = '';
-        for (let i = 2; i < services.length; i++) {
-          html += '<div class="bg-[#e0dcd7] rounded-md p-6">' +
-            '<span class="text-4xl font-heading text-brown/10 block mb-3">' + services[i].num + '</span>' +
-            '<h2 class="text-xl font-heading mb-2">' + services[i].title + '</h2>' +
-            '<p class="text-sm text-brown/60">' + services[i].desc + '</p>' +
-          '</div>';
-        }
-        additionalServices.innerHTML = html;
-      }
-    })();
+      additionalServices.innerHTML = html;
+    }
   </script>
 </Layout>

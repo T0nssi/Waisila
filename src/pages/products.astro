@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
-import { readJson } from '../lib/jsonDb';
+import { readProducts } from '../lib/jsonDb';
 
 const currentPage = '/products';
 
-const data = readJson();
-const marbleProducts = data.products.filter((p: any) => p.category === 'marble' && p.active);
+const data = readProducts();
+const marbleProducts = (data.products || []).filter((p: any) => p.category === 'marble' && p.active);
 const graniteProducts = data.products.filter((p: any) => p.category === 'granite' && p.active);
 const artificialProducts = data.products.filter((p: any) => p.category === 'artificial' && p.active);
 const quartzProducts = data.products.filter((p: any) => p.category === 'quartz' && p.active);

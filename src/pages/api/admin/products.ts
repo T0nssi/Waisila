@@ -1,6 +1,10 @@
 import type { APIRoute } from 'astro';
-import { readJson, writeJson } from '../../../lib/jsonDb';
+import { readProducts } from '../../../lib/jsonDb';
 import { getSession } from '../../../middleware/auth';
+import fs from 'fs';
+import path from 'path';
+
+const PRODUCTS_FILE = path.join(process.cwd(), 'src/data/products.json');
 
 function generateId(): string {
   return 'p' + Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
@@ -17,8 +21,8 @@ export const GET: APIRoute = async ({ cookies }) => {
   if (!getSession(cookies)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
-  const data = readJson();
-  return new Response(JSON.stringify(data.products), { status: 200 });
+  const data = readProducts();
+  return new Response(JSON.stringify(data.products || []), { status: 200 });
 };
 
 export const POST: APIRoute = async ({ request, cookies }) => {
@@ -27,7 +31,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   }
   
   const body = await request.json();
-  const data = readJson();
+  const data = readProducts();
+  const products = data.products || [];
   
   const newProduct = {
     id: generateId(),
@@ -40,15 +45,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     finish: body.finish || 'Polish',
     usage: body.usage || '',
     active: body.active !== false,
-    sort: data.products.filter((p: any) => p.category === body.category).length + 1,
+    sort: products.filter((p: any) => p.category === body.category).length + 1,
   };
   
-  if (data.products.some((p: any) => p.slug === newProduct.slug)) {
+  if (products.some((p: any) => p.slug === newProduct.slug)) {
     newProduct.slug = newProduct.slug + '-' + Date.now().toString(36);
   }
   
-  data.products.push(newProduct);
-  writeJson(data);
+  products.push(newProduct);
+  fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2), 'utf-8');
   
   return new Response(JSON.stringify(newProduct), { status: 201 });
 };
@@ -59,23 +64,24 @@ export const PUT: APIRoute = async ({ request, cookies }) => {
   }
   
   const body = await request.json();
-  const data = readJson();
+  const data = readProducts();
+  const products = data.products || [];
   
-  const index = data.products.findIndex((p: any) => p.id === body.id);
+  const index = products.findIndex((p: any) => p.id === body.id);
   if (index === -1) {
     return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404 });
   }
   
-  if (body.slug && body.slug !== data.products[index].slug) {
-    if (data.products.some((p: any) => p.slug === body.slug && p.id !== body.id)) {
+  if (body.slug && body.slug !== products[index].slug) {
+    if (products.some((p: any) => p.slug === body.slug && p.id !== body.id)) {
       body.slug = body.slug + '-' + Date.now().toString(36);
     }
   }
   
-  data.products[index] = { ...data.products[index], ...body };
-  writeJson(data);
+  products[index] = { ...products[index], ...body };
+  fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2), 'utf-8');
   
-  return new Response(JSON.stringify(data.products[index]), { status: 200 });
+  return new Response(JSON.stringify(products[index]), { status: 200 });
 };
 
 export const DELETE: APIRoute = async ({ request, cookies }) => {
@@ -90,15 +96,16 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
     return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
   }
   
-  const data = readJson();
-  const index = data.products.findIndex((p: any) => p.id === id);
+  const data = readProducts();
+  const products = data.products || [];
+  const index = products.findIndex((p: any) => p.id === id);
   
   if (index === -1) {
     return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404 });
   }
   
-  data.products.splice(index, 1);
-  writeJson(data);
+  products.splice(index, 1);
+  fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2), 'utf-8');
   
   return new Response(JSON.stringify({ success: true }), { status: 200 });
 };

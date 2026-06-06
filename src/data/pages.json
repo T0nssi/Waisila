@@ -10,8 +10,8 @@
       ],
       "colorStyle": "คลาสสิก, หรูหรา",
       "sizeText": "60x60 ซม., 80x80 ซม., 40x40 ซม.",
-      "information": "ด้วยประสบการณ์และทีมช่างมืออาชีพ เราพร้อมส่งมอบงานคุณภาพและดีไซน์ ที่ตอบโจทย์ทุกความต้องการของคุณ",
-      "contact": "098-519-2696"
+      "information": "ด้วยประสบการณ์และทีมช่างมืออาชีพ เราพร้อมส่งมอบงานคุณภาพและดีไซน์ ที่ตอบโจทย์ทุกความต้องการของคุณ\n",
+      "contact": "0991156442"
     },
     {
       "id": "service",
@@ -61,6 +61,12 @@
           "title": "ทากันซึม",
           "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
           "image": "/assets/services/seal.jpg"
+        },
+        {
+          "num": "07",
+          "title": "ทากันซึม",
+          "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
+          "image": "/assets/services/seal.jpg"
         }
       ]
     },
@@ -73,7 +79,14 @@
       "colorStyle": "เข้าถึงง่าย, เป็นมิตร",
       "sizeText": "",
       "information": "พร้อมให้บริการตลอดเวลา ติดต่อได้ตามช่องทางด้านล่าง",
-      "contact": "098-519-2696, Line: @waisira"
+      "contact": "098-519-2696, Line: @waisira",
+      "social": {
+        "phone": "098-519-2696",
+        "line": "@waisira",
+        "facebook": "https://www.facebook.com/waisira8",
+        "instagram": "https://www.instagram.com/waisira_/",
+        "lineQR": "/assets/line-qr.png"
+      }
     },
     {
       "id": "portfolio",

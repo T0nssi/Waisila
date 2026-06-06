@@ -2,12 +2,12 @@
 export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
 import NavBar from '../../components/NavBar.astro';
-import { readJson } from '../../lib/jsonDb';
+import { readProducts } from '../../lib/jsonDb';
 
 const { slug } = Astro.params;
 
-const data = readJson();
-const product = data.products.find((p: any) => p.slug === slug);
+const data = readProducts();
+const product = (data.products || []).find((p: any) => p.slug === slug);
 
 if (!product) {
   return Astro.redirect('/products');
@@ -27,7 +27,7 @@ const categoryLink: Record<string, string> = {
   artificial: '/products#cat-artificial',
 };
 
-const otherProducts = data.products
+const otherProducts = (data.products || [])
   .filter((p: any) => p.category === product.category && p.slug !== product.slug && p.active)
   .slice(0, 4);
 ---
