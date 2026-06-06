@@ -11,6 +11,18 @@
       "type": "stone",
       "active": true,
       "sort": 1
+    },
+    {
+      "id": "pfmq2blj82e8om",
+      "slug": "wevdsv",
+      "title": "svsdv",
+      "category": "หินอ่อน",
+      "description": "vหอกหอำไฟไอฟ",
+      "image": "/assets/products/granite/dark-green.jpg",
+      "images": [],
+      "type": "stone",
+      "active": true,
+      "sort": 2
     }
   ]
 }

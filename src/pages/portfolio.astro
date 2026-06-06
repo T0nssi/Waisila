@@ -50,78 +50,90 @@ const portfolioData = portfolio || [];
     </div>
   </section>
 
-  <!-- Portfolio Grid - Full Width -->
-  <section class="py-24 px-0">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolioGrid">
+  <!-- Portfolio Grid - Smaller Cards, 4 Columns -->
+  <section class="py-16 px-0">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="portfolioGrid">
         {portfolioData.length > 0 ? portfolioData.filter(p => p.active).map((p: any) => (
-          <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
             <div class="aspect-[4/3] overflow-hidden">
               <img 
                 src={p.image || '/assets/portfolio/marble-01.jpg'} 
                 alt={p.title} 
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                onerror={`this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop'`}
+                onerror={`this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'`}
               />
             </div>
-            <div class="p-5">
+            <div class="p-3">
               <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">{p.category || p.type}</span>
-              <h3 class="font-heading text-xl mt-2 mb-2">{p.title}</h3>
-              <p class="text-sm text-brown/60">{p.description || 'งานติดตั้งหินคุณภาพสูง'}</p>
+              <h3 class="font-heading text-base mt-1 mb-1">{p.title}</h3>
+              <p class="text-xs text-brown/60 line-clamp-2">{p.description || 'งานติดตั้งหินคุณภาพสูง'}</p>
             </div>
           </div>
         )) : (
           <>
-            <!-- Default fallback cards if no portfolio data -->
-            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+            <!-- Default fallback cards -->
+            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
               <div class="aspect-[4/3] overflow-hidden">
-                <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop'" />
+                <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'" />
               </div>
-              <div class="p-5">
+              <div class="p-3">
                 <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินอ่อน</span>
-                <h3 class="font-heading text-xl mt-2 mb-2">Marble Collection</h3>
-                <p class="text-sm text-brown/60">งานติดตั้งหินอ่อนสำหรับพื้นและผนัง</p>
+                <h3 class="font-heading text-base mt-1 mb-1">Marble Collection</h3>
+                <p class="text-xs text-brown/60 line-clamp-2">งานติดตั้งหินอ่อนสำหรับพื้นและผนัง</p>
               </div>
             </div>
 
-            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
               <div class="aspect-[4/3] overflow-hidden">
-                <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop'" />
+                <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop'" />
               </div>
-              <div class="p-5">
+              <div class="p-3">
                 <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินแกรนิต</span>
-                <h3 class="font-heading text-xl mt-2 mb-2">Granite Collection</h3>
-                <p class="text-sm text-brown/60">หินแกรนิตทนทานสำหรับทุกพื้นที่</p>
+                <h3 class="font-heading text-base mt-1 mb-1">Granite Collection</h3>
+                <p class="text-xs text-brown/60 line-clamp-2">หินแกรนิตทนทานสำหรับทุกพื้นที่</p>
               </div>
             </div>
 
-            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
               <div class="aspect-[4/3] overflow-hidden">
-                <img src="/assets/portfolio/quartz-01.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop'" />
+                <img src="/assets/portfolio/quartz-01.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop'" />
               </div>
-              <div class="p-5">
+              <div class="p-3">
                 <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินสังเคราะห์</span>
-                <h3 class="font-heading text-xl mt-2 mb-2">Quartz Collection</h3>
-                <p class="text-sm text-brown/60">หินสังเคราะห์สำหรับครัวและห้องน้ำ</p>
+                <h3 class="font-heading text-base mt-1 mb-1">Quartz Collection</h3>
+                <p class="text-xs text-brown/60 line-clamp-2">หินสังเคราะห์สำหรับครัวและห้องน้ำ</p>
               </div>
             </div>
 
-            <div class="group bg-gradient-to-br from-sage/20 to-sage/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
-              <div class="text-4xl mb-4">🏭</div>
-              <h3 class="font-heading text-xl mb-2">โรงงาน</h3>
-              <p class="text-sm text-brown/60">พื้นอุตสาหกรรม ทนต่อการใช้งานหนัก</p>
+            <div class="group bg-gradient-to-br from-sage/20 to-sage/10 rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300 p-3 flex flex-col justify-center">
+              <div class="text-2xl mb-2">🏭</div>
+              <h3 class="font-heading text-sm mb-1">โรงงาน</h3>
+              <p class="text-xs text-brown/60 line-clamp-2">พื้นอุตสาหกรรม ทนต่อการใช้งานหนัก</p>
             </div>
 
-            <div class="group bg-gradient-to-br from-terracotta/20 to-terracotta/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
-              <div class="text-4xl mb-4">🏢</div>
-              <h3 class="font-heading text-xl mb-2">อาคารสำนักงาน</h3>
-              <p class="text-sm text-brown/60">งานตกแต่งภายในสุดหรู</p>
+            <div class="group bg-gradient-to-br from-terracotta/20 to-terracotta/10 rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300 p-3 flex flex-col justify-center">
+              <div class="text-2xl mb-2">🏢</div>
+              <h3 class="font-heading text-sm mb-1">อาคารสำนักงาน</h3>
+              <p class="text-xs text-brown/60 line-clamp-2">งานตกแต่งภายในสุดหรู</p>
             </div>
 
-            <div class="group bg-gradient-to-br from-brown/20 to-brown/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
-              <div class="text-4xl mb-4">🏠</div>
-              <h3 class="font-heading text-xl mb-2">บ้านเรือน</h3>
-              <p class="text-sm text-brown/60">งานติดตั้งภายในบ้านทุกประเภท</p>
+            <div class="group bg-gradient-to-br from-brown/20 to-brown/10 rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300 p-3 flex flex-col justify-center">
+              <div class="text-2xl mb-2">🏠</div>
+              <h3 class="font-heading text-sm mb-1">บ้านเรือน</h3>
+              <p class="text-xs text-brown/60 line-clamp-2">งานติดตั้งภายในบ้านทุกประเภท</p>
+            </div>
+
+            <div class="group bg-gradient-to-br from-sage/20 to-sage/10 rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300 p-3 flex flex-col justify-center">
+              <div class="text-2xl mb-2">🛁</div>
+              <h3 class="font-heading text-sm mb-1">ห้องน้ำ</h3>
+              <p class="text-xs text-brown/60 line-clamp-2">หินตกแต่งห้องน้ำสุดหรู</p>
+            </div>
+
+            <div class="group bg-gradient-to-br from-terracotta/20 to-terracotta/10 rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300 p-3 flex flex-col justify-center">
+              <div class="text-2xl mb-2">🍳</div>
+              <h3 class="font-heading text-sm mb-1">ครัว</h3>
+              <p class="text-xs text-brown/60 line-clamp-2">เคาน์เตอร์ครัวหินควอทซ์</p>
             </div>
           </>
         )}
@@ -129,50 +141,50 @@ const portfolioData = portfolio || [];
     </div>
   </section>
 
-  <!-- Before After Section - Full Width -->
-  <section class="py-24 px-0 bg-[#d4d0cb]">
+  <!-- Before After Section - Smaller -->
+  <section class="py-16 px-0 bg-[#d4d0cb]">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
+      <div class="text-center mb-12">
         <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">ความแตกต่าง</p>
-        <h2 class="text-4xl font-heading">ก่อน & หลัง</h2>
+        <h2 class="text-3xl font-heading">ก่อน & หลัง</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-cream rounded-lg overflow-hidden shadow-md">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-cream rounded-lg overflow-hidden shadow">
           <div class="aspect-video bg-brown/10 flex items-center justify-center">
             <div class="text-center">
-              <p class="text-6xl mb-4">📷</p>
+              <p class="text-5xl mb-3">📷</p>
               <p class="text-brown/50">Before</p>
             </div>
           </div>
-          <div class="p-5">
-            <h4 class="font-heading text-lg mb-2">พื้นก่อนปรับปรุง</h4>
+          <div class="p-4">
+            <h4 class="font-heading text-base mb-1">พื้นก่อนปรับปรุง</h4>
             <p class="text-sm text-brown/60">พื้นคอนกรีตเดิมที่มีรอยแตกร้าวและสึกกร่อน</p>
           </div>
         </div>
-        <div class="bg-cream rounded-lg overflow-hidden shadow-md">
+        <div class="bg-cream rounded-lg overflow-hidden shadow">
           <div class="aspect-video bg-sage/20 flex items-center justify-center">
             <div class="text-center">
-              <p class="text-6xl mb-4">✨</p>
+              <p class="text-5xl mb-3">✨</p>
               <p class="text-sage font-medium">After</p>
             </div>
           </div>
-          <div class="p-5">
-            <h4 class="font-heading text-lg mb-2">พื้นหลังติดตั้งหิน</h4>
-            <p class="text-sm text-brown/60">พื้นหินอ่อนเกลี้ยง สวยงาม ทนทาน น่าใช้งาน</p>
+          <div class="p-4">
+            <h4 class="font-heading text-base mb-1">พื้นหลังติดตั้งหิน</h4>
+            <p class="text-sm text-brown/60">พื้นหินอ่อนเกลี้ยง สวยงาม ทนทาน</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA - Full Width -->
-  <section class="py-24 px-0 bg-gradient-to-r from-brown to-brown/80 text-white">
+  <!-- CTA -->
+  <section class="py-16 px-0 bg-gradient-to-r from-brown to-brown/80 text-white">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-4xl font-heading mb-6">ต้องการให้ช่วยติดตั้งหินในโครงการของคุณ?</h2>
-      <p class="text-lg text-white/80 mb-8">ทีมช่างมืออาชีพของเราพร้อมให้บริการติดตั้งหินทุกประเภท ตั้งแต่ประเมินราคาฟรีไปจนถึงส่งมอบงาน</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contact" class="inline-block bg-cream text-brown px-8 py-4 rounded-md font-medium hover:bg-white transition-colors">นัดประเมินราคาฟรี</a>
-        <a href="tel:0985192696" class="inline-block border-2 border-white text-white px-8 py-4 rounded-md font-medium hover:bg-white hover:text-brown transition-colors">โทร 098-519-2696</a>
+      <h2 class="text-3xl font-heading mb-4">ต้องการให้ช่วยติดตั้งหินในโครงการของคุณ?</h2>
+      <p class="text-base text-white/80 mb-6">ทีมช่างมืออาชีพของเราพร้อมให้บริการติดตั้งหินทุกประเภท</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/contact" class="inline-block bg-cream text-brown px-6 py-3 rounded-md font-medium hover:bg-white transition-colors">นัดประเมินราคาฟรี</a>
+        <a href="tel:0985192696" class="inline-block border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:text-brown transition-colors">โทร 098-519-2696</a>
       </div>
     </div>
   </section>
