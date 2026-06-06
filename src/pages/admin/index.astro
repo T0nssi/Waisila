@@ -34,6 +34,7 @@ if (!session || session.value !== 'authenticated') {
       <!-- Main Tab Navigation -->
       <div class="flex gap-2 mb-6">
         <button data-main="products" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-terracotta text-cream">สินค้า</button>
+        <button data-main="portfolio" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">ผลงาน</button>
         <button data-main="pages" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">หน้าเพจ</button>
         <button data-main="settings" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">ตั้งค่า</button>
       </div>
@@ -89,6 +90,64 @@ if (!session || session.value !== 'authenticated') {
                 </tr>
               </thead>
               <tbody id="productTable" class="divide-y divide-[#d4d0cb]">
+                <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PORTFOLIO SECTION (Hidden by default) -->
+      <div id="portfolioSection" class="hidden">
+        <!-- Stats -->
+        <div class="grid grid-cols-4 gap-4 mb-8">
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">หินอ่อน</p>
+            <p class="text-2xl font-serif" id="pf-count-stone">-</p>
+          </div>
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">โรงงาน</p>
+            <p class="text-2xl font-serif" id="pf-count-factory">-</p>
+          </div>
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">อาคาร</p>
+            <p class="text-2xl font-serif" id="pf-count-office">-</p>
+          </div>
+          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+            <p class="text-xs text-brown/50 mb-1">บ้าน</p>
+            <p class="text-2xl font-serif" id="pf-count-home">-</p>
+          </div>
+        </div>
+
+        <!-- Portfolio Tabs -->
+        <div class="bg-white rounded-md border border-[#d4d0cb]">
+          <div class="flex border-b border-[#d4d0cb]">
+            <button data-pf-tab="stone" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน/แกรนิต</button>
+            <button data-pf-tab="factory" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">โรงงาน</button>
+            <button data-pf-tab="office" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">อาคารสำนักงาน</button>
+            <button data-pf-tab="home" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">บ้านเรือน</button>
+          </div>
+
+          <!-- Actions -->
+          <div class="p-4 border-b border-[#d4d0cb] flex justify-between items-center">
+            <p class="text-sm text-brown/60"><span id="pf-totalCount">-</span> รายการ</p>
+            <button id="addPfBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
+              + เพิ่มผลงานใหม่
+            </button>
+          </div>
+
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-[#f5f3f0]">
+                <tr>
+                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">ชื่อ</th>
+                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">Slug</th>
+                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">สถานะ</th>
+                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="portfolioTable" class="divide-y divide-[#d4d0cb]">
                 <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
               </tbody>
             </table>
@@ -282,6 +341,68 @@ if (!session || session.value !== 'authenticated') {
     </div>
   </div>
 
+  <div id="portfolioModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
+    <div class="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between">
+        <h2 id="portfolioModalTitle" class="text-lg font-serif">เพิ่มผลงานใหม่</h2>
+        <button id="closePortfolioModal" class="text-brown/60 hover:text-brown">&times;</button>
+      </div>
+      <form id="portfolioForm" class="p-6 space-y-4">
+        <input type="hidden" name="id" id="portfolioId" />
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">ชื่อ *</label>
+            <input type="text" name="title" id="pfTitle" required class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">Slug</label>
+            <input type="text" name="slug" id="pfSlug" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <p class="text-xs text-brown/40 mt-1">ว่างไว้ = สร้างอัตโนมัติ</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">ประเภท *</label>
+            <select name="type" id="pfType" required class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50">
+              <option value="stone">หินอ่อน/แกรนิต</option>
+              <option value="factory">โรงงาน</option>
+              <option value="office">อาคารสำนักงาน</option>
+              <option value="home">บ้านเรือน</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">หมวดหมู่</label>
+            <input type="text" name="category" id="pfCategory" placeholder="เช่น หินอ่อน, หินแกรนิต" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-brown mb-2">รูปภาพหลัก (path)</label>
+          <input type="text" name="image" id="pfImage" placeholder="/assets/portfolio/marble-01.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          <div id="pfImagePreview" class="mt-2 hidden">
+            <img id="pfPreviewImg" src="" alt="Preview" class="w-32 h-32 object-cover rounded-md border border-[#d4d0cb]" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-brown mb-2">รายละเอียด</label>
+          <textarea name="description" id="pfDescription" rows="3" placeholder="รายละเอียดผลงาน..." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
+        </div>
+
+        <div class="flex items-center gap-4 pt-4 border-t border-[#d4d0cb]">
+          <button type="submit" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
+            บันทึก
+          </button>
+          <button type="button" id="cancelPortfolioBtn" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
+            ยกเลิก
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Delete Confirm Modal -->
   <div id="deleteModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
     <div class="bg-white rounded-lg w-full max-w-md p-6 text-center">
@@ -298,17 +419,40 @@ if (!session || session.value !== 'authenticated') {
     </div>
   </div>
 
+  <!-- Delete Portfolio Confirm Modal -->
+  <div id="deletePfModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
+    <div class="bg-white rounded-lg w-full max-w-md p-6 text-center">
+      <h3 class="text-lg font-serif mb-4">ยืนยันการลบ?</h3>
+      <p class="text-brown/60 mb-6" id="deletePfName"></p>
+      <div class="flex gap-4 justify-center">
+        <button id="confirmPfDelete" class="bg-red-500 text-white px-6 py-2 rounded-md font-medium hover:bg-red-600 transition-colors">
+          ลบ
+        </button>
+        <button id="cancelPfDelete" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
+          ยกเลิก
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script is:inline>
     let products = [];
     let pages = [];
+    let portfolio = [];
     let currentCategory = 'marble';
+    let currentPfCategory = 'stone';
     let currentPageKey = 'homepage';
     let deleteTargetId = null;
+    let deletePfTargetId = null;
 
     const modal = document.getElementById('modal');
+    const portfolioModal = document.getElementById('portfolioModal');
     const deleteModal = document.getElementById('deleteModal');
+    const deletePfModal = document.getElementById('deletePfModal');
     const productForm = document.getElementById('productForm');
+    const portfolioForm = document.getElementById('portfolioForm');
     const productTable = document.getElementById('productTable');
+    const portfolioTable = document.getElementById('portfolioTable');
 
     // Main tab switching
     document.querySelectorAll('.main-tab').forEach(btn => {
@@ -323,8 +467,15 @@ if (!session || session.value !== 'authenticated') {
         const main = btn.dataset.main;
         if (main === 'products') {
           document.getElementById('productsSection').classList.remove('hidden');
+          document.getElementById('portfolioSection').classList.add('hidden');
           document.getElementById('pagesSection').classList.add('hidden');
           document.getElementById('settingsSection').classList.add('hidden');
+        } else if (main === 'portfolio') {
+          document.getElementById('productsSection').classList.add('hidden');
+          document.getElementById('portfolioSection').classList.remove('hidden');
+          document.getElementById('pagesSection').classList.add('hidden');
+          document.getElementById('settingsSection').classList.add('hidden');
+          loadPortfolio();
         } else if (main === 'settings') {
           document.getElementById('productsSection').classList.add('hidden');
           document.getElementById('pagesSection').classList.add('hidden');
@@ -349,6 +500,203 @@ if (!session || session.value !== 'authenticated') {
         renderTable();
       } catch (err) { console.error(err); }
     }
+
+    // Load portfolio
+    async function loadPortfolio() {
+      try {
+        const res = await fetch('/api/admin/portfolio', { credentials: 'include' });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        portfolio = await res.json();
+        updatePfStats();
+        renderPfTable();
+      } catch (err) { console.error(err); }
+    }
+
+    function updatePfStats() {
+      document.getElementById('pf-count-stone').textContent = portfolio.filter(p => p.type === 'stone').length;
+      document.getElementById('pf-count-factory').textContent = portfolio.filter(p => p.type === 'factory').length;
+      document.getElementById('pf-count-office').textContent = portfolio.filter(p => p.type === 'office').length;
+      document.getElementById('pf-count-home').textContent = portfolio.filter(p => p.type === 'home').length;
+    }
+
+    function renderPfTable() {
+      const filtered = portfolio.filter(p => p.type === currentPfCategory);
+      document.getElementById('pf-totalCount').textContent = filtered.length;
+      
+      if (filtered.length === 0) {
+        portfolioTable.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">ไม่มีผลงานในหมวดนี้</td></tr>';
+        return;
+      }
+
+      portfolioTable.innerHTML = filtered.map(p => `
+        <tr class="hover:bg-[#f5f3f0]/50">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-3">
+              ${p.image ? `<img src="${p.image}" class="w-10 h-10 object-cover rounded bg-[#d4d0cb]" />` : '<div class="w-10 h-10 rounded bg-[#d4d0cb]"></div>'}
+              <div>
+                <p class="font-medium">${p.title}</p>
+                <p class="text-xs text-brown/50">${p.category || '-'}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-sm text-brown/60 font-mono">${p.slug}</td>
+          <td class="px-4 py-3 text-center">
+            <button data-id="${p.id}" data-active="${p.active}" class="pf-toggle-btn px-3 py-1 rounded-full text-xs font-medium ${p.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+              ${p.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}
+            </button>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <button data-id="${p.id}" class="pf-edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button>
+            <button data-id="${p.id}" data-title="${p.title}" class="pf-delete-btn text-sm text-red-500 hover:underline">ลบ</button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.querySelectorAll('.pf-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => togglePfActive(btn.dataset.id, btn.dataset.active === 'true'));
+      });
+      document.querySelectorAll('.pf-edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => editPortfolio(btn.dataset.id));
+      });
+      document.querySelectorAll('.pf-delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => showPfDeleteConfirm(btn.dataset.id, btn.dataset.title));
+      });
+    }
+
+    // Portfolio tab switching
+    document.querySelectorAll('.pf-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pf-tab-btn').forEach(b => {
+          b.classList.remove('border-sage', 'text-sage');
+          b.classList.add('border-transparent', 'text-brown/60');
+        });
+        btn.classList.add('border-sage', 'text-sage');
+        btn.classList.remove('border-transparent', 'text-brown/60');
+        currentPfCategory = btn.dataset.pfTab;
+        document.getElementById('pfType').value = currentPfCategory;
+        renderPfTable();
+      });
+    });
+
+    // Add portfolio button
+    document.getElementById('addPfBtn').addEventListener('click', () => {
+      document.getElementById('portfolioModalTitle').textContent = 'เพิ่มผลงานใหม่';
+      document.getElementById('portfolioId').value = '';
+      portfolioForm.reset();
+      document.getElementById('pfType').value = currentPfCategory;
+      portfolioModal.classList.remove('hidden');
+      portfolioModal.classList.add('flex');
+    });
+
+    // Edit portfolio
+    function editPortfolio(id) {
+      const p = portfolio.find(pr => pr.id === id);
+      if (!p) return;
+      document.getElementById('portfolioModalTitle').textContent = 'แก้ไขผลงาน';
+      document.getElementById('portfolioId').value = p.id;
+      document.getElementById('pfTitle').value = p.title;
+      document.getElementById('pfSlug').value = p.slug || '';
+      document.getElementById('pfType').value = p.type;
+      document.getElementById('pfCategory').value = p.category || '';
+      document.getElementById('pfImage').value = p.image || '';
+      document.getElementById('pfDescription').value = p.description || '';
+      portfolioModal.classList.remove('hidden');
+      portfolioModal.classList.add('flex');
+    }
+
+    // Toggle portfolio active
+    async function togglePfActive(id, currentActive) {
+      try {
+        const res = await fetch('/api/admin/portfolio', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, active: !currentActive }),
+          credentials: 'include'
+        });
+        if (res.ok) loadPortfolio();
+      } catch (err) { console.error(err); }
+    }
+
+    // Portfolio delete confirm
+    function showPfDeleteConfirm(id, title) {
+      deletePfTargetId = id;
+      document.getElementById('deletePfName').textContent = `ลบ "${title}" ?`;
+      deletePfModal.classList.remove('hidden');
+      deletePfModal.classList.add('flex');
+    }
+
+    document.getElementById('confirmPfDelete').addEventListener('click', async () => {
+      if (!deletePfTargetId) return;
+      try {
+        const res = await fetch(`/api/admin/portfolio?id=${deletePfTargetId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        if (res.ok) {
+          deletePfModal.classList.add('hidden');
+          deletePfModal.classList.remove('flex');
+          loadPortfolio();
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    document.getElementById('cancelPfDelete').addEventListener('click', () => {
+      deletePfModal.classList.add('hidden');
+      deletePfModal.classList.remove('flex');
+    });
+
+    // Portfolio form submit
+    portfolioForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      
+      const isEdit = !!data.id;
+      const method = isEdit ? 'PUT' : 'POST';
+      
+      try {
+        const res = await fetch('/api/admin/portfolio', {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
+        
+        if (res.ok) {
+          portfolioModal.classList.add('hidden');
+          portfolioModal.classList.remove('flex');
+          loadPortfolio();
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    // Close portfolio modal
+    document.getElementById('closePortfolioModal').addEventListener('click', () => {
+      portfolioModal.classList.add('hidden');
+      portfolioModal.classList.remove('flex');
+    });
+    document.getElementById('cancelPortfolioBtn').addEventListener('click', () => {
+      portfolioModal.classList.add('hidden');
+      portfolioModal.classList.remove('flex');
+    });
+
+    // Portfolio image preview
+    const pfImageInput = document.getElementById('pfImage');
+    const pfImagePreview = document.getElementById('pfImagePreview');
+    const pfPreviewImg = document.getElementById('pfPreviewImg');
+    
+    pfImageInput.addEventListener('input', () => {
+      const src = pfImageInput.value.trim();
+      if (src) {
+        pfPreviewImg.src = src;
+        pfImagePreview.classList.remove('hidden');
+        pfPreviewImg.onerror = () => {
+          pfPreviewImg.src = '/assets/placeholder.jpg';
+        };
+      } else {
+        pfImagePreview.classList.add('hidden');
+      }
+    });
 
     // Load pages
     // Settings functions
