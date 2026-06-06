@@ -94,9 +94,7 @@
       "name": "ผลงาน",
       "active": true,
       "images": [
-        "/assets/portfolio/marble-01.jpg",
-        "/assets/portfolio/marble-02.jpg",
-        "/assets/portfolio/marble-03.jpg"
+        "/assets/portfolio/marble-01.jpg"
       ],
       "colorStyle": "สวยงาม, หรูหรา",
       "sizeText": "ผลงานติดตั้งทั้งหมด",
