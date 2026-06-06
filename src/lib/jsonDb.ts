@@ -3,6 +3,7 @@ import path from 'path';
 
 const PAGES_FILE = path.join(process.cwd(), 'src/data/pages.json');
 const PRODUCTS_FILE = path.join(process.cwd(), 'src/data/products.json');
+const PORTFOLIO_FILE = path.join(process.cwd(), 'src/data/portfolio.json');
 
 export function readPages(): any {
   try {
@@ -19,6 +20,15 @@ export function readProducts(): any {
     return JSON.parse(content);
   } catch {
     return { products: [] };
+  }
+}
+
+export function readPortfolio(): any {
+  try {
+    const content = fs.readFileSync(PORTFOLIO_FILE, 'utf-8');
+    return JSON.parse(content);
+  } catch {
+    return { portfolio: [] };
   }
 }
 

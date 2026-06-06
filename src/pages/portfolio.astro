@@ -4,10 +4,9 @@ import NavBar from '../components/NavBar.astro';
 
 const currentPage = '/portfolio';
 
-import { readJson } from '../lib/jsonDb';
-const allData = readJson();
-const pageRecord = allData.pages?.find((p: any) => p.key === 'portfolio');
-let pageData = pageRecord || { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true, portfolio: [] };
+import { readPortfolio } from '../lib/jsonDb';
+const { portfolio } = readPortfolio();
+const portfolioData = portfolio || [];
 ---
 
 <Layout title="ผลงาน | ไวยศิลา">
@@ -55,60 +54,77 @@ let pageData = pageRecord || { images: [], colorStyle: '', sizeText: '', informa
   <section class="py-24 px-0">
     <div class="max-w-6xl mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolioGrid">
-        <!-- Marble -->
-        <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-          <div class="aspect-[4/3] overflow-hidden">
-            <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop'" />
+        {portfolioData.length > 0 ? portfolioData.filter(p => p.active).map((p: any) => (
+          <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img 
+                src={p.image || '/assets/portfolio/marble-01.jpg'} 
+                alt={p.title} 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                onerror={`this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop'`}
+              />
+            </div>
+            <div class="p-5">
+              <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">{p.category || p.type}</span>
+              <h3 class="font-heading text-xl mt-2 mb-2">{p.title}</h3>
+              <p class="text-sm text-brown/60">{p.description || 'งานติดตั้งหินคุณภาพสูง'}</p>
+            </div>
           </div>
-          <div class="p-5">
-            <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินอ่อน</span>
-            <h3 class="font-heading text-xl mt-2 mb-2">Marble Collection</h3>
-            <p class="text-sm text-brown/60">งานติดตั้งหินอ่อนสำหรับพื้นและผนัง</p>
-          </div>
-        </div>
+        )) : (
+          <>
+            <!-- Default fallback cards if no portfolio data -->
+            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop'" />
+              </div>
+              <div class="p-5">
+                <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินอ่อน</span>
+                <h3 class="font-heading text-xl mt-2 mb-2">Marble Collection</h3>
+                <p class="text-sm text-brown/60">งานติดตั้งหินอ่อนสำหรับพื้นและผนัง</p>
+              </div>
+            </div>
 
-        <!-- Granite -->
-        <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-          <div class="aspect-[4/3] overflow-hidden">
-            <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop'" />
-          </div>
-          <div class="p-5">
-            <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินแกรนิต</span>
-            <h3 class="font-heading text-xl mt-2 mb-2">Granite Collection</h3>
-            <p class="text-sm text-brown/60">หินแกรนิตทนทานสำหรับทุกพื้นที่</p>
-          </div>
-        </div>
+            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop'" />
+              </div>
+              <div class="p-5">
+                <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินแกรนิต</span>
+                <h3 class="font-heading text-xl mt-2 mb-2">Granite Collection</h3>
+                <p class="text-sm text-brown/60">หินแกรนิตทนทานสำหรับทุกพื้นที่</p>
+              </div>
+            </div>
 
-        <!-- Quartz -->
-        <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-          <div class="aspect-[4/3] overflow-hidden">
-            <img src="/assets/portfolio/quartz-01.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop'" />
-          </div>
-          <div class="p-5">
-            <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินสังเคราะห์</span>
-            <h3 class="font-heading text-xl mt-2 mb-2">Quartz Collection</h3>
-            <p class="text-sm text-brown/60">หินสังเคราะห์สำหรับครัวและห้องน้ำ</p>
-          </div>
-        </div>
+            <div class="group bg-[#d4d0cb] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src="/assets/portfolio/quartz-01.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop'" />
+              </div>
+              <div class="p-5">
+                <span class="text-xs font-medium tracking-wider uppercase text-terracotta/80">หินสังเคราะห์</span>
+                <h3 class="font-heading text-xl mt-2 mb-2">Quartz Collection</h3>
+                <p class="text-sm text-brown/60">หินสังเคราะห์สำหรับครัวและห้องน้ำ</p>
+              </div>
+            </div>
 
-        <!-- Project Type Cards -->
-        <div class="group bg-gradient-to-br from-sage/20 to-sage/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
-          <div class="text-4xl mb-4">🏭</div>
-          <h3 class="font-heading text-xl mb-2">โรงงาน</h3>
-          <p class="text-sm text-brown/60">พื้นอุตสาหกรรม ทนต่อการใช้งานหนัก</p>
-        </div>
+            <div class="group bg-gradient-to-br from-sage/20 to-sage/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
+              <div class="text-4xl mb-4">🏭</div>
+              <h3 class="font-heading text-xl mb-2">โรงงาน</h3>
+              <p class="text-sm text-brown/60">พื้นอุตสาหกรรม ทนต่อการใช้งานหนัก</p>
+            </div>
 
-        <div class="group bg-gradient-to-br from-terracotta/20 to-terracotta/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
-          <div class="text-4xl mb-4">🏢</div>
-          <h3 class="font-heading text-xl mb-2">อาคารสำนักงาน</h3>
-          <p class="text-sm text-brown/60">งานตกแต่งภายในสุดหรู</p>
-        </div>
+            <div class="group bg-gradient-to-br from-terracotta/20 to-terracotta/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
+              <div class="text-4xl mb-4">🏢</div>
+              <h3 class="font-heading text-xl mb-2">อาคารสำนักงาน</h3>
+              <p class="text-sm text-brown/60">งานตกแต่งภายในสุดหรู</p>
+            </div>
 
-        <div class="group bg-gradient-to-br from-brown/20 to-brown/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
-          <div class="text-4xl mb-4">🏠</div>
-          <h3 class="font-heading text-xl mb-2">บ้านเรือน</h3>
-          <p class="text-sm text-brown/60">งานติดตั้งภายในบ้านทุกประเภท</p>
-        </div>
+            <div class="group bg-gradient-to-br from-brown/20 to-brown/10 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-center">
+              <div class="text-4xl mb-4">🏠</div>
+              <h3 class="font-heading text-xl mb-2">บ้านเรือน</h3>
+              <p class="text-sm text-brown/60">งานติดตั้งภายในบ้านทุกประเภท</p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   </section>
