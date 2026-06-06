@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
 
 const currentPage = '/services';
 
@@ -58,20 +59,7 @@ const servicesJson = JSON.stringify(servicesList);
     </div>
   </section>
 
-  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-      <div>
-        <p class="font-heading text-xl mb-1">ไวยศิลา</p>
-        <p class="text-sm text-brown/60">WAISIRA</p>
-      </div>
-      <ul class="flex gap-6 text-sm text-brown/60">
-        <li><a href="/" class="hover:text-sage transition-colors">เกี่ยวกับเรา</a></li>
-        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
-        <li><a href="/portfolio" class="hover:text-sage transition-colors">ผลงาน</a></li>
-        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
-      </ul>
-    </div>
-  </footer>
+  <Footer />
 
   <script is:inline define:vars={{ servicesJson, heroImages, colorStyle, sizeText, information, contact }}>
     const defaultServices = [
