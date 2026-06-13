@@ -4,9 +4,61 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = "ไวยศิลา | ผู้จำหน่ายและติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ครบวงจร" } = Astro.props;
+const {
+  title,
+  description = "ไวยศิลา | ผู้จำหน่ายและติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ครบวงจร",
+  image = "/assets/og-image.jpg",
+} = Astro.props;
+
+
+const siteUrl = import.meta.env.SITE_URL || "https://waisira.com";
+const fullTitle = title.includes("ไวยศิลา") ? title : `${title} | ไวยศิลา WAISIRA`;
+
+
+// JSON-LD structured data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@id": siteUrl,
+  name: "ไวยศิลา WAISIRA",
+  description: "ผู้จำหน่ายและติดตั้งหินอ่อน หินแกรนิต หินสังเคราะห์ ครบวงจร ด้วยประสบการณ์กว่า 30 ปี",
+  url: siteUrl,
+  telephone: "+66-85-192-696",
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "TH",
+    addressRegion: "ประเทศไทย",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: "",
+    longitude: "",
+  },
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "08:00",
+    closes: "18:00",
+  },
+  image: siteUrl + image,
+  priceRange: "฿฿ - ฿฿฿",
+  areaServed: "ประเทศไทย",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "หินอ่อน หินแกรนิต หินสังเคราะห์",
+    itemListElement: [
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "ตัดหิน" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "เจาะหิน" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "เจียร์หิน" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "แกะสลักหิน" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "พ่นผิวหน้า" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "ทากันซึม" } },
+    ],
+  },
+  knowsAbout: ["หินอ่อน", "หินแกรนิต", "หินสังเคราะห์", "หินควอทซ์", "การติดตั้งหิน"],
+};
 ---
 
 <!doctype html>
@@ -15,10 +67,40 @@ const { title, description = "ไวยศิลา | ผู้จำหน่�
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title} | ไวยศิลา WAISIRA</title>
+    <title>{fullTitle}</title>
+
+    <!-- Canonical -->
+    <link rel="canonical" href={siteUrl + Astro.url.pathname} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl + Astro.url.pathname} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={siteUrl + image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="th_TH" />
+    <meta property="og:site_name" content="ไวยศิลา WAISIRA" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={siteUrl + image} />
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://line.me" />
+    <link rel="dns-prefetch" href="https://wa.me" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="bg-cream text-brown font-sans antialiased">
     <slot />

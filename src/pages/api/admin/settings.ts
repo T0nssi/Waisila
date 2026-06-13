@@ -3,7 +3,11 @@ import { readJsonFile, writeJsonFile, getDataFile } from '../../../lib/apiHelper
 
 export const GET: APIRoute = async () => {
   const settings = readJsonFile(getDataFile('settings.json'), {});
-  return new Response(JSON.stringify(settings), { status: 200 });
+  // Never expose tokens in GET response
+  const safe = { ...settings };
+  delete safe.telegramBotToken;
+  delete safe.telegramChatId;
+  return new Response(JSON.stringify(safe), { status: 200 });
 };
 
 export const PUT: APIRoute = async ({ request }) => {
@@ -11,11 +15,12 @@ export const PUT: APIRoute = async ({ request }) => {
     const body = await request.json();
     const settings = readJsonFile(getDataFile('settings.json'), {});
 
+    // Telegram settings — prefer env vars, allow override via API only if env not set
     if (body.telegramBotToken !== undefined) {
-      settings.telegramBotToken = body.telegramBotToken;
+      settings.telegramBotToken = body.telegramBotToken || import.meta.env.TELEGRAM_BOT_TOKEN || '';
     }
     if (body.telegramChatId !== undefined) {
-      settings.telegramChatId = body.telegramChatId;
+      settings.telegramChatId = body.telegramChatId || import.meta.env.TELEGRAM_CHAT_ID || '';
     }
 
     writeJsonFile(getDataFile('settings.json'), settings);
