@@ -38,25 +38,27 @@ const servicesJson = JSON.stringify(servicesList);
       <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16" id="infoText">
         {information || 'ทางร้านมีบริการ ตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม และยังมีบริการวัดขนาดหน้างาน พร้อมจัดส่งสินค้า'}
       </p>
-
+      <!--
       {colorStyle && (
         <div class="mb-8 px-4 py-3 bg-sage/10 rounded-md inline-block" id="colorStyleBadge">
           <span class="text-sm text-brown/70">สไตล์: {colorStyle}</span>
         </div>
       )}
-
+       -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="servicesGrid">
         <!-- Services rendered by JS -->
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8" id="additionalServices"></div>
 
+      <!--
       {sizeText && (
         <div class="mt-8 p-4 bg-brown/5 rounded-md" id="sizeTextBox">
           <p class="text-sm text-brown/70">ขนาดที่รองรับ: {sizeText}</p>
         </div>
       )}
-    </div>
+    </div> -->
+  
   </section>
 
   <Footer />
@@ -81,6 +83,7 @@ const servicesJson = JSON.stringify(servicesList);
     const services = servicesData.length > 0 ? servicesData : defaultServices;
     
     const servicesGrid = document.getElementById('servicesGrid');
+
     const additionalServices = document.getElementById('additionalServices');
     
     if (servicesGrid && services.length >= 2) {
@@ -112,4 +115,5 @@ const servicesJson = JSON.stringify(servicesList);
       additionalServices.innerHTML = html;
     }
   </script>
+
 </Layout>

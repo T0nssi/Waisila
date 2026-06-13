@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 
+let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true, social: {} };
+
 const currentPage = '/portfolio';
 
 import { readPortfolio, readPages } from '../lib/jsonDb';
@@ -14,6 +16,7 @@ const allPages = readPages();
 const portfolioPage = allPages.pages?.find((p: any) => p.key === 'portfolio');
 const pageInfo = portfolioPage || {};
 const heroDescription = pageInfo.information || 'รวบรวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา';
+const contact = pageData.contact || '098-519-2696';
 ---
 
 <Layout title="ผลงาน | ไวยศิลา">
@@ -140,7 +143,7 @@ const heroDescription = pageInfo.information || 'รวบรวมผลงา�
     </div>
   </section>
 
-  <!-- Before After Section -->
+  <!-- Before After Section 
   <section class="px-6 pb-24 bg-[#d4d0cb]">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-12">
@@ -175,8 +178,8 @@ const heroDescription = pageInfo.information || 'รวบรวมผลงา�
       </div>
     </div>
   </section>
-
-  <!-- CTA -->
+-->
+  <!-- CTA 
   <section class="px-6 pb-24 bg-gradient-to-r from-brown to-brown/80 text-white">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-3xl font-heading mb-4">ต้องการให้ช่วยติดตั้งหินในโครงการของคุณ?</h2>
@@ -187,6 +190,14 @@ const heroDescription = pageInfo.information || 'รวบรวมผลงา�
       </div>
     </div>
   </section>
-
+  -->
+  <!-- Contact CTA -->
+  <section class="py-24 px-6 bg-terracotta/10" data-bg="#C9996B">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-3xl font-heading mb-4">สนใจสินค้าหรือบริการ?</h2>
+      <p class="text-brown/70 mb-8" id="contactCta">ติดต่อเราได้ตลอดเวลา {contact}</p>
+      <a href="/contact" class="inline-block bg-brown text-cream px-8 py-4 rounded-md font-medium hover:bg-brown/90 transition-colors">ติดต่อเลย</a>
+    </div>
+  </section>
   <!-- Footer -->
   <Footer />
