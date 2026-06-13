@@ -2,6 +2,34 @@
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+
+// Service images
+import factoryImg from '../assets/services/factory-interior.jpg';
+import workerImg from '../assets/services/worker.jpg';
+import craneImg from '../assets/services/crane-loading.jpg';
+import engraveImg from '../assets/services/engrave.jpg';
+import sprayImg from '../assets/services/spray.jpg';
+import sealImg from '../assets/services/seal.jpg';
+
+// Product preview images
+import categoryMarble from '../assets/products/category-marble.jpg';
+import categoryGranite from '../assets/products/category-granite.jpg';
+import categoryArtificial from '../assets/products/category-artificial.jpg';
+import categoryQuartz from '../assets/products/category-quartz.jpg';
+
+// Portfolio preview images
+import portfolioMarble from '../assets/portfolio/marble-01.jpg';
+import portfolioGranite from '../assets/portfolio/granite-01.jpg';
+import portfolioQuartz from '../assets/portfolio/quartz-01.jpg';
+
+// Hero slider images
+import heroSlide1 from '../assets/hero-slider/marble-crema-marfil.jpg';
+import heroSlide2 from '../assets/hero-slider/marble-travertino.jpg';
+import heroSlide3 from '../assets/hero-slider/quartz-carrara-white.jpg';
+import heroSlide4 from '../assets/hero-slider/quartz-matte-white.jpg';
+import heroSlide5 from '../assets/hero-slider/granite-nero-absolute.jpg';
+import heroSlide6 from '../assets/hero-slider/install-marble-staircase.jpg';
 
 const currentPage = '/';
 
@@ -29,12 +57,12 @@ const contact = pageData.contact || '098-519-2696';
   <section class="pt-40 pb-24 px-6 relative" id="hero-section">
     <div class="absolute inset-0 z-0">
       <div id="hero-slides" class="absolute inset-0">
-        <img src="/assets/hero-slider/marble-crema-marfil.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover" />
-        <img src="/assets/hero-slider/marble-travertino.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
-        <img src="/assets/hero-slider/quartz-carrara-white.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
-        <img src="/assets/hero-slider/quartz-matte-white.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
-        <img src="/assets/hero-slider/granite-nero-absolute.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
-        <img src="/assets/hero-slider/install-marble-staircase.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" />
+        <Image src={heroSlide1} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover" loading="eager" inferSize={{ width: 1920, height: 1080 }} />
+        <Image src={heroSlide2} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
+        <Image src={heroSlide3} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
+        <Image src={heroSlide4} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
+        <Image src={heroSlide5} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
+        <Image src={heroSlide6} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
       </div>
       <!-- Dark gradient overlay for text contrast -->
       <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
@@ -65,28 +93,28 @@ const contact = pageData.contact || '098-519-2696';
       <div class="flex gap-6 flex-wrap justify-center">
         <div class="text-center flex-shrink-0">
           <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
-            <img src="/assets/services/factory-interior.jpg" alt="ตัดหิน" class="w-full h-full object-cover rounded-md" />
+            <Image src={factoryImg} alt="ตัดหิน" class="w-full h-full object-cover rounded-md" width={220} height={220} loading="lazy" />
           </div>
           <p class="text-base font-bold">ตัด</p>
           <p class="text-xs text-brown/60 mt-1 px-2">ตัดหินด้วยเครื่องจักรคุณภาพสูง รองรับทุกขนาด</p>
         </div>
         <div class="text-center flex-shrink-0">
           <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
-            <img src="/assets/services/worker.jpg" alt="เจาะหิน" class="w-full h-full object-cover rounded-md" />
+            <Image src={workerImg} alt="เจาะหิน" class="w-full h-full object-cover rounded-md" width={220} height={220} loading="lazy" />
           </div>
           <p class="text-base font-bold">เจาะ</p>
           <p class="text-xs text-brown/60 mt-1 px-2">เจาะรูและร่องลึก สำหรับติดตั้งอุปกรณ์</p>
         </div>
         <div class="text-center flex-shrink-0">
           <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
-            <img src="/assets/services/crane-loading.jpg" alt="เจียร์หิน" class="w-full h-full object-cover rounded-md" />
+            <Image src={craneImg} alt="เจียร์หิน" class="w-full h-full object-cover rounded-md" width={220} height={220} loading="lazy" />
           </div>
           <p class="text-base font-bold">เจียร์</p>
           <p class="text-xs text-brown/60 mt-1 px-2">ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง</p>
         </div>
         <div class="text-center flex-shrink-0">
           <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
-            <img src="/assets/services/engrave.jpg" alt="แกะสลัก" class="w-full h-full object-cover rounded-md" />
+            <Image src={engraveImg} alt="แกะสลัก" class="w-full h-full object-cover rounded-md" width={220} height={220} loading="lazy" />
           </div>
           <p class="text-base font-bold">แกะสลัก</p>
           <p class="text-xs text-brown/60 mt-1 px-2">แกะสลักป้ายและลวดลายตามแบบ</p>
@@ -95,14 +123,14 @@ const contact = pageData.contact || '098-519-2696';
       <div class="flex gap-6 flex-wrap justify-center mt-6">
         <div class="text-center flex-shrink-0">
           <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
-            <img src="/assets/services/spray.jpg" alt="พ่นผิวหน้า" class="w-full h-full object-cover rounded-md" />
+            <Image src={sprayImg} alt="พ่นผิวหน้า" class="w-full h-full object-cover rounded-md" width={220} height={220} loading="lazy" />
           </div>
           <p class="text-base font-bold">พ่นผิวหน้า</p>
           <p class="text-xs text-brown/60 mt-1 px-2">พ่นทราย พ่นไฟ เซาะร่อง สร้างผิวสัมผัส</p>
         </div>
         <div class="text-center flex-shrink-0">
           <div class="rounded-md mb-3 overflow-hidden" style="width: 220px; height: 220px;">
-            <img src="/assets/services/seal.jpg" alt="ทากันซึม" class="w-full h-full object-cover rounded-md" />
+            <Image src={sealImg} alt="ทากันซึม" class="w-full h-full object-cover rounded-md" width={220} height={220} loading="lazy" />
           </div>
           <p class="text-base font-bold">ทากันซึม</p>
           <p class="text-xs text-brown/60 mt-1 px-2">ทาน้ำยากันซึม ป้องกันน้ำ ยืดอายุการใช้งาน</p>
@@ -172,7 +200,7 @@ const contact = pageData.contact || '098-519-2696';
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <a href="/products" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <img src="/assets/products/category-quartz.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={categoryMarble} alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
           </div>
           <h3 class="font-heading text-xl mb-1">หินอ่อน</h3>
           <p class="text-sm text-brown/60">Marble</p>
@@ -180,7 +208,7 @@ const contact = pageData.contact || '098-519-2696';
 
         <a href="/products" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <img src="/assets/products/category-quartz.jpg" alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={categoryGranite} alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
           </div>
           <h3 class="font-heading text-xl mb-1">หินแกรนิต</h3>
           <p class="text-sm text-brown/60">Granite</p>
@@ -188,7 +216,7 @@ const contact = pageData.contact || '098-519-2696';
 
         <a href="/products" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <img src="/assets/products/category-quartz.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={categoryArtificial} alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
           </div>
           <h3 class="font-heading text-xl mb-1">หินสังเคราะห์</h3>
           <p class="text-sm text-brown/60">Artificial</p>
@@ -196,7 +224,7 @@ const contact = pageData.contact || '098-519-2696';
 
         <a href="/products" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <img src="/assets/products/category-quartz.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={categoryQuartz} alt="หินควอทซ์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
           </div>
           <h3 class="font-heading text-xl mb-1">หินควอทซ์</h3>
           <p class="text-sm text-brown/60">Quartz</p>
@@ -218,19 +246,19 @@ const contact = pageData.contact || '098-519-2696';
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <a href="/portfolio" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
-            <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน | Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={portfolioMarble} alt="หินอ่อน | Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={600} height={450} loading="lazy" />
           </div>
           <h3 class="font-heading text-lg mb-1">หินอ่อน | Marble</h3>
         </a>
         <a href="/portfolio" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
-            <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต | Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={portfolioGranite} alt="หินแกรนิต | Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={600} height={450} loading="lazy" />
           </div>
           <h3 class="font-heading text-lg mb-1">หินแกรนิต | Granite</h3>
         </a>
         <a href="/portfolio" class="group">
           <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
-            <img src="/assets/portfolio/quartz-01.jpg" alt="หินเทียม | หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
+            <Image src={portfolioQuartz} alt="หินเทียม | หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={600} height={450} loading="lazy" />
           </div>
           <h3 class="font-heading text-lg mb-1">หินเทียม | หินสังเคราะห์</h3>
         </a>

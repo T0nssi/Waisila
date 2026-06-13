@@ -1,12 +1,12 @@
 ---
 # Project Status Log
 - Current Health: 🟢 ACTIVE
-- Last Action Completed: Website UX audit for Thailand market (35-50 age target) — report generated 2026-05-27
-- Where we left off: Astro project built to /dist, static assets ready
+- Last Action Completed: SEO + safety refactor (2026-06-13) — OG tags, JSON-LD, rate limiting, env vars, sitemap, robots.txt
+- Where we left off: Ready for Vercel deployment
 - Blockers: None
 - Tech Stack: TypeScript / Node.js (Astro framework)
 - Build Output: /dist folder with compiled static site
-- Last File Modified: 2026-05-27 (src/pages/index.astro at 1780198479)
+- Last File Modified: 2026-06-13
 ---
 
 ## Current Assessment
