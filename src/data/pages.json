@@ -60,13 +60,7 @@
           "num": "06",
           "title": "ทากันซึม",
           "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
-          "image": "/assets/services/cut-service.jpg"
-        },
-        {
-          "num": "07",
-          "title": "ทากันซึม",
-          "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
-          "image": "/assets/services/cut-service.jpg"
+          "image": "/assets/services/seal.jpg"
         }
       ]
     },
