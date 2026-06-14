@@ -1,7 +1,7 @@
 ---
 # Project Status Log
 - Current Health: 🟢 ACTIVE
-- Last Action Completed: SEO + safety refactor (2026-06-13) — OG tags, JSON-LD, rate limiting, env vars, sitemap, robots.txt
+- Last Action Completed: Image optimization (2026-06-13) — astro:assets Image component, lazy loading, WebP conversion, product image fix
 - Where we left off: Ready for Vercel deployment
 - Blockers: None
 - Tech Stack: TypeScript / Node.js (Astro framework)

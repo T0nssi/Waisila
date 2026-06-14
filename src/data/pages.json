@@ -30,19 +30,19 @@
           "num": "01",
           "title": "ตัดหิน",
           "desc": "บริการตัดหินด้วยเครื่องจักรคุณภาพสูง ตัดได้ทุกขนาด ตามความต้องการของลูกค้า รองรับงานทั้งหินอ่อน หินแกรนิต และหินสังเคราะห์",
-          "image": "/assets/services/cut-service.jpg"
+          "image": "/assets/services/cut.jpg"
         },
         {
           "num": "02",
           "title": "เจาะหิน",
           "desc": "เจาะรูและร่องลึกบนหิน สำหรับติดตั้งอุปกรณ์หรือตกแต่งตามแบบแปลน",
-          "image": "/assets/services/drill-service.jpg"
+          "image": "/assets/services/drill.jpg"
         },
         {
           "num": "03",
           "title": "เจียร์หิน",
           "desc": "ขัดและเจียร์ผิวหินให้เรียบเกลี้ยง พร้อมส่งมอบงานคุณภาพ",
-          "image": "/assets/services/grind-service.jpg"
+          "image": "/assets/services/grind.jpg"
         },
         {
           "num": "04",
@@ -60,13 +60,13 @@
           "num": "06",
           "title": "ทากันซึม",
           "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
-          "image": "/assets/services/seal.jpg"
+          "image": "/assets/services/cut-service.jpg"
         },
         {
           "num": "07",
           "title": "ทากันซึม",
           "desc": "ทาน้ำยากันซึม ป้องกันน้ำซึมเข้าเนื้อหิน ยืดอายุการใช้งาน",
-          "image": "/assets/services/seal.jpg"
+          "image": "/assets/services/cut-service.jpg"
         }
       ]
     },
