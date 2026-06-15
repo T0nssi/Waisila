@@ -7,6 +7,11 @@
       "en": "White Valencia",
       "category": "marble",
       "image": "/assets/products/marble/white-valencia.jpg",
+      "images": [
+        "/assets/products/marble/white-valencia.jpg",
+        "/assets/products/marble/white-valencia.jpg",
+        "/assets/products/marble/white-valencia.jpg"
+      ],
       "origin": "โรมันจีน",
       "finish": "Polish",
       "usage": "พื้น, ผนัง, เคาน์เตอร์",
@@ -610,6 +615,24 @@
       "usage": "เคาน์เตอร์, พื้น, ผนัง",
       "active": true,
       "sort": 3
+    },
+    {
+      "id": "pmqeyvg15ben3",
+      "slug": "white-valencia-copy-mqeyvg10",
+      "name": "ไวท์วาลากัส (คัดลอก)",
+      "en": "White Valencia (copy)",
+      "category": "marble",
+      "image": "/assets/products/marble/white-valencia.jpg",
+      "images": [
+        "/assets/products/marble/white-valencia.jpg",
+        "/assets/products/marble/white-valencia-2.jpg",
+        "/assets/products/marble/white-valencia-3.jpg"
+      ],
+      "origin": "โรมันจีน",
+      "finish": "Polish",
+      "usage": "พื้น, ผนัง, เคาน์เตอร์",
+      "active": false,
+      "sort": 17
     }
   ]
 }

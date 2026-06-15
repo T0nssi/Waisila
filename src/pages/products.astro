@@ -6,11 +6,11 @@ import { readProducts } from '../lib/jsonDb';
 
 const currentPage = '/products';
 
-const data = readProducts();
-const marbleProducts = (data.products || []).filter((p: any) => p.category === 'marble' && p.active);
-const graniteProducts = data.products.filter((p: any) => p.category === 'granite' && p.active);
-const artificialProducts = data.products.filter((p: any) => p.category === 'artificial' && p.active);
-const quartzProducts = data.products.filter((p: any) => p.category === 'quartz' && p.active);
+const allProducts = await readProducts();
+const marbleProducts = allProducts.filter((p: any) => p.category === 'marble' && p.active);
+const graniteProducts = allProducts.filter((p: any) => p.category === 'granite' && p.active);
+const artificialProducts = allProducts.filter((p: any) => p.category === 'artificial' && p.active);
+const quartzProducts = allProducts.filter((p: any) => p.category === 'quartz' && p.active);
 
 const contact = {
   phone: "098-519-2696",

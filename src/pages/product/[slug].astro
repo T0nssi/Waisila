@@ -6,8 +6,8 @@ import { readProducts } from '../../lib/jsonDb';
 
 const { slug } = Astro.params;
 
-const data = readProducts();
-const product = (data.products || []).find((p: any) => p.slug === slug);
+const allProducts = await readProducts();
+const product = allProducts.find((p: any) => p.slug === slug);
 
 if (!product) {
   return Astro.redirect('/products');
@@ -27,7 +27,7 @@ const categoryLink: Record<string, string> = {
   artificial: '/products#cat-artificial',
 };
 
-const otherProducts = (data.products || [])
+const otherProducts = allProducts
   .filter((p: any) => p.category === product.category && p.slug !== product.slug && p.active)
   .slice(0, 4);
 ---
@@ -55,15 +55,32 @@ const otherProducts = (data.products || [])
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         
-        <!-- Image -->
+        <!-- Image Gallery -->
         <div class="relative">
           <div class="sticky top-28 rounded-md overflow-hidden bg-[#d4d0cb] aspect-square lg:aspect-[4/5]">
-            {product.image ? (
-              <img src={product.image} alt={product.name} class="w-full h-full object-contain" />
+            {product.images && product.images.length > 0 ? (
+              <img id="mainImage" src={product.images[0]} alt={product.name} class="w-full h-full object-contain" />
+            ) : product.image ? (
+              <img id="mainImage" src={product.image} alt={product.name} class="w-full h-full object-contain" />
             ) : (
               <div class="w-full h-full flex items-center justify-center text-brown/40">ไม่มีรูปภาพ</div>
             )}
           </div>
+          
+          {/* Thumbnail Gallery */}
+          {product.images && product.images.length > 1 && (
+            <div class="flex gap-2 mt-4 overflow-x-auto pb-2">
+              {product.images.map((img: string, index: number) => (
+                <button
+                  class={`thumbnail-btn flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 ${index === 0 ? 'border-sage' : 'border-transparent'} hover:border-sage transition-colors`}
+                  data-index={index}
+                  onclick={`switchImage(${index})`}
+                >
+                  <img src={img} alt={`${product.name} ${index + 1}`} class="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <!-- Info -->
@@ -170,4 +187,23 @@ const otherProducts = (data.products || [])
       </ul>
     </div>
   </footer>
+
+  <script is:inline define:vars={{ product }}>
+    const images = product.images || [];
+    
+    function switchImage(index) {
+      const mainImg = document.getElementById('mainImage');
+      if (mainImg && images[index]) {
+        mainImg.src = images[index];
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail-btn').forEach((btn, i) => {
+          if (i === index) {
+            btn.classList.add('border-sage');
+          } else {
+            btn.classList.remove('border-sage');
+          }
+        });
+      }
+    }
+  </script>
 </Layout>

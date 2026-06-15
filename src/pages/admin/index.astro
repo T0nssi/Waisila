@@ -435,6 +435,83 @@ if (!session || session.value !== 'authenticated') {
     </div>
   </div>
 
+  <!-- Upload Modal -->
+  <div id="uploadModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
+    <div class="bg-white rounded-lg w-full max-w-lg">
+      <div class="border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between">
+        <h2 class="text-lg font-serif">อัพโหลดรูปภาพ</h2>
+        <button id="closeUploadModal" class="text-brown/60 hover:text-brown text-2xl">&times;</button>
+      </div>
+      <div class="p-6">
+        <!-- Upload Target Input -->
+        <input type="hidden" id="uploadTargetInput" value="" />
+        <input type="hidden" id="uploadTargetType" value="product" />
+
+        <!-- Method Tabs -->
+        <div class="flex border-b border-[#d4d0cb] mb-4">
+          <button id="tabLocal" class="px-4 py-2 text-sm font-medium border-b-2 border-sage text-sage">อัพโหลดไฟล์</button>
+          <button id="tabCloudinary" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-brown/60">Cloudinary</button>
+        </div>
+
+        <!-- Local Upload -->
+        <div id="localUploadPanel">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-brown mb-2">โฟลเดอร์</label>
+            <select id="uploadFolder" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50">
+              <option value="products/marble">products/marble</option>
+              <option value="products/granite">products/granite</option>
+              <option value="products/quartz">products/quartz</option>
+              <option value="products/artificial">products/artificial</option>
+              <option value="portfolio">portfolio</option>
+              <option value="images">images</option>
+            </select>
+          </div>
+          <div class="border-2 border-dashed border-[#d4d0cb] rounded-lg p-8 text-center hover:border-sage transition-colors cursor-pointer" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" class="hidden" />
+            <div id="dropZoneContent">
+              <svg class="w-12 h-12 mx-auto text-brown/30 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p class="text-brown/60 mb-1">คลิกเลือกไฟล์ หรือ ลากไฟล์มาวาง</p>
+              <p class="text-xs text-brown/40">รองรับ JPG, PNG, WebP, GIF (max 5MB)</p>
+            </div>
+            <div id="filePreview" class="hidden">
+              <img id="previewBeforeUpload" src="" class="max-h-40 mx-auto rounded-lg mb-2" />
+              <p id="fileName" class="text-sm text-brown/60"></p>
+            </div>
+          </div>
+          <button id="uploadLocalBtn" class="mt-4 w-full bg-terracotta text-cream px-6 py-3 rounded-md font-medium hover:bg-terracotta/90 transition-colors disabled:bg-brown/30" disabled>
+            อัพโหลดไฟล์
+          </button>
+        </div>
+
+        <!-- Cloudinary Upload -->
+        <div id="cloudinaryUploadPanel" class="hidden">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-brown mb-2">Cloudinary URL</label>
+            <input type="text" id="cloudinaryUrl" placeholder="https://res.cloudinary.com/.../image.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <p class="text-xs text-brown/40 mt-1">วาง URL รูปภาพจาก Cloudinary</p>
+          </div>
+          <div class="bg-sage/10 rounded-lg p-4 mb-4">
+            <p class="text-sm text-sage font-medium mb-2">📋 วิธีใช้ Cloudinary</p>
+            <ol class="text-xs text-brown/70 space-y-1">
+              <li>1. สมัคร account ที่ <a href="https://cloudinary.com" target="_blank" class="text-sage hover:underline">cloudinary.com</a> (ฟรี)</li>
+              <li>2. อัพโหลดรูปใน Dashboard</li>
+              <li>3. คลิกรูป → Copy URL</li>
+              <li>4. วาง URL ด้านบน</li>
+            </ol>
+          </div>
+          <button id="useCloudinaryBtn" class="w-full bg-sage text-cream px-6 py-3 rounded-md font-medium hover:bg-sage/90 transition-colors">
+            ใช้ URL นี้
+          </button>
+        </div>
+
+        <!-- Upload Status -->
+        <div id="uploadStatus" class="mt-4 text-center text-sm hidden"></div>
+      </div>
+    </div>
+  </div>
+
   <script is:inline>
     let products = [];
     let pages = [];
@@ -546,6 +623,7 @@ if (!session || session.value !== 'authenticated') {
             </button>
           </td>
           <td class="px-4 py-3 text-center">
+            <button data-id="${p.id}" class="pf-clone-btn text-sm text-blue-500 hover:underline mr-3">คัดลอก</button>
             <button data-id="${p.id}" class="pf-edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button>
             <button data-id="${p.id}" data-title="${p.title}" class="pf-delete-btn text-sm text-red-500 hover:underline">ลบ</button>
           </td>
@@ -554,6 +632,9 @@ if (!session || session.value !== 'authenticated') {
 
       document.querySelectorAll('.pf-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => togglePfActive(btn.dataset.id, btn.dataset.active === 'true'));
+      });
+      document.querySelectorAll('.pf-clone-btn').forEach(btn => {
+        btn.addEventListener('click', () => clonePortfolio(btn.dataset.id));
       });
       document.querySelectorAll('.pf-edit-btn').forEach(btn => {
         btn.addEventListener('click', () => editPortfolio(btn.dataset.id));
@@ -587,6 +668,31 @@ if (!session || session.value !== 'authenticated') {
       portfolioModal.classList.remove('hidden');
       portfolioModal.classList.add('flex');
     });
+
+    // Clone portfolio
+    function clonePortfolio(id) {
+      const p = portfolio.find(pr => pr.id === id);
+      if (!p) return;
+      const newSlug = p.slug + '-copy-' + Date.now().toString(36);
+      const clonedData = {
+        ...p,
+        id: undefined,
+        slug: newSlug,
+        title: p.title + ' (คัดลอก)',
+        active: false,
+        sort: p.sort + 1
+      };
+      fetch('/api/admin/portfolio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clonedData),
+        credentials: 'include'
+      }).then(res => {
+        if (res.ok) {
+          loadPortfolio();
+        }
+      });
+    }
 
     // Edit portfolio
     function editPortfolio(id) {
@@ -788,6 +894,7 @@ if (!session || session.value !== 'authenticated') {
             </button>
           </td>
           <td class="px-4 py-3 text-center">
+            <button data-id="${p.id}" class="clone-btn text-sm text-blue-500 hover:underline mr-3">คัดลอก</button>
             <button data-id="${p.id}" class="edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button>
             <button data-id="${p.id}" data-name="${p.name}" class="delete-btn text-sm text-red-500 hover:underline">ลบ</button>
           </td>
@@ -796,6 +903,9 @@ if (!session || session.value !== 'authenticated') {
 
       document.querySelectorAll('.toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => toggleActive(btn.dataset.id, btn.dataset.active === 'true'));
+      });
+      document.querySelectorAll('.clone-btn').forEach(btn => {
+        btn.addEventListener('click', () => cloneProduct(btn.dataset.id));
       });
       document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', () => editProduct(btn.dataset.id));
@@ -957,6 +1067,32 @@ if (!session || session.value !== 'authenticated') {
       modal.classList.add('flex');
     });
 
+    // Clone product
+    function cloneProduct(id) {
+      const p = products.find(pr => pr.id === id);
+      if (!p) return;
+      const newSlug = p.slug + '-copy-' + Date.now().toString(36);
+      const clonedData = {
+        ...p,
+        id: undefined,
+        slug: newSlug,
+        name: p.name + ' (คัดลอก)',
+        en: p.en ? p.en + ' (copy)' : '',
+        active: false,
+        sort: p.sort + 1
+      };
+      fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clonedData),
+        credentials: 'include'
+      }).then(res => {
+        if (res.ok) {
+          loadProducts();
+        }
+      });
+    }
+
     // Edit product
     function editProduct(id) {
       const p = products.find(pr => pr.id === id);
@@ -1074,6 +1210,210 @@ if (!session || session.value !== 'authenticated') {
         imagePreview.classList.add('hidden');
       }
     });
+
+    // ===== UPLOAD MODAL FUNCTIONS =====
+    const uploadModal = document.getElementById('uploadModal');
+    const uploadTargetInput = document.getElementById('uploadTargetInput');
+    const uploadTargetType = document.getElementById('uploadTargetType');
+    const tabLocal = document.getElementById('tabLocal');
+    const tabCloudinary = document.getElementById('tabCloudinary');
+    const localUploadPanel = document.getElementById('localUploadPanel');
+    const cloudinaryUploadPanel = document.getElementById('cloudinaryUploadPanel');
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const dropZoneContent = document.getElementById('dropZoneContent');
+    const filePreview = document.getElementById('filePreview');
+    const previewBeforeUpload = document.getElementById('previewBeforeUpload');
+    const fileName = document.getElementById('fileName');
+    const uploadLocalBtn = document.getElementById('uploadLocalBtn');
+    const uploadFolder = document.getElementById('uploadFolder');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const cloudinaryUrl = document.getElementById('cloudinaryUrl');
+    const useCloudinaryBtn = document.getElementById('useCloudinaryBtn');
+
+    // Open upload modal for a specific input
+    function openUploadModal(targetInputId, targetType) {
+      uploadTargetInput.value = targetInputId;
+      uploadTargetType.value = targetType || 'product';
+      uploadModal.classList.remove('hidden');
+      uploadModal.classList.add('flex');
+      // Reset state
+      fileInput.value = '';
+      filePreview.classList.add('hidden');
+      dropZoneContent.classList.remove('hidden');
+      uploadLocalBtn.disabled = true;
+      uploadStatus.classList.add('hidden');
+      cloudinaryUrl.value = '';
+    }
+
+    // Close upload modal
+    document.getElementById('closeUploadModal').addEventListener('click', () => {
+      uploadModal.classList.add('hidden');
+      uploadModal.classList.remove('flex');
+    });
+
+    // Tab switching
+    tabLocal.addEventListener('click', () => {
+      tabLocal.classList.add('border-sage', 'text-sage');
+      tabLocal.classList.remove('border-transparent', 'text-brown/60');
+      tabCloudinary.classList.remove('border-sage', 'text-sage');
+      tabCloudinary.classList.add('border-transparent', 'text-brown/60');
+      localUploadPanel.classList.remove('hidden');
+      cloudinaryUploadPanel.classList.add('hidden');
+    });
+
+    tabCloudinary.addEventListener('click', () => {
+      tabCloudinary.classList.add('border-sage', 'text-sage');
+      tabCloudinary.classList.remove('border-transparent', 'text-brown/60');
+      tabLocal.classList.remove('border-sage', 'text-sage');
+      tabLocal.classList.add('border-transparent', 'text-brown/60');
+      cloudinaryUploadPanel.classList.remove('hidden');
+      localUploadPanel.classList.add('hidden');
+    });
+
+    // File selection
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', handleFileSelect);
+
+    // Drag and drop
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-sage', 'bg-sage/5');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-sage', 'bg-sage/5');
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-sage', 'bg-sage/5');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFileSelect({ target: { files } });
+      }
+    });
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+
+      // Validate
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+      if (!allowedTypes.includes(file.type)) {
+        showUploadStatus('❌ รองรับเฉพาะ JPG, PNG, WebP, GIF', 'red');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showUploadStatus('❌ ไฟล์ใหญ่เกิน 5MB', 'red');
+        return;
+      }
+
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewBeforeUpload.src = e.target.result;
+        fileName.textContent = file.name;
+        dropZoneContent.classList.add('hidden');
+        filePreview.classList.remove('hidden');
+        uploadLocalBtn.disabled = false;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Upload local file
+    uploadLocalBtn.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      uploadLocalBtn.disabled = true;
+      uploadLocalBtn.textContent = 'กำลังอัพโหลด...';
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', uploadFolder.value);
+
+      try {
+        const res = await fetch('/api/admin/upload', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include'
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          // Set the URL to target input
+          const targetInput = document.getElementById(uploadTargetInput.value);
+          if (targetInput) {
+            targetInput.value = data.url;
+            targetInput.dispatchEvent(new Event('input'));
+          }
+          showUploadStatus('✅ อัพโหลดสำเร็จ!', 'green');
+          setTimeout(() => {
+            uploadModal.classList.add('hidden');
+            uploadModal.classList.remove('flex');
+          }, 1000);
+        } else {
+          showUploadStatus('❌ ' + (data.error || 'อัพโหลดล้มเหลว'), 'red');
+        }
+      } catch (err) {
+        showUploadStatus('❌ เกิดข้อผิดพลาด', 'red');
+      }
+
+      uploadLocalBtn.disabled = false;
+      uploadLocalBtn.textContent = 'อัพโหลดไฟล์';
+    });
+
+    // Use Cloudinary URL
+    useCloudinaryBtn.addEventListener('click', () => {
+      const url = cloudinaryUrl.value.trim();
+      if (!url) {
+        showUploadStatus('❌ กรุณาวาง URL', 'red');
+        return;
+      }
+      if (!url.includes('cloudinary.com')) {
+        showUploadStatus('❌ URL ต้องมาจาก Cloudinary', 'red');
+        return;
+      }
+
+      const targetInput = document.getElementById(uploadTargetInput.value);
+      if (targetInput) {
+        targetInput.value = url;
+        targetInput.dispatchEvent(new Event('input'));
+      }
+      uploadModal.classList.add('hidden');
+      uploadModal.classList.remove('flex');
+    });
+
+    function showUploadStatus(msg, color) {
+      uploadStatus.textContent = msg;
+      uploadStatus.classList.remove('hidden');
+      uploadStatus.className = `mt-4 text-center text-sm text-${color}-600`;
+    }
+
+    // Add upload button next to image inputs
+    function addUploadButton(inputElement) {
+      const wrapper = inputElement.closest('.relative') || inputElement.parentElement;
+      if (wrapper && !wrapper.querySelector('.upload-btn')) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'upload-btn mt-2 px-3 py-1.5 bg-sage/10 text-sage text-xs rounded hover:bg-sage/20 transition-colors';
+        btn.textContent = '📤 อัพโหลดรูป';
+        btn.style.marginTop = '8px';
+        btn.style.display = 'block';
+        btn.addEventListener('click', () => {
+          const inputId = inputElement.id;
+          const targetType = inputId.startsWith('pf') ? 'portfolio' : 'product';
+          openUploadModal(inputId, targetType);
+        });
+        inputElement.parentNode.insertBefore(btn, inputElement.nextSibling);
+      }
+    }
+
+    // Add upload buttons to image inputs after load
+    setTimeout(() => {
+      const imageInputs = document.querySelectorAll('#image, #pfImage');
+      imageInputs.forEach(input => addUploadButton(input));
+    }, 500);
 
     // Init
     loadProducts();
