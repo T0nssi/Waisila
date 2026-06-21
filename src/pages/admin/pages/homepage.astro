@@ -1,0 +1,211 @@
+---
+export const prerender = false;
+import Layout from '../../../layouts/Layout.astro';
+import { SESSION_COOKIE } from '../../../middleware/auth';
+
+const session = Astro.cookies.get(SESSION_COOKIE);
+if (!session || session.value !== 'authenticated') {
+  return Astro.redirect('/admin/login');
+}
+---
+
+<Layout title="หน้าแรก | Admin ไวยศิลา">
+  <div class="min-h-screen bg-[#e0dcd7]">
+    <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
+      <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <a href="/admin/pages" class="text-sm text-brown/60 hover:text-sage">← หน้าเพจ</a>
+          <span class="text-brown/30">|</span>
+          <h1 class="text-xl font-serif">🏠 หน้าแรก</h1>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="/" target="_blank" class="text-sm text-brown/60 hover:text-sage">ดูเว็บไซต์ →</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto px-6 py-8">
+      <div class="bg-white rounded-md border border-[#d4d0cb] p-6">
+        <input type="hidden" id="pageId" />
+        <input type="hidden" id="pageKey" value="homepage" />
+
+        <!-- Active toggle -->
+        <div class="flex items-center gap-6 mb-6 pb-4 border-b border-[#d4d0cb]">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" id="pageActive" class="w-5 h-5 accent-sage" />
+            <span class="text-sm font-medium text-brown">เปิดใช้งานหน้านี้</span>
+          </label>
+          <a href="/" target="_blank" class="text-sm text-sage hover:underline ml-auto">ดูหน้าเพจ →</a>
+        </div>
+
+        <!-- Hero Section -->
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">🖼️ Hero Section</h3>
+        <div class="space-y-4 mb-6">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">รูปภาพ Hero (หลายรูป ขั้นด้วย comma)</label>
+            <textarea id="pageImages" rows="3" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-xs" placeholder="/assets/img1.jpg, /assets/img2.jpg"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Hero แท็กไลน์</label>
+            <input type="text" id="pageHeroTagline" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="เช่น สุดหรู สุดประณีต สำหรับคนพิเศษ" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Hero หัวข้อ (pipe-separated)</label>
+              <input type="text" id="pageHeroTitle" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="งานหินอ่อน|หินแกรนิต|ระดับพรีเมียม" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Hero สี (comma-separated)</label>
+              <input type="text" id="pageHeroTitleColors" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="white,cream,cream/80,cream/60,cream" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Hero คำอธิบาย</label>
+            <textarea id="pageHeroInfo" rows="2" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ข้อความใต้หัวข้อ Hero"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">ปุ่ม CTA</label>
+              <input type="text" id="pageHeroCTA" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="นัดประเมินราคาฟรี" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">ลิงก์ปุ่ม CTA</label>
+              <input type="text" id="pageHeroCTAUrl" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="/contact" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">⭐ Trust Badges</h3>
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-brown mb-1">Trust Badges (JSON array)</label>
+          <textarea id="pageTrustBadges" rows="3" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-xs" placeholder='["รับประกันงาน", "ส่งมอบตรงเวลา", "วัสดุเกรด A"]'></textarea>
+          <p class="text-xs text-brown/40 mt-1">ใส่ JSON array ของข้อความ badge</p>
+        </div>
+
+        <!-- General Info -->
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">📋 ข้อมูลทั่วไป</h3>
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">สี/สไตล์</label>
+              <input type="text" id="pageColorStyle" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="เช่น คลาสสิก, หรูหรา" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">ขนาด/ไซต์</label>
+              <input type="text" id="pageSizeText" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="เช่น 60x60 ซม." />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">ข้อมูล/รายละเอียด</label>
+            <textarea id="pageInformation" rows="3" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="รายละเอียดเพิ่มเติม..."></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">ติดต่อ</label>
+            <input type="text" id="pageContact" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="099-xxx-xxxx" />
+          </div>
+        </div>
+
+        <!-- Save -->
+        <div class="flex gap-4 pt-6 mt-6 border-t border-[#d4d0cb]">
+          <button id="saveBtn" class="bg-terracotta text-cream px-8 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
+            💾 บันทึก
+          </button>
+          <div id="saveStatus" class="hidden py-2 text-sm"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pageData = null;
+
+    async function loadPage() {
+      try {
+        const res = await fetch('/api/admin/pages', { credentials: 'include' });
+        if (res.status === 401) { window.location.href = '/admin/login'; return; }
+        const pages = await res.json();
+        pageData = pages.find((p: any) => p.key === 'homepage');
+        if (!pageData) { document.body.innerHTML = '<p class="p-8 text-center text-red-500">ไม่พบข้อมูลหน้าแรก</p>'; return; }
+        renderForm(pageData);
+      } catch (err) { console.error(err); }
+    }
+
+    function renderForm(p) {
+      document.getElementById('pageId').value = p.id || '';
+      document.getElementById('pageActive').checked = p.active !== false;
+      document.getElementById('pageImages').value = (p.images || []).join(', ');
+      document.getElementById('pageHeroTagline').value = p.heroTagline || '';
+      document.getElementById('pageHeroTitle').value = p.heroTitle || '';
+      document.getElementById('pageHeroTitleColors').value = p.heroTitleColors || '';
+      document.getElementById('pageHeroInfo').value = p.heroInfo || '';
+      document.getElementById('pageHeroCTA').value = p.heroCTA || '';
+      document.getElementById('pageHeroCTAUrl').value = p.heroCTAUrl || '/contact';
+      document.getElementById('pageTrustBadges').value = Array.isArray(p.trustBadges) ? JSON.stringify(p.trustBadges, null, 2) : '';
+      document.getElementById('pageColorStyle').value = p.colorStyle || '';
+      document.getElementById('pageSizeText').value = p.sizeText || '';
+      document.getElementById('pageInformation').value = p.information || '';
+      document.getElementById('pageContact').value = p.contact || '';
+    }
+
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('saveBtn');
+      const status = document.getElementById('saveStatus');
+      btn.disabled = true;
+      btn.textContent = 'กำลังบันทึก...';
+      status.classList.add('hidden');
+
+      const images = document.getElementById('pageImages').value.split(',').map((s: string) => s.trim()).filter(Boolean);
+      const data: any = {
+        id: document.getElementById('pageId').value,
+        active: document.getElementById('pageActive').checked,
+        images,
+        heroTagline: document.getElementById('pageHeroTagline').value,
+        heroTitle: document.getElementById('pageHeroTitle').value,
+        heroTitleColors: document.getElementById('pageHeroTitleColors').value,
+        heroInfo: document.getElementById('pageHeroInfo').value,
+        heroCTA: document.getElementById('pageHeroCTA').value,
+        heroCTAUrl: document.getElementById('pageHeroCTAUrl').value,
+        colorStyle: document.getElementById('pageColorStyle').value,
+        sizeText: document.getElementById('pageSizeText').value,
+        information: document.getElementById('pageInformation').value,
+        contact: document.getElementById('pageContact').value,
+      };
+
+      const tbRaw = document.getElementById('pageTrustBadges').value.trim();
+      if (tbRaw) {
+        try { data.trustBadges = JSON.parse(tbRaw); }
+        catch (e) { alert('รูปแบบ Trust Badges JSON ไม่ถูกต้อง'); btn.disabled = false; btn.textContent = '💾 บันทึก'; return; }
+      }
+
+      try {
+        const res = await fetch('/api/admin/pages', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
+        if (res.ok) {
+          status.textContent = '✅ บันทึกสำเร็จ!';
+          status.classList.remove('hidden', 'text-red-500');
+          status.classList.add('text-green-600');
+          setTimeout(() => status.classList.add('hidden'), 3000);
+          loadPage();
+        } else {
+          const err = await res.text();
+          status.textContent = '❌ ผิดพลาด: ' + err;
+          status.classList.remove('hidden', 'text-green-600');
+          status.classList.add('text-red-500');
+        }
+      } catch (err) {
+        status.textContent = '❌ เกิดข้อผิดพลาด';
+        status.classList.remove('hidden');
+        status.classList.add('text-red-500');
+      }
+      btn.disabled = false;
+      btn.textContent = '💾 บันทึก';
+    });
+
+    loadPage();
+  </script>
+</Layout>

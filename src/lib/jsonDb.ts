@@ -64,11 +64,47 @@ export function readPortfolioSync(): any[] {
   return data.portfolio || [];
 }
 
+// Testimonials - uses JSON (with optional MongoDB fallback)
+export async function readTestimonials(): Promise<any[]> {
+  if (USE_MONGODB) {
+    try {
+      const { getCollection, COLLECTIONS } = await import('./mongodb');
+      const collection = await getCollection(COLLECTIONS.TESTIMONIALS);
+      return await collection.find({ active: true }).toArray();
+    } catch (error) {
+      console.error('MongoDB read error, falling back to JSON:', error);
+    }
+  }
+  const data = readJsonFile(getDataFile('testimonials.json'), { testimonials: [] });
+  return (data.testimonials || []).filter((t: any) => t.active);
+}
+
+// Settings - uses JSON (with optional MongoDB fallback)
+export async function readSettings(): Promise<any> {
+  if (USE_MONGODB) {
+    try {
+      const { getCollection, COLLECTIONS } = await import('./mongodb');
+      const collection = await getCollection(COLLECTIONS.SETTINGS);
+      const doc = await collection.findOne({});
+      return doc || {};
+    } catch (error) {
+      console.error('MongoDB read error, falling back to JSON:', error);
+    }
+  }
+  return readJsonFile(getDataFile('settings.json'), {});
+}
+
+// Settings sync version
+export function readSettingsSync(): any {
+  return readJsonFile(getDataFile('settings.json'), {});
+}
+
 // Legacy combined read (for pages that need all data at once)
 export function readJson(): any {
   return {
     products: readProductsSync(),
     pages: readPagesSync(),
     portfolio: readPortfolioSync(),
+    settings: readSettingsSync(),
   };
 }

@@ -80,6 +80,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       sizeText: body.sizeText || '',
       information: body.information || '',
       contact: body.contact || '',
+      social: body.social || {},
+      services: body.services || [],
+      portfolio: body.portfolio || [],
+      heroTagline: body.heroTagline || '',
+      heroTitle: body.heroTitle || '',
+      heroTitleColors: body.heroTitleColors || '',
+      heroInfo: body.heroInfo || '',
+      heroCTA: body.heroCTA || '',
+      heroCTAUrl: body.heroCTAUrl || '/contact',
+      trustBadges: body.trustBadges || [],
+      values: body.values || [],
+      yearsExperience: body.yearsExperience || '',
+      footer: body.footer || {},
     };
 
     data.pages.push(newPage);

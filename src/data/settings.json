@@ -7,5 +7,34 @@
     "facebook": "https://www.facebook.com/waisira8",
     "instagram": "https://www.instagram.com/waisira_/",
     "lineQR": ""
-  }
+  },
+  "footer": {
+    "tagline": "ผู้เชี่ยวชาญด้านหินธรรมชาติคุณภาพพรีเมียม",
+    "about": "ไวยศิลา นำเข้าและจำหน่ายหินอ่อน หินแกรนิต หินควอทซ์ และหินสังเคราะห์ จากทั่วโลก พร้อมบริการติดตั้งโดยทีมช่างมืออาชีพ",
+    "address": "กรุงเทพมหานคร ประเทศไทย",
+    "hours": "วันจันทร์ - วันเสาร์ 08:00 - 18:00 น.",
+    "quickLinks": [
+      { "label": "หน้าแรก", "url": "/" },
+      { "label": "เกี่ยวกับเรา", "url": "/about" },
+      { "label": "บริการ", "url": "/services" },
+      { "label": "สินค้า", "url": "/products" },
+      { "label": "ผลงาน", "url": "/portfolio" },
+      { "label": "ติดต่อ", "url": "/contact" }
+    ],
+    "services": [
+      { "label": "ตัดหิน", "url": "/services" },
+      { "label": "เจาะหิน", "url": "/services" },
+      { "label": "เจียร์หิน", "url": "/services" },
+      { "label": "แกะสลัก", "url": "/services" },
+      { "label": "พ่นผิวหน้า", "url": "/services" },
+      { "label": "ทากันซึม", "url": "/services" }
+    ],
+    "copyright": "© 2026 ไวยศิลา (WAISIRA) สงวนลิขสิทธิ์"
+  },
+  "trustBadges": [
+    { "text": "รับประกันงาน", "icon": "✅" },
+    { "text": "ส่งมอบตรงเวลา", "icon": "✅" },
+    { "text": "วัสดุเกรด A", "icon": "✅" },
+    { "text": "ลูกค้ากว่า 500+ ราย", "icon": "✅" }
+  ]
 }

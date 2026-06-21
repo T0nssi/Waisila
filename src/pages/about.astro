@@ -1,0 +1,180 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+
+// Images
+import heroFactoryInterior from '../assets/services/factory-interior.jpg';
+import heroCraneLoading from '../assets/services/crane-loading.jpg';
+import heroYardWide from '../assets/services/granite-texture.jpg';
+import heroStoneWorker from '../assets/services/worker.jpg';
+import heroHero from '../assets/hero.jpg';
+
+const currentPage = '/about';
+
+// Read page data from JSON
+const { readJson } = await import('../lib/jsonDb');
+const allData = readJson();
+const aboutData = allData.pages?.find((p: any) => p.key === 'about') || {};
+const serviceData = allData.pages?.find((p: any) => p.key === 'service') || {};
+const settings = allData.settings || {};
+
+// Hero
+const heroTagline = aboutData.heroTagline || 'เกี่ยองเรา';
+const heroTitleLines = (aboutData.heroTitle || 'ไวยศิลา|ผู้เชี่ยวชาญด้านหินธรรมชาติ').split('|');
+const heroTitleColors = (aboutData.heroTitleColors || 'white,cream').split(',');
+const heroInfo = aboutData.heroInfo || '';
+const heroCTA = aboutData.heroCTA || 'ติดต่อเรา';
+const heroCTAUrl = aboutData.heroCTAUrl || '/contact';
+const heroImage = aboutData.images?.[0] || '/assets/hero.jpg';
+
+// About info
+const information = aboutData.information || '';
+const yearsExperience = aboutData.yearsExperience || '15+';
+const values = aboutData.values || [
+  { emoji: '🌍', title: 'นำเข้าจากทั่วโลก', desc: 'คัดสรรหินคุณภาพจากอิตาลี สเปน อินเดีย จีน ไต้หวัน' },
+  { emoji: '🔪', title: 'โรงงานครบวงจร', desc: 'ตัด เจาะ เจียร์ แกะสลัก พ่นผิว ทากันซึม ด้วยเครื่องจักรทันสมัย' },
+  { emoji: '⭐', title: 'ช่างฝีมือเชี่ยวชาญ', desc: 'ทีมช่างมืออาชีพ รับประกันงานติดตั้งเนียบเกลี้ยง' },
+  { emoji: '🤝', title: 'บริการหลังการขาย', desc: 'ให้คำปรึกษาดูแลตั้งแต่เลือกหินจนส่งมอบ' },
+];
+
+// Product categories from service data (reuse services for product overview)
+const services = serviceData.services || [];
+const phone = settings.social?.phone || '098-519-2696';
+---
+
+<Layout title="เกี่ยวกับเรา | ไวยศิลา">
+  <NavBar currentPage={currentPage} />
+
+  <!-- Hero -->
+  <section class="pt-40 pb-20 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src={heroImage} alt="เกี่ยวกับไวยศิลา" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+    <div class="max-w-6xl mx-auto relative z-10 text-center">
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/90 mb-4">{heroTagline}</p>
+      <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6 text-white">
+        {heroTitleLines.map((line: string, i: number) => (
+          <>{line}{i < heroTitleLines.length - 1 ? <br/> : ''}</>
+        ))}
+      </h1>
+      <p class="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">
+        {heroInfo}
+      </p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">เรื่องราวของเรา</p>
+          <h2 class="text-4xl font-heading mb-6">ผู้เชี่ยวชาญ<br/>ด้านหินธรรมชาติ</h2>
+          <div class="space-y-4 text-brown/80 leading-relaxed">
+            {information.split('\n\n').map((para: string) => (
+              <p set:html={para.replace(/\n/g, '<br/>')} />
+            ))}
+          </div>
+        </div>
+        <div class="relative">
+          <div class="rounded-md overflow-hidden aspect-[4/3]">
+            <img src="/assets/services/factory-interior.jpg" alt="โรงงานไวยศิลา" class="w-full h-full object-cover" />
+          </div>
+          <div class="absolute -bottom-6 -left-6 bg-terracotta text-cream p-6 rounded-md">
+            <p class="text-4xl font-heading mb-1">{yearsExperience}</p>
+            <p class="text-sm">ปีแห่งประสบการณ์</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="py-24 px-6 bg-[#d4d0cb]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ทำไมต้องไวยศิลา</p>
+        <h2 class="text-4xl font-heading">คุณค่าที่เราให้</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {values.map((v: any) => (
+          <div class="bg-white p-8 rounded-md">
+            <div class="text-4xl mb-4">{v.emoji}</div>
+            <h3 class="font-heading text-xl mb-3">{v.title}</h3>
+            <p class="text-brown/70 text-sm leading-relaxed">{v.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Overview -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">หินของเรา</p>
+        <h2 class="text-4xl font-heading mb-4">4 ประเภทหินคุณภาพ</h2>
+        <p class="text-brown/70 max-w-xl mx-auto">ไวยศิลานำเข้าและจำหน่ายหินธรรมชาติและหินสังเคราะห์คุณภาพสูง ตอบโจทย์ทุกงาน</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+          <div class="aspect-square overflow-hidden">
+            <img src="/assets/services/granite-texture.jpg" alt="หินอ่อน" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-heading text-lg mb-1">หินอ่อน</h3>
+            <p class="text-xs text-brown/60">Marble — ความหรูหราระดับพรีเมียม</p>
+          </div>
+        </div>
+        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+          <div class="aspect-square overflow-hidden">
+            <img src="/assets/services/crane-loading.jpg" alt="หินแกรนิต" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-heading text-lg mb-1">หินแกรนิต</h3>
+            <p class="text-xs text-brown/60">Granite — ความแข็งแกร่งทนทาน</p>
+          </div>
+        </div>
+        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+          <div class="aspect-square overflow-hidden">
+            <img src="/assets/services/worker.jpg" alt="หินควอทซ์" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-heading text-lg mb-1">หินควอทซ์</h3>
+            <p class="text-xs text-brown/60">Quartz — สวยงาม ทนทาน ดูแลง่าย</p>
+          </div>
+        </div>
+        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+          <div class="aspect-square overflow-hidden">
+            <img src="/assets/services/factory-interior.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-heading text-lg mb-1">หินสังเคราะห์</h3>
+            <p class="text-xs text-brown/60">Artificial — ราคาย่อมเยา คุณภาพเยี่ยม</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 px-6 bg-sage text-cream">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-heading mb-6">พร้อมเริ่มโครงการของคุณ?</h2>
+      <p class="text-cream/80 mb-8 text-lg">ติดต่อเราวันนี้เพื่อนัดประเมินราคาฟรี รับคำแนะนำจากผู้เชี่ยวชาญ</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href={heroCTAUrl} class="bg-cream text-sage px-8 py-4 rounded-md font-medium hover:bg-white transition-colors">
+          {heroCTA}
+        </a>
+        <a href="/products" class="border-2 border-cream text-cream px-8 py-4 rounded-md font-medium hover:bg-cream/10 transition-colors">
+          ดูสินค้า
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

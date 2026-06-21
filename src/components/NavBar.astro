@@ -1,12 +1,24 @@
 ---
+import { readSettingsSync } from '../lib/jsonDb';
+
 interface Props {
   currentPage?: string;
 }
 
 const { currentPage = '/' } = Astro.props;
 
+const settings = readSettingsSync();
+const trustBadges = settings.trustBadges || [
+  { text: 'รับประกันงาน', icon: '✅' },
+  { text: 'ส่งมอบตรงเวลา', icon: '✅' },
+  { text: 'วัสดุเกรด A', icon: '✅' },
+  { text: 'ลูกค้ากว่า 500+ ราย', icon: '✅' },
+];
+const phone = settings.social?.phone || '098-519-2696';
+
 const navItems = [
-  { href: '/', label: 'เกี่ยวกับเรา' },
+  { href: '/', label: 'หน้าแรก' },
+  { href: '/about', label: 'เกี่ยวกับเรา' },
   { href: '/services', label: 'บริการ' },
   { href: '/products', label: 'สินค้า' },
   { href: '/portfolio', label: 'ผลงาน' },
@@ -38,14 +50,13 @@ const navItems = [
 <!-- Trust Badge Strip -->
 <div class="fixed top-[73px] left-0 right-0 z-40 bg-sage/10 border-b border-sage/20 py-2 px-6">
   <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-xs font-medium text-brown/80">
-    <span class="flex items-center gap-1">✅ รับประกันงาน</span>
+    {trustBadges.map((badge: any, i: number) => (
+      <>
+        <span class="flex items-center gap-1">{badge.icon} {badge.text}</span>
+        {i < trustBadges.length - 1 && <span class="hidden sm:inline">•</span>}
+      </>
+    ))}
     <span class="hidden sm:inline">•</span>
-    <span class="flex items-center gap-1">✅ ส่งมอบตรงเวลา</span>
-    <span class="hidden sm:inline">•</span>
-    <span class="flex items-center gap-1">✅ วัสดุเกรด A</span>
-    <span class="hidden sm:inline">•</span>
-    <span class="flex items-center gap-1">✅ ลูกค้ากว่า 500+ ราย</span>
-    <span class="hidden sm:inline">•</span>
-    <span class="flex items-center gap-1">📞 098-519-2696</span>
+    <span class="flex items-center gap-1">📞 {phone}</span>
   </div>
 </div>
