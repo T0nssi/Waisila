@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavBar from '../../components/NavBar.astro';
+import Footer from '../../components/Footer.astro';
+import { readPortfolio, readPages } from '../../lib/jsonDb';
+
+const { slug } = Astro.params;
+
+const portfolioData = await readPortfolio();
+const item = portfolioData.find((p: any) => p.slug === slug);
+
+if (!item) {
+  return Astro.redirect('/portfolio');
+}
+
+const allPages = await readPages();
+const portfolioPage = allPages.find((p: any) => p.key === 'portfolio');
+const contact = portfolioPage?.contact || '098-519-2696';
+
+// Related items (same type, exclude current)
+const related = portfolioData
+  .filter((p: any) => p.type === item.type && p.slug !== slug && p.active)
+  .slice(0, 4);
+---
+
+<Layout title={`${item.title} | ผลงาน | ไวยศิลา`}>
+  <NavBar currentPage="/portfolio" />
+
+  <!-- Hero Image -->
+  <section class="pt-24 relative h-[50vh] min-h-[400px]">
+    <div class="absolute inset-0 bg-gradient-to-b from-brown/60 to-transparent z-10"></div>
+    <img 
+      src={item.image || '/assets/portfolio/marble-01.jpg'} 
+      alt={item.title}
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute bottom-0 left-0 right-0 z-20 p-8">
+      <div class="max-w-6xl mx-auto">
+        <a href="/portfolio" class="inline-flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors text-sm">
+          ← กลับสู่ผลงานทั้งหมด
+        </a>
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/60 mb-2">{item.category || item.type}</p>
+        <h1 class="text-4xl lg:text-5xl font-heading text-white">{item.title}</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Info -->
+  <section class="py-16 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <!-- Description -->
+          <div class="mb-10">
+            <h2 class="text-xl font-heading mb-4">รายละเอียดโปรเจกต์</h2>
+            <p class="text-brown/80 leading-relaxed whitespace-pre-wrap">{item.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</p>
+          </div>
+
+          <!-- Image Gallery -->
+          {item.images && item.images.length > 0 && (
+            <div>
+              <h2 class="text-xl font-heading mb-4">รูปภาพเพิ่มเติม</h2>
+              <div class="grid grid-cols-2 gap-4">
+                {item.images.map((img: string, i: number) => (
+                  <div class="aspect-[4/3] overflow-hidden rounded-md bg-[#d4d0cb]">
+                    <img 
+                      src={img} 
+                      alt={`${item.title} - รูปที่ ${i + 1}`}
+                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(!item.images || item.images.length === 0) && (
+            <div class="text-center py-12 bg-[#f5f3f0] rounded-md">
+              <p class="text-brown/40">ไม่มีรูปภาพเพิ่มเติม</p>
+            </div>
+          )}
+        </div>
+
+        <!-- Sidebar -->
+        <div>
+          <!-- Project Info Card -->
+          <div class="bg-white rounded-md border border-[#d4d0cb] p-6 mb-6">
+            <h3 class="font-heading text-lg mb-4">ข้อมูลโปรเจกต์</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between">
+                <span class="text-brown/50">ประเภท</span>
+                <span class="font-medium">{item.category || '-'}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-brown/50">หมวดหมู่</span>
+                <span class="font-medium">{item.type}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-brown/50">สถานะ</span>
+                <span class={`px-2 py-0.5 rounded-full text-xs font-medium ${item.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                  {item.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}
+                </span>
+              </div>
+              {item.finish && (
+                <div class="flex justify-between">
+                  <span class="text-brown/50">งานสำเร็จ</span>
+                  <span class="font-medium">{item.finish}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Contact CTA -->
+          <div class="bg-terracotta/10 rounded-md p-6">
+            <h3 class="font-heading text-lg mb-2">สนใจโปรเจกต์นี้?</h3>
+            <p class="text-sm text-brown/70 mb-4">ติดต่อเราเพื่อปรึกษาหรือสอบถามราคา</p>
+            <a 
+              href={`/contact?ref=portfolio/${item.slug}`}
+              class="block w-full bg-terracotta text-cream text-center px-6 py-3 rounded-md font-medium hover:bg-terracotta/90 transition-colors"
+            >
+              ติดต่อเลย
+            </a>
+            <p class="text-center text-sm text-brown/60 mt-3">{contact}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Projects -->
+  {related.length > 0 && (
+    <section class="py-16 px-6 bg-[#f5f3f0]">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-heading mb-8">ผลงานที่เกี่ยวข้อง</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {related.map((p: any) => (
+            <a href={`/portfolio/${p.slug}`} class="group block bg-white rounded-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img 
+                  src={p.image || '/assets/portfolio/marble-01.jpg'} 
+                  alt={p.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+              <div class="p-3">
+                <h3 class="font-heading text-sm mb-0.5 group-hover:text-sage transition-colors truncate">{p.title}</h3>
+                <p class="text-xs text-brown/50">{p.category || p.type}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</Layout>
