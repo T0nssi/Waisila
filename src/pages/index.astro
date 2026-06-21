@@ -33,12 +33,12 @@ import heroSlide6 from '../assets/hero-slider/install-marble-staircase.jpg';
 
 const currentPage = '/';
 
-// Read directly from JSON for SSR
-import { readJson, readPortfolio, readTestimonials, readSettings } from '../lib/jsonDb';
-const allData = readJson();
-const homepageData = allData.pages?.find((p: any) => p.key === 'homepage') || {};
-const serviceData = allData.pages?.find((p: any) => p.key === 'service') || {};
-const settings = allData.settings || {};
+// Read from MongoDB (with JSON fallback)
+import { readPages, readPortfolio, readTestimonials, readSettings } from '../lib/jsonDb';
+const allPages = await readPages();
+const homepageData = allPages.find((p: any) => p.key === 'homepage') || {};
+const serviceData = allPages.find((p: any) => p.key === 'service') || {};
+const settings = await readSettings() || {};
 
 // Trust badges from settings
 const trustBadges = settings.trustBadges || [

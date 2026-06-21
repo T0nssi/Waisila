@@ -7,9 +7,9 @@ const currentPage = '/services';
 
 let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true, services: [] };
 
-import { readJson } from '../lib/jsonDb';
-const allData = readJson();
-const pageRecord = allData.pages?.find((p: any) => p.key === 'service');
+import { readPages } from '../lib/jsonDb';
+const allPages = await readPages();
+const pageRecord = allPages.find((p: any) => p.key === 'service');
 if (pageRecord) {
   pageData = pageRecord;
 }

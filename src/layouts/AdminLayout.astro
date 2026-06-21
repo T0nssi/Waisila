@@ -1,0 +1,392 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            terracotta: '#c4785a',
+            sage: '#7d8c6e',
+            brown: '#4a3f35',
+            cream: '#f5f3f0',
+          },
+          fontFamily: {
+            heading: ['DM Serif Display', 'serif'],
+            body: ['Noto Sans Thai', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    :root {
+      --color-terracotta: #c4785a;
+      --color-sage: #7d8c6e;
+      --color-brown: #4a3f35;
+      --color-cream: #f5f3f0;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#e0dcd7] font-body">
+  <slot />
+
+  <!-- IMAGE LIBRARY MODAL -->
+  <div id="imageLibraryModal" class="fixed inset-0 bg-black/50 z-[200] hidden items-start justify-center p-6 pt-12 overflow-y-auto">
+    <div class="bg-white rounded-lg w-full max-w-4xl">
+      <div class="sticky top-0 bg-white border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between rounded-t-lg">
+        <div>
+          <h2 class="text-lg font-serif">📁 เลือกรูปภาพ</h2>
+          <p class="text-xs text-brown/50 mt-1">คลิกที่รูปเพื่อ copy URL หรือเลือกใช้งาน</p>
+        </div>
+        <button id="closeImageLibrary" class="text-brown/60 hover:text-brown text-2xl leading-none">&times;</button>
+      </div>
+      
+      <!-- Tabs & Add URL -->
+      <div class="px-6 py-3 bg-[#f5f3f0] border-b border-[#d4d0cb]">
+        <div class="flex items-center gap-4 mb-2">
+          <button id="tabLocal" onclick="switchTab('local')" class="px-4 py-1.5 rounded-md text-sm font-medium bg-white border border-[#d4d0cb] text-brown">📁 ไฟล์ในโปรเจกต์</button>
+          <button id="tabLibrary" onclick="switchTab('library')" class="px-4 py-1.5 rounded-md text-sm font-medium bg-[#f5f3f0] border border-[#d4d0cb] text-brown/60">🔗 คลังรูป (URL)</button>
+        </div>
+        
+        <!-- Local: Folder navigation -->
+        <div id="localSection">
+          <div class="flex items-center gap-2 text-sm flex-wrap">
+            <span class="text-brown/60">โฟลเดอร์:</span>
+            <button onclick="navigateToFolder('')" class="text-sage hover:underline">/public</button>
+            <span id="folderPathDisplay" class="text-brown/60"></span>
+          </div>
+        </div>
+        
+        <!-- Library: Add URL form -->
+        <div id="librarySection" class="hidden">
+          <div class="flex items-center gap-2">
+            <input type="text" id="addImageUrlInput" placeholder="https://... (Cloudinary หรือ URL รูปภาพ)" class="flex-1 px-3 py-1.5 border border-[#d4d0cb] rounded-md text-sm font-mono" />
+            <button onclick="addImageUrl()" class="bg-sage text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-sage/90 transition-colors">
+              ➕ เพิ่ม URL
+            </button>
+          </div>
+          <div id="addUrlStatus" class="text-xs mt-1 hidden"></div>
+        </div>
+      </div>
+      
+      <!-- Image Grid -->
+      <div class="p-6">
+        <div id="imageLibraryContent" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 max-h-[50vh] overflow-y-auto">
+          <div class="col-span-full text-center py-12 text-brown/40">กำลังโหลด...</div>
+        </div>
+        
+        <!-- Selected Image -->
+        <div id="selectedImageSection" class="mt-4 pt-4 border-t border-[#d4d0cb] hidden">
+          <div class="flex items-center gap-4">
+            <img id="selectedPreview" src="" class="w-16 h-16 object-cover rounded border border-[#d4d0cb]" />
+            <div class="flex-1">
+              <p class="text-sm font-medium text-brown">URL:</p>
+              <input type="text" id="selectedImageUrl" readonly class="w-full px-3 py-2 border border-[#d4d0cb] rounded-md font-mono text-xs bg-[#f5f3f0]" />
+            </div>
+            <button id="useImageBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
+              ใช้รูปนี้
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    console.log('[AdminLayout] Script loaded');
+    
+    let currentFolder = '';
+    let selectedCallback = null;
+    let currentTab = 'local';
+    
+    function openImageLibrary(callback) {
+      console.log('[ImageLibrary] openImageLibrary called, callback:', typeof callback);
+      selectedCallback = callback;
+      currentFolder = '';
+      currentTab = 'local';
+      var modal = document.getElementById('imageLibraryModal');
+      if (!modal) {
+        console.error('[ImageLibrary] Modal not found!');
+        return;
+      }
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.getElementById('folderPathDisplay').textContent = '';
+      var selectedSection = document.getElementById('selectedImageSection');
+      if (selectedSection) selectedSection.classList.add('hidden');
+      switchTab('local');
+      console.log('[ImageLibrary] Modal opened');
+    }
+    
+    function switchTab(tab) {
+      currentTab = tab;
+      var tabLocal = document.getElementById('tabLocal');
+      var tabLibrary = document.getElementById('tabLibrary');
+      var localSection = document.getElementById('localSection');
+      var librarySection = document.getElementById('librarySection');
+      
+      if (tab === 'local') {
+        tabLocal.className = 'px-4 py-1.5 rounded-md text-sm font-medium bg-white border border-[#d4d0cb] text-brown';
+        tabLibrary.className = 'px-4 py-1.5 rounded-md text-sm font-medium bg-[#f5f3f0] border border-[#d4d0cb] text-brown/60';
+        localSection.classList.remove('hidden');
+        librarySection.classList.add('hidden');
+        loadImages(currentFolder);
+      } else {
+        tabLocal.className = 'px-4 py-1.5 rounded-md text-sm font-medium bg-[#f5f3f0] border border-[#d4d0cb] text-brown/60';
+        tabLibrary.className = 'px-4 py-1.5 rounded-md text-sm font-medium bg-white border border-[#d4d0cb] text-brown';
+        localSection.classList.add('hidden');
+        librarySection.classList.remove('hidden');
+        if (typeof loadLibraryImages === 'function') {
+          loadLibraryImages();
+        } else {
+          loadImages('');
+        }
+      }
+    }
+    
+    function loadLibraryImages() {
+      var content = document.getElementById('imageLibraryContent');
+      if (!content) return;
+      content.innerHTML = '<div class="col-span-full text-center py-12 text-brown/40">กำลังโหลด...</div>';
+      
+      fetch('/api/admin/images?tab=library', { credentials: 'include' })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (!data.images || data.images.length === 0) {
+            content.innerHTML = '<div class="col-span-full text-center py-12 text-brown/40">ยังไม่มีรูปในคลัง<br><span class="text-sm">เพิ่ม URL จาก Cloudinary หรือแหล่งอื่นได้เลย</span></div>';
+            return;
+          }
+          var html = '';
+          for (var i = 0; i < data.images.length; i++) {
+            var item = data.images[i];
+            var imgSrc = item.url;
+            var altText = item.name;
+            var deleteBtn = '<button onclick="event.stopPropagation(); deleteLibraryImage(\'' + imgSrc.replace(/'/g, "\\'") + '\')" class="absolute top-1 left-1 bg-red-500 text-white text-xs px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">✕</button>';
+            html += '<div onclick="selectImage(\'' + imgSrc.replace(/'/g, "\\'") + '\')" class="relative cursor-pointer aspect-square flex items-center justify-center bg-[#f5f3f0] rounded border border-[#d4d0cb] hover:border-sage hover:ring-2 hover:ring-sage/30 transition-all overflow-hidden p-1 group">' +
+              deleteBtn +
+              '<img src="' + imgSrc + '" alt="' + altText + '" class="w-full h-full object-cover rounded" loading="lazy" />' +
+            '</div>';
+          }
+          content.innerHTML = html;
+        })
+        .catch(function(err) {
+          console.error('[ImageLibrary] Error:', err);
+          content.innerHTML = '<div class="col-span-full text-center py-12 text-red-400">เกิดข้อผิดพลาด</div>';
+        });
+    }
+    
+    function closeImageLibrary() {
+      console.log('[ImageLibrary] closeImageLibrary called');
+      var modal = document.getElementById('imageLibraryModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      selectedCallback = null;
+      console.log('[ImageLibrary] Modal closed');
+    }
+    
+    var closeBtn = document.getElementById('closeImageLibrary');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeImageLibrary);
+      console.log('[ImageLibrary] Close button listener attached');
+    }
+    
+    var modalEl = document.getElementById('imageLibraryModal');
+    if (modalEl) {
+      modalEl.addEventListener('click', function(e) {
+        console.log('[ImageLibrary] Modal click target:', e.target.id);
+        if (e.target.id === 'imageLibraryModal') closeImageLibrary();
+      });
+    }
+    
+    async function loadImages(folder) {
+      console.log('[ImageLibrary] loadImages called with folder:', folder, 'tab:', currentTab);
+      currentFolder = folder;
+      var content = document.getElementById('imageLibraryContent');
+      if (!content) {
+        console.error('[ImageLibrary] content element not found');
+        return;
+      }
+      content.innerHTML = '<div class="col-span-full text-center py-12 text-brown/40">กำลังโหลด...</div>';
+      
+      var pathDisplay = document.getElementById('folderPathDisplay');
+      if (pathDisplay) pathDisplay.textContent = folder ? '/' + folder : '';
+      
+      try {
+        // Build API URL with tab and folder params
+        var apiUrl = '/api/admin/images?tab=' + currentTab;
+        if (currentTab === 'local' && folder) {
+          apiUrl += '&folder=' + encodeURIComponent(folder);
+        }
+        console.log('[ImageLibrary] Fetching', apiUrl);
+        console.log('[ImageLibrary] Fetching', apiUrl);
+        var res = await fetch(apiUrl, { credentials: 'include' });
+        console.log('[ImageLibrary] Fetch response status:', res.status);
+        if (!res.ok) throw new Error('Failed to load: ' + res.status);
+        var data = await res.json();
+        console.log('[ImageLibrary] Received data:', data.images ? data.images.length + ' items' : 'no images');
+        
+        if (!data.images || data.images.length === 0) {
+          content.innerHTML = '<div class="col-span-full text-center py-12 text-brown/40">ไม่มีรูปภาพในโฟลเดอร์นี้</div>';
+          return;
+        }
+        
+        var html = '';
+        for (var i = 0; i < data.images.length; i++) {
+          var item = data.images[i];
+          if (item.isFolder) {
+            html += '<div onclick="loadImages(\'' + item.url.replace(/^\//, '') + '\')" class="cursor-pointer aspect-square flex flex-col items-center justify-center bg-[#f5f3f0] rounded border border-[#d4d0cb] hover:border-sage transition-colors p-2">' +
+              '<span class="text-3xl mb-1">📁</span>' +
+              '<span class="text-xs text-center text-brown/60 truncate w-full">' + item.name + '</span>' +
+            '</div>';
+          } else {
+            var imgSrc = item.url;
+            var altText = item.name;
+            var badge = item.isLibrary ? '<span class="absolute top-1 right-1 bg-sage text-white text-xs px-1 rounded">🔗</span>' : '';
+            var deleteBtn = item.isLibrary 
+              ? '<button onclick="event.stopPropagation(); deleteLibraryImage(\'' + imgSrc.replace(/'/g, "\\'") + '\')" class="absolute top-1 left-1 bg-red-500 text-white text-xs px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">✕</button>' 
+              : '';
+            html += '<div onclick="selectImage(\'' + imgSrc.replace(/'/g, "\\'") + '\')" class="relative cursor-pointer aspect-square flex items-center justify-center bg-[#f5f3f0] rounded border border-[#d4d0cb] hover:border-sage hover:ring-2 hover:ring-sage/30 transition-all overflow-hidden p-1 group">' +
+              badge + deleteBtn +
+              '<img src="' + imgSrc + '" alt="' + altText + '" class="w-full h-full object-cover rounded" loading="lazy" />' +
+            '</div>';
+          }
+        }
+        content.innerHTML = html;
+        console.log('[ImageLibrary] Rendered ' + data.images.length + ' items');
+        
+      } catch (err) {
+        console.error('[ImageLibrary] Error:', err);
+        content.innerHTML = '<div class="col-span-full text-center py-12 text-red-400">เกิดข้อผิดพลาดในการโหลด: ' + err.message + '</div>';
+      }
+    }
+    
+    function selectImage(url) {
+      console.log('[ImageLibrary] selectImage called with url:', url);
+      var preview = document.getElementById('selectedPreview');
+      var urlInput = document.getElementById('selectedImageUrl');
+      var selectedSection = document.getElementById('selectedImageSection');
+      
+      if (preview) preview.src = url;
+      if (urlInput) urlInput.value = url;
+      if (selectedSection) selectedSection.classList.remove('hidden');
+      
+      navigator.clipboard.writeText(url).then(function() {
+        console.log('[ImageLibrary] URL copied to clipboard');
+        var btn = document.getElementById('useImageBtn');
+        if (btn) {
+          var originalText = btn.textContent;
+          btn.textContent = '✅ Copy แล้ว!';
+          setTimeout(function() { btn.textContent = 'ใช้รูปนี้'; }, 1500);
+        }
+      }).catch(function(err) {
+        console.error('[ImageLibrary] Clipboard copy failed:', err);
+      });
+    }
+    
+    var useBtn = document.getElementById('useImageBtn');
+    if (useBtn) {
+      useBtn.addEventListener('click', function() {
+        console.log('[ImageLibrary] Use button clicked');
+        var url = document.getElementById('selectedImageUrl').value;
+        console.log('[ImageLibrary] Selected URL:', url);
+        if (selectedCallback) {
+          console.log('[ImageLibrary] Calling callback with URL:', url);
+          selectedCallback(url);
+        } else {
+          console.warn('[ImageLibrary] No callback set!');
+        }
+        closeImageLibrary();
+      });
+    }
+    
+    function navigateToFolder(folder) {
+      console.log('[ImageLibrary] navigateToFolder:', folder);
+      loadImages(folder);
+    }
+    
+    async function addImageUrl() {
+      var input = document.getElementById('addImageUrlInput');
+      var status = document.getElementById('addUrlStatus');
+      var url = input.value.trim();
+      
+      if (!url) {
+        status.textContent = '❌ กรุณาใส่ URL';
+        status.className = 'text-xs mt-1 text-red-500';
+        status.classList.remove('hidden');
+        return;
+      }
+      
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        status.textContent = '❌ URL ต้องขึ้นต้นด้วย http:// หรือ https://';
+        status.className = 'text-xs mt-1 text-red-500';
+        status.classList.remove('hidden');
+        return;
+      }
+      
+      status.textContent = '⏳ กำลังเพิ่ม...';
+      status.className = 'text-xs mt-1 text-brown/60';
+      status.classList.remove('hidden');
+      
+      try {
+        var res = await fetch('/api/admin/images', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ url: url })
+        });
+        
+        if (res.ok) {
+          status.textContent = '✅ เพิ่มสำเร็จ!';
+          status.className = 'text-xs mt-1 text-green-600';
+          input.value = '';
+          // Reload current view
+          loadImages(currentFolder);
+          setTimeout(function() { status.classList.add('hidden'); }, 2000);
+        } else {
+          var err = await res.json();
+          status.textContent = '❌ ' + (err.error || 'เกิดข้อผิดพลาด');
+          status.className = 'text-xs mt-1 text-red-500';
+        }
+      } catch (e) {
+        status.textContent = '❌ เกิดข้อผิดพลาด: ' + e.message;
+        status.className = 'text-xs mt-1 text-red-500';
+      }
+    }
+    
+    async function deleteLibraryImage(url) {
+      if (!confirm('ลบรูปนี้จากคลัง?')) return;
+      try {
+        var res = await fetch('/api/admin/images?url=' + encodeURIComponent(url), {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        if (res.ok) {
+          loadImages(currentFolder);
+        } else {
+          alert('เกิดข้อผิดพลาดในการลบ');
+        }
+      } catch (e) {
+        alert('เกิดข้อผิดพลาด: ' + e.message);
+      }
+    }
+    
+    console.log('[AdminLayout] All functions defined');
+  </script>
+</body>
+</html>

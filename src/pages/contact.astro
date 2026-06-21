@@ -5,11 +5,11 @@ import Footer from '../components/Footer.astro';
 
 const currentPage = '/contact';
 
-import { readJson } from '../lib/jsonDb';
+import { readPages } from '../lib/jsonDb';
 let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true, social: {} };
 
-const allData = readJson();
-const pageRecord = allData.pages?.find((p: any) => p.key === 'contact');
+const allPages = await readPages();
+const pageRecord = allPages.find((p: any) => p.key === 'contact');
 if (pageRecord) {
   pageData = pageRecord;
 }

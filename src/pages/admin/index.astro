@@ -1,6 +1,6 @@
 ---
 export const prerender = false;
-import Layout from '../../layouts/Layout.astro';
+import AdminLayout from '../../layouts/AdminLayout.astro';
 import { SESSION_COOKIE } from '../../middleware/auth';
 
 const session = Astro.cookies.get(SESSION_COOKIE);
@@ -9,178 +9,168 @@ if (!session || session.value !== 'authenticated') {
 }
 ---
 
-<Layout title="Admin | ไวยศิลา">
-  <div class="min-h-screen bg-[#e0dcd7]">
-    <!-- Header -->
-    <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <h1 class="text-xl font-serif">Admin Panel</h1>
-          <span class="text-brown/40">|</span>
-          <span class="text-sm text-brown/60">ไวยศิลา</span>
+<AdminLayout title="Admin | ไวยศิลา">
+  <!-- Header -->
+  <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="/admin" class="text-sm text-brown/60 hover:text-sage font-medium">📦 Admin</a>
+        <span class="text-brown/30">|</span>
+        <a href="/" class="text-sm text-brown/60 hover:text-sage">ดูเว็บไซต์</a>
+      </div>
+      <button id="logoutBtn" class="text-sm text-red-500 hover:text-red-600 transition-colors">
+        ออกจากระบบ
+      </button>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto px-6 py-8">
+    <!-- Tab Navigation -->
+    <div class="flex gap-2 mb-6">
+      <button data-main="products" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-terracotta text-cream">สินค้า</button>
+      <button data-main="portfolio" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">ผลงาน</button>
+      <a href="/admin/pages" class="px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb] hover:bg-[#f5f3f0] transition-colors">หน้าเพจ</a>
+    </div>
+
+    <!-- PRODUCTS SECTION -->
+    <div id="productsSection">
+      <!-- Stats -->
+      <div class="grid grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">หินอ่อน</p>
+          <p class="text-2xl font-serif" id="count-marble">-</p>
         </div>
-        <div class="flex items-center gap-4">
-          <a href="/" target="_blank" class="text-sm text-brown/60 hover:text-sage transition-colors">
-            ดูเว็บไซต์ →
-          </a>
-          <button id="logoutBtn" class="text-sm text-red-500 hover:text-red-600 transition-colors">
-            ออกจากระบบ
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">หินแกรนิต</p>
+          <p class="text-2xl font-serif" id="count-granite">-</p>
+        </div>
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">หินเทียม</p>
+          <p class="text-2xl font-serif" id="count-artificial">-</p>
+        </div>
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">หินควอทซ์</p>
+          <p class="text-2xl font-serif" id="count-quartz">-</p>
+        </div>
+      </div>
+
+      <!-- Product Tabs -->
+      <div class="bg-white rounded-md border border-[#d4d0cb]">
+        <div class="flex border-b border-[#d4d0cb]">
+          <button data-tab="marble" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน</button>
+          <button data-tab="granite" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินแกรนิต</button>
+          <button data-tab="artificial" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินเทียม</button>
+          <button data-tab="quartz" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินควอทซ์</button>
+        </div>
+
+        <!-- Actions -->
+        <div class="p-4 border-b border-[#d4d0cb] flex justify-between items-center">
+          <p class="text-sm text-brown/60"><span id="totalCount">-</span> รายการ</p>
+          <button id="addBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
+            + เพิ่มสินค้าใหม่
           </button>
         </div>
-      </div>
-    </header>
 
-    <div class="max-w-7xl mx-auto px-6 py-8">
-      <!-- Main Tab Navigation -->
-      <div class="flex gap-2 mb-6">
-        <button data-main="products" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-terracotta text-cream">สินค้า</button>
-        <button data-main="portfolio" class="main-tab px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb]">ผลงาน</button>
-        <a href="/admin/pages" class="px-6 py-3 rounded-md text-sm font-medium bg-white text-brown border border-[#d4d0cb] hover:bg-[#f5f3f0] transition-colors">หน้าเพจ</a>
-      </div>
-
-
-      <!-- PRODUCTS SECTION -->
-      <div id="productsSection">
-        <!-- Stats -->
-        <div class="grid grid-cols-4 gap-4 mb-8">
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">หินอ่อน</p>
-            <p class="text-2xl font-serif" id="count-marble">-</p>
-          </div>
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">หินแกรนิต</p>
-            <p class="text-2xl font-serif" id="count-granite">-</p>
-          </div>
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">หินเทียม</p>
-            <p class="text-2xl font-serif" id="count-artificial">-</p>
-          </div>
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">หินควอทซ์</p>
-            <p class="text-2xl font-serif" id="count-quartz">-</p>
-          </div>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-[#f5f3f0]">
+              <tr>
+                <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">ชื่อ</th>
+                <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">Slug</th>
+                <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">สถานะ</th>
+                <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="productTable" class="divide-y divide-[#d4d0cb]">
+              <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+    </div>
 
-        <!-- Product Tabs -->
-        <div class="bg-white rounded-md border border-[#d4d0cb]">
-          <div class="flex border-b border-[#d4d0cb]">
-            <button data-tab="marble" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน</button>
-            <button data-tab="granite" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินแกรนิต</button>
-            <button data-tab="artificial" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินเทียม</button>
-            <button data-tab="quartz" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">หินควอทซ์</button>
-          </div>
-
-          <!-- Actions -->
-          <div class="p-4 border-b border-[#d4d0cb] flex justify-between items-center">
-            <p class="text-sm text-brown/60"><span id="totalCount">-</span> รายการ</p>
-            <button id="addBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
-              + เพิ่มสินค้าใหม่
-            </button>
-          </div>
-
-          <!-- Table -->
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-[#f5f3f0]">
-                <tr>
-                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">ชื่อ</th>
-                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">Slug</th>
-                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">สถานะ</th>
-                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">จัดการ</th>
-                </tr>
-              </thead>
-              <tbody id="productTable" class="divide-y divide-[#d4d0cb]">
-                <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
-              </tbody>
-            </table>
-          </div>
+    <!-- PORTFOLIO SECTION (Hidden by default) -->
+    <div id="portfolioSection" class="hidden">
+      <!-- Stats -->
+      <div class="grid grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">หินอ่อน/แกรนิต</p>
+          <p class="text-2xl font-serif" id="pf-count-stone">-</p>
+        </div>
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">โรงงาน</p>
+          <p class="text-2xl font-serif" id="pf-count-factory">-</p>
+        </div>
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">อาคารสำนักงาน</p>
+          <p class="text-2xl font-serif" id="pf-count-office">-</p>
+        </div>
+        <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
+          <p class="text-xs text-brown/50 mb-1">บ้านเรือน</p>
+          <p class="text-2xl font-serif" id="pf-count-home">-</p>
         </div>
       </div>
 
-      <!-- PORTFOLIO SECTION (Hidden by default) -->
-      <div id="portfolioSection" class="hidden">
-        <!-- Stats -->
-        <div class="grid grid-cols-4 gap-4 mb-8">
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">หินอ่อน</p>
-            <p class="text-2xl font-serif" id="pf-count-stone">-</p>
-          </div>
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">โรงงาน</p>
-            <p class="text-2xl font-serif" id="pf-count-factory">-</p>
-          </div>
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">อาคาร</p>
-            <p class="text-2xl font-serif" id="pf-count-office">-</p>
-          </div>
-          <div class="bg-white rounded-md p-4 border border-[#d4d0cb]">
-            <p class="text-xs text-brown/50 mb-1">บ้าน</p>
-            <p class="text-2xl font-serif" id="pf-count-home">-</p>
-          </div>
+      <!-- Portfolio Tabs -->
+      <div class="bg-white rounded-md border border-[#d4d0cb]">
+        <div class="flex border-b border-[#d4d0cb]">
+          <button data-pf-tab="stone" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน/แกรนิต</button>
+          <button data-pf-tab="factory" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">โรงงาน</button>
+          <button data-pf-tab="office" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">อาคารสำนักงาน</button>
+          <button data-pf-tab="home" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">บ้านเรือน</button>
         </div>
 
-        <!-- Portfolio Tabs -->
-        <div class="bg-white rounded-md border border-[#d4d0cb]">
-          <div class="flex border-b border-[#d4d0cb]">
-            <button data-pf-tab="stone" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน/แกรนิต</button>
-            <button data-pf-tab="factory" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">โรงงาน</button>
-            <button data-pf-tab="office" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">อาคารสำนักงาน</button>
-            <button data-pf-tab="home" class="pf-tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-brown/60">บ้านเรือน</button>
-          </div>
+        <!-- Actions -->
+        <div class="p-4 border-b border-[#d4d0cb] flex justify-between items-center">
+          <p class="text-sm text-brown/60"><span id="pf-totalCount">-</span> รายการ</p>
+          <button id="addPfBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
+            + เพิ่มผลงานใหม่
+          </button>
+        </div>
 
-          <!-- Actions -->
-          <div class="p-4 border-b border-[#d4d0cb] flex justify-between items-center">
-            <p class="text-sm text-brown/60"><span id="pf-totalCount">-</span> รายการ</p>
-            <button id="addPfBtn" class="bg-terracotta text-cream px-4 py-2 rounded-md text-sm font-medium hover:bg-terracotta/90 transition-colors">
-              + เพิ่มผลงานใหม่
-            </button>
-          </div>
-
-          <!-- Table -->
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-[#f5f3f0]">
-                <tr>
-                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">ชื่อ</th>
-                  <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">Slug</th>
-                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">สถานะ</th>
-                  <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">จัดการ</th>
-                </tr>
-              </thead>
-              <tbody id="portfolioTable" class="divide-y divide-[#d4d0cb]">
-                <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
-              </tbody>
-            </table>
-          </div>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-[#f5f3f0]">
+              <tr>
+                <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">ชื่อ</th>
+                <th class="text-left px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">Slug</th>
+                <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">สถานะ</th>
+                <th class="text-center px-4 py-3 text-xs font-medium text-brown/60 uppercase tracking-wider">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="portfolioTable" class="divide-y divide-[#d4d0cb]">
+              <tr><td colspan="4" class="px-4 py-8 text-center text-brown/40">กำลังโหลด...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
+  </div>
 
+  <!-- PRODUCT MODAL -->
   <div id="modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
     <div class="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
       <div class="sticky top-0 bg-white border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between">
         <h2 id="modalTitle" class="text-lg font-serif">เพิ่มสินค้าใหม่</h2>
-        <button id="closeModal" class="text-brown/60 hover:text-brown">&times;</button>
+        <button id="closeModal" class="text-brown/60 hover:text-brown text-2xl leading-none">&times;</button>
       </div>
       <form id="productForm" class="p-6 space-y-4">
         <input type="hidden" name="id" id="productId" />
         
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-brown mb-2">ชื่อ (ไทย) *</label>
+            <label class="block text-sm font-medium text-brown mb-2">ชื่อ *</label>
             <input type="text" name="name" id="name" required class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-brown mb-2">ชื่อ (EN)</label>
-            <input type="text" name="en" id="en" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <label class="block text-sm font-medium text-brown mb-2">Slug</label>
+            <input type="text" name="slug" id="slug" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-brown mb-2">Slug</label>
-            <input type="text" name="slug" id="slug" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
-            <p class="text-xs text-brown/40 mt-1">ว่างไว้ = สร้างอัตโนมัติ</p>
-          </div>
           <div>
             <label class="block text-sm font-medium text-brown mb-2">หมวดหมู่ *</label>
             <select name="category" id="category" required class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50">
@@ -190,11 +180,18 @@ if (!session || session.value !== 'authenticated') {
               <option value="quartz">หินควอทซ์</option>
             </select>
           </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-2">English Name</label>
+            <input type="text" name="en" id="en" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-brown mb-2">รูปภาพ (path)</label>
-          <input type="text" name="image" id="image" placeholder="/assets/products/marble/example.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          <label class="block text-sm font-medium text-brown mb-2">รูปภาพ (URL)</label>
+          <div class="flex gap-2">
+            <input type="text" name="image" id="image" placeholder="/assets/products/marble/example.jpg" class="flex-1 px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <button type="button" onclick="openImageLibrary((url) => { document.getElementById('image').value = url; document.getElementById('imagePreview').classList.remove('hidden'); document.getElementById('previewImg').src = url; })" class="px-3 py-2 bg-sage/10 text-sage rounded-md hover:bg-sage/20 text-sm border border-sage/30">📁</button>
+          </div>
           <div id="imagePreview" class="mt-2 hidden">
             <img id="previewImg" src="" alt="Preview" class="w-32 h-32 object-cover rounded-md border border-[#d4d0cb]" />
           </div>
@@ -203,35 +200,32 @@ if (!session || session.value !== 'authenticated') {
         <div class="grid grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-brown mb-2">แหล่งที่มา</label>
-            <input type="text" name="origin" id="origin" placeholder="เช่น อิตาลี" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <input type="text" name="origin" id="origin" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-brown mb-2">ผิว</label>
-            <input type="text" name="finish" id="finish" placeholder="เช่น Polish" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <label class="block text-sm font-medium text-brown mb-2">งานสำเร็จ</label>
+            <input type="text" name="finish" id="finish" value="Polish" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
           </div>
           <div>
             <label class="block text-sm font-medium text-brown mb-2">การใช้งาน</label>
-            <input type="text" name="usage" id="usage" placeholder="เช่น พื้น, ผนัง" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <input type="text" name="usage" id="usage" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
           </div>
         </div>
 
         <div class="flex items-center gap-4 pt-4 border-t border-[#d4d0cb]">
-          <button type="submit" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
-            บันทึก
-          </button>
-          <button type="button" id="cancelBtn" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
-            ยกเลิก
-          </button>
+          <button type="submit" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">บันทึก</button>
+          <button type="button" id="cancelBtn" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">ยกเลิก</button>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- PORTFOLIO MODAL -->
   <div id="portfolioModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
     <div class="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
       <div class="sticky top-0 bg-white border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between">
         <h2 id="portfolioModalTitle" class="text-lg font-serif">เพิ่มผลงานใหม่</h2>
-        <button id="closePortfolioModal" class="text-brown/60 hover:text-brown">&times;</button>
+        <button id="closePortfolioModal" class="text-brown/60 hover:text-brown text-2xl leading-none">&times;</button>
       </div>
       <form id="portfolioForm" class="p-6 space-y-4">
         <input type="hidden" name="id" id="portfolioId" />
@@ -244,7 +238,6 @@ if (!session || session.value !== 'authenticated') {
           <div>
             <label class="block text-sm font-medium text-brown mb-2">Slug</label>
             <input type="text" name="slug" id="pfSlug" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
-            <p class="text-xs text-brown/40 mt-1">ว่างไว้ = สร้างอัตโนมัติ</p>
           </div>
         </div>
 
@@ -260,151 +253,94 @@ if (!session || session.value !== 'authenticated') {
           </div>
           <div>
             <label class="block text-sm font-medium text-brown mb-2">หมวดหมู่</label>
-            <input type="text" name="category" id="pfCategory" placeholder="เช่น หินอ่อน, หินแกรนิต" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <input type="text" name="category" id="pfCategory" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-brown mb-2">รูปภาพหลัก (path)</label>
-          <input type="text" name="image" id="pfImage" placeholder="/assets/portfolio/marble-01.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+          <label class="block text-sm font-medium text-brown mb-2">รูปภาพหลัก (URL)</label>
+          <div class="flex gap-2">
+            <input type="text" name="image" id="pfImage" class="flex-1 px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
+            <button type="button" onclick="openImageLibrary((url) => { document.getElementById('pfImage').value = url; document.getElementById('pfImagePreview').classList.remove('hidden'); document.getElementById('pfPreviewImg').src = url; })" class="px-3 py-2 bg-sage/10 text-sage rounded-md hover:bg-sage/20 text-sm border border-sage/30">📁</button>
+          </div>
           <div id="pfImagePreview" class="mt-2 hidden">
             <img id="pfPreviewImg" src="" alt="Preview" class="w-32 h-32 object-cover rounded-md border border-[#d4d0cb]" />
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-brown mb-2">รูปภาพเพิ่มเติม (หลายรูป)</label>
-          <textarea name="images" id="pfImages" rows="3" placeholder="วาง URL รูปภาพ แต่ละรูปขึ้นบรรทัดใหม่" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-xs"></textarea>
+          <label class="block text-sm font-medium text-brown mb-2">รูปภาพเพิ่มเติม (แต่ละบรรทัด = 1 URL)</label>
+          <textarea name="images" id="pfImages" rows="3" class="flex-1 px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-xs"></textarea>
+          <button type="button" onclick="openImageLibrary(addToPfImages)" class="px-3 py-2 bg-sage/10 text-sage rounded-md hover:bg-sage/20 text-sm border border-sage/30 self-start mt-1">📁</button>
           <div id="pfImagesPreview" class="mt-2 flex flex-wrap gap-2"></div>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-brown mb-2">รายละเอียด</label>
-          <textarea name="description" id="pfDescription" rows="3" placeholder="รายละเอียดผลงาน..." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
+          <textarea name="description" id="pfDescription" rows="3" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
         </div>
 
         <div class="flex items-center gap-4 pt-4 border-t border-[#d4d0cb]">
-          <button type="submit" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">
-            บันทึก
-          </button>
-          <button type="button" id="cancelPortfolioBtn" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
-            ยกเลิก
-          </button>
+          <button type="submit" class="bg-terracotta text-cream px-6 py-2 rounded-md font-medium hover:bg-terracotta/90 transition-colors">บันทึก</button>
+          <button type="button" id="cancelPortfolioBtn" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">ยกเลิก</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Delete Confirm Modal -->
+  <!-- DELETE MODAL -->
   <div id="deleteModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
     <div class="bg-white rounded-lg w-full max-w-md p-6 text-center">
       <h3 class="text-lg font-serif mb-4">ยืนยันการลบ?</h3>
-      <p class="text-brown/60 mb-6" id="deleteProductName"></p>
+      <p class="text-brown/60 mb-6" id="deleteName"></p>
       <div class="flex gap-4 justify-center">
-        <button id="confirmDelete" class="bg-red-500 text-white px-6 py-2 rounded-md font-medium hover:bg-red-600 transition-colors">
-          ลบ
-        </button>
-        <button id="cancelDelete" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
-          ยกเลิก
-        </button>
+        <button id="confirmDelete" class="bg-red-500 text-white px-6 py-2 rounded-md font-medium hover:bg-red-600 transition-colors">ลบ</button>
+        <button id="cancelDelete" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">ยกเลิก</button>
       </div>
     </div>
   </div>
 
-  <!-- Delete Portfolio Confirm Modal -->
+  <!-- PORTFOLIO DELETE MODAL -->
   <div id="deletePfModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
     <div class="bg-white rounded-lg w-full max-w-md p-6 text-center">
-      <h3 class="text-lg font-serif mb-4">ยืนยันการลบ?</h3>
+      <h3 class="text-lg font-serif mb-4">ยืนยันการลบผลงาน?</h3>
       <p class="text-brown/60 mb-6" id="deletePfName"></p>
       <div class="flex gap-4 justify-center">
-        <button id="confirmPfDelete" class="bg-red-500 text-white px-6 py-2 rounded-md font-medium hover:bg-red-600 transition-colors">
-          ลบ
-        </button>
-        <button id="cancelPfDelete" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">
-          ยกเลิก
-        </button>
+        <button id="confirmPfDelete" class="bg-red-500 text-white px-6 py-2 rounded-md font-medium hover:bg-red-600 transition-colors">ลบ</button>
+        <button id="cancelPfDelete" class="px-6 py-2 border border-[#d4d0cb] rounded-md font-medium hover:bg-brown/5 transition-colors">ยกเลิก</button>
       </div>
     </div>
   </div>
 
-  <!-- Upload Modal -->
-  <div id="uploadModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
-    <div class="bg-white rounded-lg w-full max-w-lg">
-      <div class="border-b border-[#d4d0cb] px-6 py-4 flex items-center justify-between">
-        <h2 class="text-lg font-serif">อัพโหลดรูปภาพ</h2>
-        <button id="closeUploadModal" class="text-brown/60 hover:text-brown text-2xl">&times;</button>
-      </div>
-      <div class="p-6">
-        <!-- Upload Target Input -->
-        <input type="hidden" id="uploadTargetInput" value="" />
-        <input type="hidden" id="uploadTargetType" value="product" />
-
-        <!-- Method Tabs -->
-        <div class="flex border-b border-[#d4d0cb] mb-4">
-          <button id="tabLocal" class="px-4 py-2 text-sm font-medium border-b-2 border-sage text-sage">อัพโหลดไฟล์</button>
-          <button id="tabCloudinary" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-brown/60">Cloudinary</button>
-        </div>
-
-        <!-- Local Upload -->
-        <div id="localUploadPanel">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-brown mb-2">โฟลเดอร์</label>
-            <select id="uploadFolder" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50">
-              <option value="products/marble">products/marble</option>
-              <option value="products/granite">products/granite</option>
-              <option value="products/quartz">products/quartz</option>
-              <option value="products/artificial">products/artificial</option>
-              <option value="portfolio">portfolio</option>
-              <option value="images">images</option>
-            </select>
-          </div>
-          <div class="border-2 border-dashed border-[#d4d0cb] rounded-lg p-8 text-center hover:border-sage transition-colors cursor-pointer" id="dropZone">
-            <input type="file" id="fileInput" accept="image/*" class="hidden" />
-            <div id="dropZoneContent">
-              <svg class="w-12 h-12 mx-auto text-brown/30 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <p class="text-brown/60 mb-1">คลิกเลือกไฟล์ หรือ ลากไฟล์มาวาง</p>
-              <p class="text-xs text-brown/40">รองรับ JPG, PNG, WebP, GIF (max 5MB)</p>
-            </div>
-            <div id="filePreview" class="hidden">
-              <img id="previewBeforeUpload" src="" class="max-h-40 mx-auto rounded-lg mb-2" />
-              <p id="fileName" class="text-sm text-brown/60"></p>
-            </div>
-          </div>
-          <button id="uploadLocalBtn" class="mt-4 w-full bg-terracotta text-cream px-6 py-3 rounded-md font-medium hover:bg-terracotta/90 transition-colors disabled:bg-brown/30" disabled>
-            อัพโหลดไฟล์
-          </button>
-        </div>
-
-        <!-- Cloudinary Upload -->
-        <div id="cloudinaryUploadPanel" class="hidden">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-brown mb-2">Cloudinary URL</label>
-            <input type="text" id="cloudinaryUrl" placeholder="https://res.cloudinary.com/.../image.jpg" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" />
-            <p class="text-xs text-brown/40 mt-1">วาง URL รูปภาพจาก Cloudinary</p>
-          </div>
-          <div class="bg-sage/10 rounded-lg p-4 mb-4">
-            <p class="text-sm text-sage font-medium mb-2">📋 วิธีใช้ Cloudinary</p>
-            <ol class="text-xs text-brown/70 space-y-1">
-              <li>1. สมัคร account ที่ <a href="https://cloudinary.com" target="_blank" class="text-sage hover:underline">cloudinary.com</a> (ฟรี)</li>
-              <li>2. อัพโหลดรูปใน Dashboard</li>
-              <li>3. คลิกรูป → Copy URL</li>
-              <li>4. วาง URL ด้านบน</li>
-            </ol>
-          </div>
-          <button id="useCloudinaryBtn" class="w-full bg-sage text-cream px-6 py-3 rounded-md font-medium hover:bg-sage/90 transition-colors">
-            ใช้ URL นี้
-          </button>
-        </div>
-
-        <!-- Upload Status -->
-        <div id="uploadStatus" class="mt-4 text-center text-sm hidden"></div>
-      </div>
-    </div>
+  <!-- DEBUG CONSOLE -->
+  <div id="debugConsole" style="position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;background:#1a1a1a;color:#0f0;padding:12px;font-family:monospace;font-size:12px;z-index:9999;display:none;">
+    <div style="margin-bottom:4px;font-weight:bold;color:#ff0;">DEBUG LOG:</div>
+    <div id="debugLog"></div>
   </div>
+  <button onclick="toggleDebug()" style="position:fixed;bottom:10px;right:10px;background:#333;color:#0f0;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;z-index:9998;font-size:11px;">🐛 Debug</button>
 
   <script is:inline>
+    // ============== DEBUG SYSTEM ==============
+    let debugVisible = false;
+    const logs = [];
+    function toggleDebug() {
+      debugVisible = !debugVisible;
+      document.getElementById('debugConsole').style.display = debugVisible ? 'block' : 'none';
+    }
+    function debug(msg, data) {
+      const time = new Date().toLocaleTimeString();
+      const logLine = '[' + time + '] ' + msg + (data !== undefined ? ' ' + JSON.stringify(data) : '');
+      logs.push(logLine);
+      if (logs.length > 100) logs.shift();
+      const el = document.getElementById('debugLog');
+      el.innerHTML = logs.map(l => '<div style="margin-bottom:2px;">' + l.replace(/</g, '&lt;') + '</div>').join('');
+      el.scrollTop = el.scrollHeight;
+      console.log('[DEBUG]', msg, data);
+    }
+    
+    debug('=== ADMIN PAGE LOADING ===');
+
+    // ============== STATE ==============
     let products = [];
     let portfolio = [];
     let currentCategory = 'marble';
@@ -412,6 +348,7 @@ if (!session || session.value !== 'authenticated') {
     let deleteTargetId = null;
     let deletePfTargetId = null;
 
+    // ============== DOM ELEMENTS ==============
     const modal = document.getElementById('modal');
     const portfolioModal = document.getElementById('portfolioModal');
     const deleteModal = document.getElementById('deleteModal');
@@ -421,9 +358,16 @@ if (!session || session.value !== 'authenticated') {
     const productTable = document.getElementById('productTable');
     const portfolioTable = document.getElementById('portfolioTable');
 
-    // Main tab switching
+    debug('DOM elements loaded', {
+      modal: !!modal,
+      productTable: !!productTable,
+      portfolioTable: !!portfolioTable
+    });
+
+    // ============== MAIN TAB SWITCHING ==============
     document.querySelectorAll('.main-tab').forEach(btn => {
       btn.addEventListener('click', () => {
+        debug('Main tab clicked: ' + btn.dataset.main);
         document.querySelectorAll('.main-tab').forEach(b => {
           b.classList.remove('bg-terracotta', 'text-cream');
           b.classList.add('bg-white', 'text-brown', 'border', 'border-[#d4d0cb]');
@@ -435,33 +379,58 @@ if (!session || session.value !== 'authenticated') {
         if (main === 'products') {
           document.getElementById('productsSection').classList.remove('hidden');
           document.getElementById('portfolioSection').classList.add('hidden');
+          debug('Switched to PRODUCTS');
         } else if (main === 'portfolio') {
           document.getElementById('productsSection').classList.add('hidden');
           document.getElementById('portfolioSection').classList.remove('hidden');
+          debug('Switching to PORTFOLIO, calling loadPortfolio...');
           loadPortfolio();
         }
       });
     });
 
-    // Load products
+    // ============== LOAD PRODUCTS ==============
     async function loadProducts() {
+      debug('>>> loadProducts() CALLED');
       try {
         const res = await fetch('/api/admin/products', { credentials: 'include' });
-        if (res.status === 401) { window.location.href = '/admin/login'; return; }
-        products = await res.json();
+        debug('Response status: ' + res.status);
+        
+        if (res.status === 401) {
+          debug('UNAUTHORIZED - redirecting to login');
+          window.location.href = '/admin/login';
+          return;
+        }
+        
+        const data = await res.json();
+        debug('Products received: ' + data.length + ' items');
+        
+        products = data;
         updateStats();
         renderTable();
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        debug('ERROR in loadProducts: ' + err.message);
+      }
     }
 
+    // ============== UPDATE STATS ==============
     function updateStats() {
-      document.getElementById('count-marble').textContent = products.filter(p => p.category === 'marble').length;
-      document.getElementById('count-granite').textContent = products.filter(p => p.category === 'granite').length;
-      document.getElementById('count-artificial').textContent = products.filter(p => p.category === 'artificial').length;
-      document.getElementById('count-quartz').textContent = products.filter(p => p.category === 'quartz').length;
+      const marble = products.filter(p => p.category === 'marble').length;
+      const granite = products.filter(p => p.category === 'granite').length;
+      const artificial = products.filter(p => p.category === 'artificial').length;
+      const quartz = products.filter(p => p.category === 'quartz').length;
+      
+      document.getElementById('count-marble').textContent = marble;
+      document.getElementById('count-granite').textContent = granite;
+      document.getElementById('count-artificial').textContent = artificial;
+      document.getElementById('count-quartz').textContent = quartz;
+      
+      debug('Stats: marble=' + marble + ', granite=' + granite + ', artificial=' + artificial + ', quartz=' + quartz);
     }
 
+    // ============== RENDER TABLE ==============
     function renderTable() {
+      debug('>>> renderTable() CALLED, category=' + currentCategory);
       const filtered = products.filter(p => p.category === currentCategory);
       document.getElementById('totalCount').textContent = filtered.length;
       
@@ -470,30 +439,18 @@ if (!session || session.value !== 'authenticated') {
         return;
       }
 
-      productTable.innerHTML = filtered.map(p => `
-        <tr class="hover:bg-[#f5f3f0]/50">
-          <td class="px-4 py-3">
-            <div class="flex items-center gap-3">
-              ${p.image ? `<img src="${p.image}" class="w-10 h-10 object-cover rounded bg-[#d4d0cb]" />` : '<div class="w-10 h-10 rounded bg-[#d4d0cb]"></div>'}
-              <div>
-                <p class="font-medium">${p.name}</p>
-                <p class="text-xs text-brown/50">${p.en || '-'}</p>
-              </div>
-            </div>
-          </td>
-          <td class="px-4 py-3 text-sm text-brown/60 font-mono">${p.slug}</td>
-          <td class="px-4 py-3 text-center">
-            <button data-id="${p.id}" data-active="${p.active}" class="toggle-btn px-3 py-1 rounded-full text-xs font-medium ${p.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-              ${p.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}
-            </button>
-          </td>
-          <td class="px-4 py-3 text-center">
-            <button data-id="${p.id}" class="clone-btn text-sm text-blue-500 hover:underline mr-3">คัดลอก</button>
-            <button data-id="${p.id}" class="edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button>
-            <button data-id="${p.id}" data-name="${p.name}" class="delete-btn text-sm text-red-500 hover:underline">ลบ</button>
-          </td>
-        </tr>
-      `).join('');
+      productTable.innerHTML = filtered.map(p => {
+        const img = p.image || '';
+        const imgHtml = img 
+          ? '<img src="' + img + '" class="w-10 h-10 object-cover rounded bg-[#d4d0cb]" onerror="this.style.display=\'none\'" />' 
+          : '<div class="w-10 h-10 rounded bg-[#d4d0cb]"></div>';
+        return '<tr class="hover:bg-[#f5f3f0]/50">' +
+          '<td class="px-4 py-3"><div class="flex items-center gap-3">' + imgHtml + '<div><p class="font-medium">' + (p.name || '') + '</p><p class="text-xs text-brown/50">' + (p.en || '-') + '</p></div></div></td>' +
+          '<td class="px-4 py-3 text-sm text-brown/60 font-mono">' + (p.slug || '') + '</td>' +
+          '<td class="px-4 py-3 text-center"><button data-id="' + p.id + '" data-active="' + p.active + '" class="toggle-btn px-3 py-1 rounded-full text-xs font-medium ' + (p.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700') + '">' + (p.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน') + '</button></td>' +
+          '<td class="px-4 py-3 text-center"><button data-id="' + p.id + '" class="clone-btn text-sm text-blue-500 hover:underline mr-3">คัดลอก</button><button data-id="' + p.id + '" class="edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button><button data-id="' + p.id + '" data-name="' + (p.name || '') + '" class="delete-btn text-sm text-red-500 hover:underline">ลบ</button></td>' +
+        '</tr>';
+      }).join('');
 
       document.querySelectorAll('.toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => toggleActive(btn.dataset.id, btn.dataset.active === 'true'));
@@ -507,9 +464,10 @@ if (!session || session.value !== 'authenticated') {
       document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', () => showDeleteConfirm(btn.dataset.id, btn.dataset.name));
       });
+      debug('Table rendered: ' + filtered.length + ' rows');
     }
 
-    // Product tab switching
+    // ============== PRODUCT TAB SWITCHING ==============
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -524,7 +482,7 @@ if (!session || session.value !== 'authenticated') {
       });
     });
 
-    // Add product button
+    // ============== ADD PRODUCT ==============
     document.getElementById('addBtn').addEventListener('click', () => {
       document.getElementById('modalTitle').textContent = 'เพิ่มสินค้าใหม่';
       document.getElementById('productId').value = '';
@@ -534,24 +492,25 @@ if (!session || session.value !== 'authenticated') {
       modal.classList.add('flex');
     });
 
-    // Clone product
+    // ============== CLONE, EDIT, TOGGLE, DELETE ==============
     function cloneProduct(id) {
       const p = products.find(pr => pr.id === id);
       if (!p) return;
       const newSlug = p.slug + '-copy-' + Date.now().toString(36);
       const clonedData = { ...p, id: undefined, slug: newSlug, name: p.name + ' (คัดลอก)', en: p.en ? p.en + ' (copy)' : '', active: false, sort: p.sort + 1 };
-      fetch('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(clonedData), credentials: 'include' }).then(res => { if (res.ok) loadProducts(); });
+      fetch('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(clonedData), credentials: 'include' })
+        .then(res => { if (res.ok) loadProducts(); });
     }
 
-    // Edit product
     function editProduct(id) {
       const p = products.find(pr => pr.id === id);
       if (!p) return;
       document.getElementById('modalTitle').textContent = 'แก้ไขสินค้า';
-      document.getElementById('productId').value = p.id;
+      document.getElementById('productId').value = p.id || '';
       document.getElementById('name').value = p.name || '';
       document.getElementById('slug').value = p.slug || '';
       document.getElementById('category').value = p.category || currentCategory;
+      document.getElementById('en').value = p.en || '';
       document.getElementById('image').value = p.image || '';
       document.getElementById('origin').value = p.origin || '';
       document.getElementById('finish').value = p.finish || 'Polish';
@@ -560,18 +519,16 @@ if (!session || session.value !== 'authenticated') {
       modal.classList.add('flex');
     }
 
-    // Toggle product active
     async function toggleActive(id, currentActive) {
       try {
         const res = await fetch('/api/admin/products', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, active: !currentActive }), credentials: 'include' });
         if (res.ok) loadProducts();
-      } catch (err) { console.error(err); }
+      } catch (err) { debug('ERROR toggleActive: ' + err.message); }
     }
 
-    // Delete product confirm
     function showDeleteConfirm(id, name) {
       deleteTargetId = id;
-      document.getElementById('deleteName').textContent = `ลบ "${name}" ?`;
+      document.getElementById('deleteName').textContent = 'ลบ "' + name + '" ?';
       deleteModal.classList.remove('hidden');
       deleteModal.classList.add('flex');
     }
@@ -579,13 +536,17 @@ if (!session || session.value !== 'authenticated') {
     document.getElementById('confirmDelete').addEventListener('click', async () => {
       if (!deleteTargetId) return;
       try {
-        const res = await fetch(`/api/admin/products?id=${deleteTargetId}`, { method: 'DELETE', credentials: 'include' });
+        const res = await fetch('/api/admin/products?id=' + deleteTargetId, { method: 'DELETE', credentials: 'include' });
         if (res.ok) { deleteModal.classList.add('hidden'); deleteModal.classList.remove('flex'); loadProducts(); }
-      } catch (err) { console.error(err); }
+      } catch (err) { debug('ERROR delete: ' + err.message); }
     });
-    document.getElementById('cancelDelete').addEventListener('click', () => { deleteModal.classList.add('hidden'); deleteModal.classList.remove('flex'); });
 
-    // Product form submit
+    document.getElementById('cancelDelete').addEventListener('click', () => {
+      deleteModal.classList.add('hidden');
+      deleteModal.classList.remove('flex');
+    });
+
+    // ============== PRODUCT FORM SUBMIT ==============
     productForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
@@ -595,42 +556,61 @@ if (!session || session.value !== 'authenticated') {
       try {
         const res = await fetch('/api/admin/products', { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'include' });
         if (res.ok) { modal.classList.add('hidden'); modal.classList.remove('flex'); loadProducts(); }
-      } catch (err) { console.error(err); }
+      } catch (err) { debug('ERROR form submit: ' + err.message); }
     });
 
-    // Close product modal
+    // ============== IMAGE PREVIEW ==============
+    document.getElementById('image').addEventListener('input', (e) => {
+      const src = e.target.value.trim();
+      const preview = document.getElementById('imagePreview');
+      const img = document.getElementById('previewImg');
+      if (src) { img.src = src; preview.classList.remove('hidden'); img.onerror = () => { img.src = '/assets/placeholder.jpg'; }; }
+      else { preview.classList.add('hidden'); }
+    });
+
+    // ============== CLOSE MODAL ==============
     document.getElementById('closeModal').addEventListener('click', () => { modal.classList.add('hidden'); modal.classList.remove('flex'); });
     document.getElementById('cancelBtn').addEventListener('click', () => { modal.classList.add('hidden'); modal.classList.remove('flex'); });
 
-    // Product image preview
-    const imageInput = document.getElementById('image');
-    const imagePreview = document.getElementById('imagePreview');
-    const previewImg = document.getElementById('previewImg');
-    imageInput.addEventListener('input', () => {
-      const src = imageInput.value.trim();
-      if (src) { previewImg.src = src; imagePreview.classList.remove('hidden'); previewImg.onerror = () => { previewImg.src = '/assets/placeholder.jpg'; }; }
-      else { imagePreview.classList.add('hidden'); }
-    });
-
-    // Load portfolio
+    // ============== LOAD PORTFOLIO ==============
     async function loadPortfolio() {
+      debug('>>> loadPortfolio() CALLED');
       try {
         const res = await fetch('/api/admin/portfolio', { credentials: 'include' });
-        if (res.status === 401) { window.location.href = '/admin/login'; return; }
-        portfolio = await res.json();
+        debug('Portfolio response: ' + res.status);
+        
+        if (res.status === 401) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        
+        const data = await res.json();
+        debug('Portfolio received: ' + data.length + ' items');
+        
+        portfolio = data;
         updatePfStats();
         renderPfTable();
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        debug('ERROR in loadPortfolio: ' + err.message);
+      }
     }
 
+    // ============== UPDATE PF STATS ==============
     function updatePfStats() {
-      document.getElementById('pf-count-stone').textContent = portfolio.filter(p => p.type === 'stone').length;
-      document.getElementById('pf-count-factory').textContent = portfolio.filter(p => p.type === 'factory').length;
-      document.getElementById('pf-count-office').textContent = portfolio.filter(p => p.type === 'office').length;
-      document.getElementById('pf-count-home').textContent = portfolio.filter(p => p.type === 'home').length;
+      const stone = portfolio.filter(p => p.type === 'stone').length;
+      const factory = portfolio.filter(p => p.type === 'factory').length;
+      const office = portfolio.filter(p => p.type === 'office').length;
+      const home = portfolio.filter(p => p.type === 'home').length;
+      
+      document.getElementById('pf-count-stone').textContent = stone;
+      document.getElementById('pf-count-factory').textContent = factory;
+      document.getElementById('pf-count-office').textContent = office;
+      document.getElementById('pf-count-home').textContent = home;
     }
 
+    // ============== RENDER PF TABLE ==============
     function renderPfTable() {
+      debug('>>> renderPfTable() CALLED, type=' + currentPfCategory);
       const filtered = portfolio.filter(p => p.type === currentPfCategory);
       document.getElementById('pf-totalCount').textContent = filtered.length;
       
@@ -639,30 +619,18 @@ if (!session || session.value !== 'authenticated') {
         return;
       }
 
-      portfolioTable.innerHTML = filtered.map(p => `
-        <tr class="hover:bg-[#f5f3f0]/50">
-          <td class="px-4 py-3">
-            <div class="flex items-center gap-3">
-              ${p.image ? `<img src="${p.image}" class="w-10 h-10 object-cover rounded bg-[#d4d0cb]" />` : '<div class="w-10 h-10 rounded bg-[#d4d0cb]"></div>'}
-              <div>
-                <p class="font-medium">${p.title}</p>
-                <p class="text-xs text-brown/50">${p.category || '-'}</p>
-              </div>
-            </div>
-          </td>
-          <td class="px-4 py-3 text-sm text-brown/60 font-mono">${p.slug}</td>
-          <td class="px-4 py-3 text-center">
-            <button data-id="${p.id}" data-active="${p.active}" class="pf-toggle-btn px-3 py-1 rounded-full text-xs font-medium ${p.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-              ${p.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}
-            </button>
-          </td>
-          <td class="px-4 py-3 text-center">
-            <button data-id="${p.id}" class="pf-clone-btn text-sm text-blue-500 hover:underline mr-3">คัดลอก</button>
-            <button data-id="${p.id}" class="pf-edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button>
-            <button data-id="${p.id}" data-title="${p.title}" class="pf-delete-btn text-sm text-red-500 hover:underline">ลบ</button>
-          </td>
-        </tr>
-      `).join('');
+      portfolioTable.innerHTML = filtered.map(p => {
+        const img = p.image || '';
+        const imgHtml = img 
+          ? '<img src="' + img + '" class="w-10 h-10 object-cover rounded bg-[#d4d0cb]" onerror="this.style.display=\'none\'" />' 
+          : '<div class="w-10 h-10 rounded bg-[#d4d0cb]"></div>';
+        return '<tr class="hover:bg-[#f5f3f0]/50">' +
+          '<td class="px-4 py-3"><div class="flex items-center gap-3">' + imgHtml + '<div><p class="font-medium">' + (p.title || '') + '</p><p class="text-xs text-brown/50">' + (p.category || '-') + '</p></div></div></td>' +
+          '<td class="px-4 py-3 text-sm text-brown/60 font-mono">' + (p.slug || '') + '</td>' +
+          '<td class="px-4 py-3 text-center"><button data-id="' + p.id + '" data-active="' + p.active + '" class="pf-toggle-btn px-3 py-1 rounded-full text-xs font-medium ' + (p.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700') + '">' + (p.active ? 'เปิดใช้งาน' : 'ปิดใช้งาน') + '</button></td>' +
+          '<td class="px-4 py-3 text-center"><button data-id="' + p.id + '" class="pf-clone-btn text-sm text-blue-500 hover:underline mr-3">คัดลอก</button><button data-id="' + p.id + '" class="pf-edit-btn text-sm text-sage hover:underline mr-3">แก้ไข</button><button data-id="' + p.id + '" data-title="' + (p.title || '') + '" class="pf-delete-btn text-sm text-red-500 hover:underline">ลบ</button></td>' +
+        '</tr>';
+      }).join('');
 
       document.querySelectorAll('.pf-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => togglePfActive(btn.dataset.id, btn.dataset.active === 'true'));
@@ -676,9 +644,10 @@ if (!session || session.value !== 'authenticated') {
       document.querySelectorAll('.pf-delete-btn').forEach(btn => {
         btn.addEventListener('click', () => showPfDeleteConfirm(btn.dataset.id, btn.dataset.title));
       });
+      debug('PF Table rendered: ' + filtered.length + ' rows');
     }
 
-    // Portfolio tab switching
+    // ============== PORTFOLIO TAB SWITCHING ==============
     document.querySelectorAll('.pf-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.pf-tab-btn').forEach(b => {
@@ -693,79 +662,51 @@ if (!session || session.value !== 'authenticated') {
       });
     });
 
-    // Add portfolio button
+    // ============== ADD PORTFOLIO ==============
     document.getElementById('addPfBtn').addEventListener('click', () => {
       document.getElementById('portfolioModalTitle').textContent = 'เพิ่มผลงานใหม่';
       document.getElementById('portfolioId').value = '';
       portfolioForm.reset();
       document.getElementById('pfType').value = currentPfCategory;
-      updatePfImagePreview('');
-      updatePfImagesPreview([]);
       portfolioModal.classList.remove('hidden');
       portfolioModal.classList.add('flex');
     });
 
-    // Clone portfolio
     function clonePortfolio(id) {
       const p = portfolio.find(pr => pr.id === id);
       if (!p) return;
       const newSlug = p.slug + '-copy-' + Date.now().toString(36);
-      const clonedData = {
-        ...p,
-        id: undefined,
-        slug: newSlug,
-        title: p.title + ' (คัดลอก)',
-        active: false,
-        sort: p.sort + 1
-      };
-      fetch('/api/admin/portfolio', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(clonedData),
-        credentials: 'include'
-      }).then(res => {
-        if (res.ok) {
-          loadPortfolio();
-        }
-      });
+      const clonedData = { ...p, id: undefined, slug: newSlug, title: p.title + ' (คัดลอก)', active: false, sort: p.sort + 1 };
+      fetch('/api/admin/portfolio', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(clonedData), credentials: 'include' })
+        .then(res => { if (res.ok) loadPortfolio(); });
     }
 
-    // Edit portfolio
     function editPortfolio(id) {
       const p = portfolio.find(pr => pr.id === id);
       if (!p) return;
       document.getElementById('portfolioModalTitle').textContent = 'แก้ไขผลงาน';
       document.getElementById('portfolioId').value = p.id;
-      document.getElementById('pfTitle').value = p.title;
+      document.getElementById('pfTitle').value = p.title || '';
       document.getElementById('pfSlug').value = p.slug || '';
       document.getElementById('pfType').value = p.type;
       document.getElementById('pfCategory').value = p.category || '';
       document.getElementById('pfImage').value = p.image || '';
       document.getElementById('pfImages').value = (p.images || []).join('\n');
-      updatePfImagePreview(p.image || '');
-      updatePfImagesPreview(p.images || []);
       document.getElementById('pfDescription').value = p.description || '';
       portfolioModal.classList.remove('hidden');
       portfolioModal.classList.add('flex');
     }
 
-    // Toggle portfolio active
     async function togglePfActive(id, currentActive) {
       try {
-        const res = await fetch('/api/admin/portfolio', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, active: !currentActive }),
-          credentials: 'include'
-        });
+        const res = await fetch('/api/admin/portfolio', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, active: !currentActive }), credentials: 'include' });
         if (res.ok) loadPortfolio();
-      } catch (err) { console.error(err); }
+      } catch (err) { debug('ERROR togglePfActive: ' + err.message); }
     }
 
-    // Portfolio delete confirm
     function showPfDeleteConfirm(id, title) {
       deletePfTargetId = id;
-      document.getElementById('deletePfName').textContent = `ลบ "${title}" ?`;
+      document.getElementById('deletePfName').textContent = 'ลบ "' + title + '" ?';
       deletePfModal.classList.remove('hidden');
       deletePfModal.classList.add('flex');
     }
@@ -773,16 +714,9 @@ if (!session || session.value !== 'authenticated') {
     document.getElementById('confirmPfDelete').addEventListener('click', async () => {
       if (!deletePfTargetId) return;
       try {
-        const res = await fetch(`/api/admin/portfolio?id=${deletePfTargetId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
-        if (res.ok) {
-          deletePfModal.classList.add('hidden');
-          deletePfModal.classList.remove('flex');
-          loadPortfolio();
-        }
-      } catch (err) { console.error(err); }
+        const res = await fetch('/api/admin/portfolio?id=' + deletePfTargetId, { method: 'DELETE', credentials: 'include' });
+        if (res.ok) { deletePfModal.classList.add('hidden'); deletePfModal.classList.remove('flex'); loadPortfolio(); }
+      } catch (err) { debug('ERROR PF delete: ' + err.message); }
     });
 
     document.getElementById('cancelPfDelete').addEventListener('click', () => {
@@ -790,98 +724,64 @@ if (!session || session.value !== 'authenticated') {
       deletePfModal.classList.remove('flex');
     });
 
-    // Portfolio form submit
+    // ============== PORTFOLIO FORM SUBMIT ==============
     portfolioForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      const data: any = Object.fromEntries(formData);
-      
-      // Convert pfImages newline-separated to array
+      const data = Object.fromEntries(formData);
       const pfImagesVal = document.getElementById('pfImages').value.trim();
-      data.images = pfImagesVal ? pfImagesVal.split('\n').map((s: string) => s.trim()).filter(Boolean) : [];
-      
+      data.images = pfImagesVal ? pfImagesVal.split('\n').map(s => s.trim()).filter(Boolean) : [];
       const isEdit = !!data.id;
       const method = isEdit ? 'PUT' : 'POST';
-      
       try {
-        const res = await fetch('/api/admin/portfolio', {
-          method,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-          credentials: 'include'
-        });
-        
-        if (res.ok) {
-          portfolioModal.classList.add('hidden');
-          portfolioModal.classList.remove('flex');
-          loadPortfolio();
-        }
-      } catch (err) { console.error(err); }
+        const res = await fetch('/api/admin/portfolio', { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'include' });
+        if (res.ok) { portfolioModal.classList.add('hidden'); portfolioModal.classList.remove('flex'); loadPortfolio(); }
+      } catch (err) { debug('ERROR PF submit: ' + err.message); }
     });
 
-    // Close portfolio modal
-    document.getElementById('closePortfolioModal').addEventListener('click', () => {
-      portfolioModal.classList.add('hidden');
-      portfolioModal.classList.remove('flex');
-    });
-    document.getElementById('cancelPortfolioBtn').addEventListener('click', () => {
-      portfolioModal.classList.add('hidden');
-      portfolioModal.classList.remove('flex');
-    });
-
-    // Portfolio image preview
-    const pfImageInput = document.getElementById('pfImage');
-    const pfImagePreview = document.getElementById('pfImagePreview');
-    const pfPreviewImg = document.getElementById('pfPreviewImg');
-    const pfImagesInput = document.getElementById('pfImages');
-    const pfImagesPreview = document.getElementById('pfImagesPreview');
-    
-    function updatePfImagePreview(src: string) {
-      if (src) {
-        pfPreviewImg.src = src;
-        pfImagePreview.classList.remove('hidden');
-        pfPreviewImg.onerror = () => { pfPreviewImg.src = '/assets/placeholder.jpg'; };
-      } else {
-        pfImagePreview.classList.add('hidden');
-      }
-    }
-    
-    function updatePfImagesPreview(urls: string[]) {
-      if (!urls || urls.length === 0) {
-        pfImagesPreview.innerHTML = '';
-        return;
-      }
-      pfImagesPreview.innerHTML = urls.map(url => `
-        <div class="relative group">
-          <img src="${url}" class="w-20 h-20 object-cover rounded border border-[#d4d0cb]" />
-          <button type="button" onclick="this.parentElement.remove(); updatePfImagesFromDom()" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs leading-none opacity-0 group-hover:opacity-100 transition-opacity">×</button>
-        </div>
-      `).join('');
-    }
-    
-    // Global function for remove buttons
-    (window as any).updatePfImagesFromDom = () => {
-      const imgs = pfImagesPreview.querySelectorAll('img');
-      pfImagesInput.value = Array.from(imgs).map((img: any) => img.src).join('\n');
-    };
-    
-    pfImageInput.addEventListener('input', () => {
-      updatePfImagePreview(pfImageInput.value.trim());
-    });
-    
-    pfImagesInput.addEventListener('input', () => {
-      const urls = pfImagesInput.value.split('\n').map((s: string) => s.trim()).filter(Boolean);
-      updatePfImagesPreview(urls);
+    // ============== PF IMAGE PREVIEW ==============
+    document.getElementById('pfImage').addEventListener('input', (e) => {
+      const src = e.target.value.trim();
+      const preview = document.getElementById('pfImagePreview');
+      const img = document.getElementById('pfPreviewImg');
+      if (src) { img.src = src; preview.classList.remove('hidden'); img.onerror = () => { img.src = '/assets/placeholder.jpg'; }; }
+      else { preview.classList.add('hidden'); }
     });
 
+    // ============== CLOSE PF MODAL ==============
+    document.getElementById('closePortfolioModal').addEventListener('click', () => { portfolioModal.classList.add('hidden'); portfolioModal.classList.remove('flex'); });
+    document.getElementById('cancelPortfolioBtn').addEventListener('click', () => { portfolioModal.classList.add('hidden'); portfolioModal.classList.remove('flex'); });
 
-    // Logout
+    // ============== LOGOUT ==============
     document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await fetch('/api/admin/logout', { credentials: 'include' });
-      window.location.href = '/admin/login';
+      debug('>>> LOGOUT CLICKED');
+      try {
+        const res = await fetch('/api/admin/logout', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Origin': window.location.origin }
+        });
+        debug('Logout response: ' + res.status);
+        window.location.href = '/admin/login';
+      } catch (err) {
+        debug('ERROR logout: ' + err.message);
+      }
     });
 
-    // Init
+    // ============== IMAGE LIBRARY HELPERS ==============
+    function addToPfImages(url) {
+      var ta = document.getElementById('pfImages');
+      if (ta.value) {
+        ta.value += '\n' + url;
+      } else {
+        ta.value = url;
+      }
+      console.log('[DEBUG] Added to pfImages:', url);
+    }
+
+    // ============== INIT ==============
+    debug('Calling loadProducts()...');
     loadProducts();
+    debug('=== PAGE LOAD COMPLETE ===');
   </script>
-</Layout>
+</AdminLayout>

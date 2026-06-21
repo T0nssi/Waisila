@@ -1,6 +1,6 @@
 ---
 export const prerender = false;
-import Layout from '../../../layouts/Layout.astro';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { SESSION_COOKIE } from '../../../middleware/auth';
 
 const session = Astro.cookies.get(SESSION_COOKIE);
@@ -9,7 +9,7 @@ if (!session || session.value !== 'authenticated') {
 }
 ---
 
-<Layout title="จัดการหน้าเพจ | ไวยศิลา">
+<AdminLayout title="จัดการหน้าเพจ | ไวยศิลา">
   <div class="min-h-screen bg-[#e0dcd7]">
     <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -53,7 +53,13 @@ if (!session || session.value !== 'authenticated') {
           <h2 class="text-lg font-serif text-brown group-hover:text-sage">ผลงาน</h2>
           <p class="text-sm text-brown/50 mt-1">รายการผลงาน</p>
         </a>
+
+        <a href="/admin/pages/settings" class="bg-white border border-[#d4d0cb] rounded-md p-6 hover:border-sage hover:shadow-md transition-all group">
+          <div class="text-3xl mb-3">⚙️</div>
+          <h2 class="text-lg font-serif text-brown group-hover:text-sage">ตั้งค่า</h2>
+          <p class="text-sm text-brown/50 mt-1">ข้อมูลติดต่อ, Trust Badges</p>
+        </a>
       </div>
     </div>
   </div>
-</Layout>
+</AdminLayout>

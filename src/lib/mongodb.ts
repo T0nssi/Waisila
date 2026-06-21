@@ -32,4 +32,6 @@ export const COLLECTIONS = {
   PORTFOLIO: 'portfolio',
   PAGES: 'pages',
   SETTINGS: 'settings',
+  TESTIMONIALS: 'testimonials',
+  IMAGES: 'images',
 } as const;

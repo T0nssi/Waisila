@@ -7,7 +7,11 @@
       "category": "หินอ่อน",
       "description": "ไดฟไแmkmkm",
       "image": "/assets/portfolio/marble-01.jpg",
-      "images": [],
+      "images": [
+        "/assets/granite-rojo-monarch.jpg",
+        "/assets/granite-military-olive.jpg",
+        "/assets/granite-giallo-fiorito.jpg"
+      ],
       "type": "stone",
       "active": true,
       "sort": 1
@@ -19,7 +23,12 @@
       "category": "หินอ่อน",
       "description": "vหอกหอำไฟไอฟ",
       "image": "/assets/portfolio/granite-01.jpg",
-      "images": [],
+      "images": [
+        "/assets/granite-nero-absolute.jpg",
+        "/assets/granite-rojo-monarch.jpg",
+        "/assets/granite-rose-taupe.jpg",
+        "/assets/granite-vizag-blue.jpg"
+      ],
       "type": "stone",
       "active": true,
       "sort": 2
@@ -33,7 +42,7 @@
       "image": "/assets/portfolio/marble-01.jpg",
       "images": [],
       "type": "stone",
-      "active": true,
+      "active": false,
       "sort": 3
     },
     {
@@ -45,7 +54,7 @@
       "image": "/assets/portfolio/marble-01.jpg",
       "images": [],
       "type": "stone",
-      "active": true,
+      "active": false,
       "sort": 4
     },
     {
@@ -57,7 +66,7 @@
       "image": "/assets/portfolio/marble-01.jpg",
       "images": [],
       "type": "stone",
-      "active": true,
+      "active": false,
       "sort": 5
     },
     {
@@ -69,7 +78,7 @@
       "image": "/assets/portfolio/marble-01.jpg",
       "images": [],
       "type": "stone",
-      "active": true,
+      "active": false,
       "sort": 6
     },
     {
@@ -81,7 +90,7 @@
       "image": "/assets/portfolio/marble-01.jpg",
       "images": [],
       "type": "stone",
-      "active": true,
+      "active": false,
       "sort": 7
     },
     {
@@ -93,8 +102,40 @@
       "image": "/assets/portfolio/marble-01.jpg",
       "images": [],
       "type": "stone",
-      "active": true,
+      "active": false,
       "sort": 8
+    },
+    {
+      "id": "pfmqn5ibftk4zd",
+      "slug": "test-copy-mqn5ibfm",
+      "title": "test (คัดลอก)",
+      "category": "หินอ่อน",
+      "description": "ไดฟไแmkmkm",
+      "image": "/assets/portfolio/marble-01.jpg",
+      "images": [
+        "/assets/portfolio/marble-01.jpg",
+        "/assets/portfolio/marble-01.jpg",
+        "/assets/portfolio/marble-01.jpg"
+      ],
+      "type": "stone",
+      "active": false,
+      "sort": 9
+    },
+    {
+      "id": "pfmqn5xb83uwi3",
+      "slug": "test-copy-mqn5xb7x",
+      "title": "test (คัดลอก)",
+      "category": "หินอ่อน",
+      "description": "ไดฟไแmkmkm",
+      "image": "/assets/portfolio/marble-01.jpg",
+      "images": [
+        "/assets/portfolio/marble-01.jpg",
+        "/assets/portfolio/marble-01.jpg",
+        "/assets/portfolio/marble-01.jpg"
+      ],
+      "type": "stone",
+      "active": false,
+      "sort": 10
     }
   ]
 }

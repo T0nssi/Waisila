@@ -1,6 +1,6 @@
 ---
 export const prerender = false;
-import Layout from '../../../layouts/Layout.astro';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { SESSION_COOKIE } from '../../../middleware/auth';
 
 const session = Astro.cookies.get(SESSION_COOKIE);
@@ -9,7 +9,7 @@ if (!session || session.value !== 'authenticated') {
 }
 ---
 
-<Layout title="ติดต่อ | Admin ไวยศิลา">
+<AdminLayout title="ติดต่อ | Admin ไวยศิลา">
   <div class="min-h-screen bg-[#e0dcd7]">
     <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -148,4 +148,4 @@ if (!session || session.value !== 'authenticated') {
 
     loadPage();
   </script>
-</Layout>
+</AdminLayout>

@@ -13,12 +13,12 @@ import heroHero from '../assets/hero.jpg';
 
 const currentPage = '/about';
 
-// Read page data from JSON
-const { readJson } = await import('../lib/jsonDb');
-const allData = readJson();
-const aboutData = allData.pages?.find((p: any) => p.key === 'about') || {};
-const serviceData = allData.pages?.find((p: any) => p.key === 'service') || {};
-const settings = allData.settings || {};
+// Read from MongoDB (with JSON fallback)
+const { readPages, readSettings } = await import('../lib/jsonDb');
+const allPages = await readPages();
+const aboutData = allPages.find((p: any) => p.key === 'about') || {};
+const serviceData = allPages.find((p: any) => p.key === 'service') || {};
+const settings = await readSettings() || {};
 
 // Hero
 const heroTagline = aboutData.heroTagline || 'เกี่ยองเรา';

@@ -1,4 +1,9 @@
 {
+  "imagesLibrary": [
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769327350/IMG_1106_kgp9ns.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769178106/Gemini_Generated_Image_1s6muk1s6muk1s6m_w7u9nl.png",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769178104/Gemini_Generated_Image_1veg7r1veg7r1veg_ccjvli.png"
+  ],
   "telegramBotToken": "",
   "telegramChatId": "",
   "social": {
@@ -14,27 +19,79 @@
     "address": "กรุงเทพมหานคร ประเทศไทย",
     "hours": "วันจันทร์ - วันเสาร์ 08:00 - 18:00 น.",
     "quickLinks": [
-      { "label": "หน้าแรก", "url": "/" },
-      { "label": "เกี่ยวกับเรา", "url": "/about" },
-      { "label": "บริการ", "url": "/services" },
-      { "label": "สินค้า", "url": "/products" },
-      { "label": "ผลงาน", "url": "/portfolio" },
-      { "label": "ติดต่อ", "url": "/contact" }
+      {
+        "label": "หน้าแรก",
+        "url": "/"
+      },
+      {
+        "label": "เกี่ยวกับเรา",
+        "url": "/about"
+      },
+      {
+        "label": "บริการ",
+        "url": "/services"
+      },
+      {
+        "label": "สินค้า",
+        "url": "/products"
+      },
+      {
+        "label": "ผลงาน",
+        "url": "/portfolio"
+      },
+      {
+        "label": "ติดต่อ",
+        "url": "/contact"
+      }
     ],
     "services": [
-      { "label": "ตัดหิน", "url": "/services" },
-      { "label": "เจาะหิน", "url": "/services" },
-      { "label": "เจียร์หิน", "url": "/services" },
-      { "label": "แกะสลัก", "url": "/services" },
-      { "label": "พ่นผิวหน้า", "url": "/services" },
-      { "label": "ทากันซึม", "url": "/services" }
+      {
+        "label": "ตัดหิน",
+        "url": "/services"
+      },
+      {
+        "label": "เจาะหิน",
+        "url": "/services"
+      },
+      {
+        "label": "เจียร์หิน",
+        "url": "/services"
+      },
+      {
+        "label": "แกะสลัก",
+        "url": "/services"
+      },
+      {
+        "label": "พ่นผิวหน้า",
+        "url": "/services"
+      },
+      {
+        "label": "ทากันซึม",
+        "url": "/services"
+      }
     ],
     "copyright": "© 2026 ไวยศิลา (WAISIRA) สงวนลิขสิทธิ์"
   },
   "trustBadges": [
-    { "text": "รับประกันงาน", "icon": "✅" },
-    { "text": "ส่งมอบตรงเวลา", "icon": "✅" },
-    { "text": "วัสดุเกรด A", "icon": "✅" },
-    { "text": "ลูกค้ากว่า 500+ ราย", "icon": "✅" }
+    {
+      "text": "รับประกันงาน",
+      "icon": "✅"
+    },
+    {
+      "text": "ส่งมอบตรงเวลา",
+      "icon": "✅"
+    },
+    {
+      "text": "วัสดุเกรด A",
+      "icon": "✅"
+    },
+    {
+      "text": "ลูกค้ากว่า 1000+ ราย",
+      "icon": "✅"
+    },
+    {
+      "text": "ลูกค้ากว่า 1000+ ราย",
+      "icon": "✅"
+    }
   ]
 }

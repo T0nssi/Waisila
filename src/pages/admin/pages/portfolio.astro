@@ -1,6 +1,6 @@
 ---
 export const prerender = false;
-import Layout from '../../../layouts/Layout.astro';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
 import { SESSION_COOKIE } from '../../../middleware/auth';
 
 const session = Astro.cookies.get(SESSION_COOKIE);
@@ -9,7 +9,7 @@ if (!session || session.value !== 'authenticated') {
 }
 ---
 
-<Layout title="ผลงาน | Admin ไวยศิลา">
+<AdminLayout title="ผลงาน | Admin ไวยศิลา">
   <div class="min-h-screen bg-[#e0dcd7]">
     <header class="bg-white border-b border-[#d4d0cb] sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -38,7 +38,10 @@ if (!session || session.value !== 'authenticated') {
         <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">🖼️ รูปภาพ</h3>
         <div class="mb-6">
           <label class="block text-sm font-medium text-brown mb-1">รูปภาพหน้าปก</label>
-          <input type="text" id="pageImages" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-sm" placeholder="/assets/portfolio/marble-01.jpg" />
+          <div class="flex gap-2">
+            <input type="text" id="pageImages" class="flex-1 px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-sm" placeholder="/assets/portfolio/marble-01.jpg" />
+            <button type="button" onclick="openImageLibrary((url) => { document.getElementById('pageImages').value = url; })" class="px-3 py-2 bg-sage/10 text-sage rounded-md hover:bg-sage/20 text-sm border border-sage/30">📁 เลือกรูป</button>
+          </div>
         </div>
 
         <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">📁 รายการผลงาน</h3>
@@ -138,4 +141,4 @@ if (!session || session.value !== 'authenticated') {
 
     loadPage();
   </script>
-</Layout>
+</AdminLayout>

@@ -203,9 +203,9 @@ const jsonLd = {
     
     // Check Tailwind classes for bg-[color]
     const classes = el.className || '';
-    const bgMatch = classes.match(/bg\[([^\]]+)\]/) || classes.match(/bg-([a-z]+)-(\d+)/);
-    if (bgMatch) {
-      const colorName = bgMatch[1] || bgMatch[0].replace('bg-', '').replace(/-\d+$/, '');
+    const bgClassMatch = classes.match(/bg\[([^\]]+)\]/) || classes.match(/bg-([a-z]+)-(\d+)/);
+    if (bgClassMatch) {
+      const colorName = bgClassMatch[1] || bgClassMatch[0].replace('bg-', '').replace(/-\d+$/, '');
       if (tailwindColors[colorName]) return tailwindColors[colorName];
     }
     
