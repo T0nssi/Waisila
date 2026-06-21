@@ -2,7 +2,18 @@
   "imagesLibrary": [
     "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769327350/IMG_1106_kgp9ns.jpg",
     "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769178106/Gemini_Generated_Image_1s6muk1s6muk1s6m_w7u9nl.png",
-    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769178104/Gemini_Generated_Image_1veg7r1veg7r1veg_ccjvli.png"
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1769178104/Gemini_Generated_Image_1veg7r1veg7r1veg_ccjvli.png",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047335/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_45_bvd3on.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047333/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_37_ua0btp.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047333/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_129_ebc7l5.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047333/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_98_fkdzkk.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047332/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_33_ytu946.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047332/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_3_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_241_yygpf8.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047332/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_3_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_242_dclfzu.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047332/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_27_stmuqp.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047331/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_93_wyxw1r.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047331/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_3_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_216_wt37yd.jpg",
+    "https://res.cloudinary.com/dtujtzdxk/image/upload/v1782047331/LINE_ALBUM_%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B_2_%E0%B9%92%E0%B9%92%E0%B9%90%E0%B9%94%E0%B9%90%E0%B9%98_267_cge3zi.jpg"
   ],
   "telegramBotToken": "",
   "telegramChatId": "",
@@ -10,13 +21,12 @@
     "phone": "098-519-2696",
     "line": "@waisira",
     "facebook": "https://www.facebook.com/waisira8",
-    "instagram": "https://www.instagram.com/waisira_/",
-    "lineQR": ""
+    "instagram": "https://www.instagram.com/waisira_/"
   },
   "footer": {
     "tagline": "ผู้เชี่ยวชาญด้านหินธรรมชาติคุณภาพพรีเมียม",
     "about": "ไวยศิลา นำเข้าและจำหน่ายหินอ่อน หินแกรนิต หินควอทซ์ และหินสังเคราะห์ จากทั่วโลก พร้อมบริการติดตั้งโดยทีมช่างมืออาชีพ",
-    "address": "กรุงเทพมหานคร ประเทศไทย",
+    "address": "ปทุมธานี ประเทศไทย",
     "hours": "วันจันทร์ - วันเสาร์ 08:00 - 18:00 น.",
     "quickLinks": [
       {
@@ -88,10 +98,7 @@
     {
       "text": "ลูกค้ากว่า 1000+ ราย",
       "icon": "✅"
-    },
-    {
-      "text": "ลูกค้ากว่า 1000+ ราย",
-      "icon": "✅"
     }
-  ]
+  ],
+  "navItems": []
 }

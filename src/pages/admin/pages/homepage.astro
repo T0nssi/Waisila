@@ -86,6 +86,145 @@ if (!session || session.value !== 'authenticated') {
           <p class="text-xs text-brown/40 mt-1">ใส่ JSON array ของข้อความ badge</p>
         </div>
 
+        <!-- About/Story Section -->
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">📖 เรื่องราว / About Section</h3>
+        <div class="space-y-4 mb-6">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Section Heading</label>
+            <input type="text" id="pageStoryHeading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ผู้เชี่ยวชาญด้านหินธรรมชาติ" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Section Subheading</label>
+            <input type="text" id="pageStorySubheading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="เรื่องราวของเรา" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">About Paragraph</label>
+            <textarea id="pageAboutText" rows="4" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="รายละเอียดเกี่ยวกับบริษัท..."></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Experience Badge Label</label>
+              <input type="text" id="pageExperienceLabel" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ปีแห่งประสบการณ์" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Factory Image URL</label>
+              <input type="text" id="pageFactoryImage" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-sm" placeholder="/assets/services/factory-interior.jpg" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Products / Category Labels Section -->
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">🧱 หมวดสินค้า (หน้าแรก)</h3>
+        <div class="space-y-4 mb-6">
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">หัวข้อ "หมวดสินค้า"</label>
+            <input type="text" id="pageProductsLabel" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="หมวดสินค้า" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">หัวข้อ "สินค้าของเรา"</label>
+            <input type="text" id="pageProductsHeading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="สินค้าของเรา" />
+          </div>
+          <!-- Category 1 -->
+          <div class="grid grid-cols-3 gap-4 p-4 bg-[#f5f3f0] rounded-md">
+            <div class="col-span-3 mb-2"><strong>หินอ่อน (Marble)</strong></div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ TH</label>
+              <input type="text" id="cat1Name" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="หินอ่อน" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ EN</label>
+              <input type="text" id="cat1En" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="Marble" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">รูป</label>
+              <input type="text" id="cat1Image" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm font-mono" placeholder="/assets/..." />
+            </div>
+          </div>
+          <!-- Category 2 -->
+          <div class="grid grid-cols-3 gap-4 p-4 bg-[#f5f3f0] rounded-md">
+            <div class="col-span-3 mb-2"><strong>หินแกรนิต (Granite)</strong></div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ TH</label>
+              <input type="text" id="cat2Name" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="หินแกรนิต" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ EN</label>
+              <input type="text" id="cat2En" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="Granite" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">รูป</label>
+              <input type="text" id="cat2Image" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm font-mono" placeholder="/assets/..." />
+            </div>
+          </div>
+          <!-- Category 3 -->
+          <div class="grid grid-cols-3 gap-4 p-4 bg-[#f5f3f0] rounded-md">
+            <div class="col-span-3 mb-2"><strong>หินสังเคราะห์ (Artificial)</strong></div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ TH</label>
+              <input type="text" id="cat3Name" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="หินสังเคราะห์" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ EN</label>
+              <input type="text" id="cat3En" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="Artificial" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">รูป</label>
+              <input type="text" id="cat3Image" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm font-mono" placeholder="/assets/..." />
+            </div>
+          </div>
+          <!-- Category 4 -->
+          <div class="grid grid-cols-3 gap-4 p-4 bg-[#f5f3f0] rounded-md">
+            <div class="col-span-3 mb-2"><strong>หินควอทซ์ (Quartz)</strong></div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ TH</label>
+              <input type="text" id="cat4Name" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="หินควอทซ์" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">ชื่อ EN</label>
+              <input type="text" id="cat4En" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm" placeholder="Quartz" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-brown mb-1">รูป</label>
+              <input type="text" id="cat4Image" class="w-full px-3 py-1 border border-[#d4d0cb] rounded-md text-sm font-mono" placeholder="/assets/..." />
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonials & CTA Section -->
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">⭐ Testimonials & CTA</h3>
+        <div class="space-y-4 mb-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Testimonial Section Label</label>
+              <input type="text" id="pageTestimonialLabel" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="รีวิวจากลูกค้า" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Testimonial Section Heading</label>
+              <input type="text" id="pageTestimonialHeading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ลูกค้าของเราพูดอย่างไร" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">CTA Heading</label>
+            <input type="text" id="pageCtaHeading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="สนใจสินค้าหรือบริการ?" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">CTA Subtext</label>
+            <input type="text" id="pageCtaSubtext" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ติดต่อเราได้ตลอดเวลา" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Services Fallback Text</label>
+            <textarea id="pageServicesText" rows="2" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="บริการตัด เจาะ เจียร์..."></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Portfolio Section Label</label>
+            <input type="text" id="pagePortfolioLabel" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ผลงาน" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">Portfolio Section Heading</label>
+            <input type="text" id="pagePortfolioHeading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ผลงานติดตั้ง" />
+          </div>
+        </div>
+
         <!-- General Info -->
         <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">📋 ข้อมูลทั่วไป</h3>
         <div class="space-y-4">
@@ -166,6 +305,39 @@ if (!session || session.value !== 'authenticated') {
       document.getElementById('pageSizeText').value = p.sizeText || '';
       document.getElementById('pageInformation').value = p.information || '';
       document.getElementById('pageContact').value = p.contact || '';
+      
+      // About/Story fields
+      document.getElementById('pageStoryHeading').value = p.storyHeading || '';
+      document.getElementById('pageStorySubheading').value = p.storySubheading || '';
+      document.getElementById('pageAboutText').value = p.aboutText || '';
+      document.getElementById('pageExperienceLabel').value = p.experienceLabel || '';
+      document.getElementById('pageFactoryImage').value = p.factoryImage || '';
+
+      // Products / Categories
+      document.getElementById('pageProductsLabel').value = p.productsLabel || 'หมวดสินค้า';
+      document.getElementById('pageProductsHeading').value = p.productsHeading || 'สินค้าของเรา';
+      const cats = p.categories || [];
+      document.getElementById('cat1Name').value = cats[0]?.name || 'หินอ่อน';
+      document.getElementById('cat1En').value = cats[0]?.en || 'Marble';
+      document.getElementById('cat1Image').value = cats[0]?.image || '';
+      document.getElementById('cat2Name').value = cats[1]?.name || 'หินแกรนิต';
+      document.getElementById('cat2En').value = cats[1]?.en || 'Granite';
+      document.getElementById('cat2Image').value = cats[1]?.image || '';
+      document.getElementById('cat3Name').value = cats[2]?.name || 'หินสังเคราะห์';
+      document.getElementById('cat3En').value = cats[2]?.en || 'Artificial';
+      document.getElementById('cat3Image').value = cats[2]?.image || '';
+      document.getElementById('cat4Name').value = cats[3]?.name || 'หินควอทซ์';
+      document.getElementById('cat4En').value = cats[3]?.en || 'Quartz';
+      document.getElementById('cat4Image').value = cats[3]?.image || '';
+
+      // Testimonials & CTA
+      document.getElementById('pageTestimonialLabel').value = p.testimonialLabel || 'รีวิวจากลูกค้า';
+      document.getElementById('pageTestimonialHeading').value = p.testimonialHeading || 'ลูกค้าของเราพูดอย่างไร';
+      document.getElementById('pageCtaHeading').value = p.ctaHeading || 'สนใจสินค้าหรือบริการ?';
+      document.getElementById('pageCtaSubtext').value = p.ctaSubtext || '';
+      document.getElementById('pageServicesText').value = p.servicesText || '';
+      document.getElementById('pagePortfolioLabel').value = p.portfolioLabel || 'ผลงาน';
+      document.getElementById('pagePortfolioHeading').value = p.portfolioHeading || 'ผลงานติดตั้ง';
     }
 
     document.getElementById('saveBtn').addEventListener('click', async () => {
@@ -190,6 +362,26 @@ if (!session || session.value !== 'authenticated') {
         sizeText: document.getElementById('pageSizeText').value,
         information: document.getElementById('pageInformation').value,
         contact: document.getElementById('pageContact').value,
+        storyHeading: document.getElementById('pageStoryHeading').value,
+        storySubheading: document.getElementById('pageStorySubheading').value,
+        aboutText: document.getElementById('pageAboutText').value,
+        experienceLabel: document.getElementById('pageExperienceLabel').value,
+        factoryImage: document.getElementById('pageFactoryImage').value,
+        productsLabel: document.getElementById('pageProductsLabel').value,
+        productsHeading: document.getElementById('pageProductsHeading').value,
+        categories: [
+          { name: document.getElementById('cat1Name').value, en: document.getElementById('cat1En').value, image: document.getElementById('cat1Image').value },
+          { name: document.getElementById('cat2Name').value, en: document.getElementById('cat2En').value, image: document.getElementById('cat2Image').value },
+          { name: document.getElementById('cat3Name').value, en: document.getElementById('cat3En').value, image: document.getElementById('cat3Image').value },
+          { name: document.getElementById('cat4Name').value, en: document.getElementById('cat4En').value, image: document.getElementById('cat4Image').value },
+        ],
+        testimonialLabel: document.getElementById('pageTestimonialLabel').value,
+        testimonialHeading: document.getElementById('pageTestimonialHeading').value,
+        ctaHeading: document.getElementById('pageCtaHeading').value,
+        ctaSubtext: document.getElementById('pageCtaSubtext').value,
+        servicesText: document.getElementById('pageServicesText').value,
+        portfolioLabel: document.getElementById('pagePortfolioLabel').value,
+        portfolioHeading: document.getElementById('pagePortfolioHeading').value,
       };
 
       // Parse trustBadges and save to settings.json

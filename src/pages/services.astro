@@ -15,6 +15,8 @@ if (pageRecord) {
 }
 
 const heroImages = pageData.images?.length > 0 ? pageData.images : ['/assets/services/workshop-hero.jpg'];
+const mainHeading = pageData.mainHeading || 'บริการของเรา';
+const defaultInfo = pageData.defaultInfo || 'ทางร้านมีบริการ ตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม และยังมีบริการวัดขนาดหน้างาน พร้อมจัดส่งสินค้า';
 const colorStyle = pageData.colorStyle || '';
 const sizeText = pageData.sizeText || '';
 const information = pageData.information || '';
@@ -34,9 +36,9 @@ const servicesJson = JSON.stringify(servicesList);
         <img src={heroImages[0]} alt="ไวยศิลา workshop" class="w-full h-full object-cover" id="heroImage" />
       </div>
       <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">บริการ</p>
-      <h1 class="text-5xl font-heading leading-[1.1] mb-6">บริการของเรา</h1>
+      <h1 class="text-5xl font-heading leading-[1.1] mb-6">{mainHeading}</h1>
       <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16" id="infoText">
-        {information || 'ทางร้านมีบริการ ตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม และยังมีบริการวัดขนาดหน้างาน พร้อมจัดส่งสินค้า'}
+        {information || defaultInfo}
       </p>
       <!--
       {colorStyle && (
@@ -63,7 +65,7 @@ const servicesJson = JSON.stringify(servicesList);
 
   <Footer />
 
-  <script is:inline define:vars={{ servicesJson, heroImages, colorStyle, sizeText, information, contact }}>
+  <script is:inline define:vars={{ servicesJson, heroImages, colorStyle, sizeText, information, contact, mainHeading, defaultInfo }}>
     const defaultServices = [
       { num: '01', title: 'ตัดหิน', desc: 'บริการตัดหินด้วยเครื่องจักรคุณภาพสูง ตัดได้ทุกขนาด ตามความต้องการของลูกค้า รองรับงานทั้งหินอ่อน หินแกรนิต และหินสังเคราะห์', image: '/assets/services/cut.jpg' },
       { num: '02', title: 'เจาะหิน', desc: 'เจาะรูและร่องลึกบนหิน สำหรับติดตั้งอุปกรณ์หรือตกแต่งตามแบบแปลน', image: '/assets/services/drill.jpg' },

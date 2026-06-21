@@ -44,6 +44,20 @@ if (!session || session.value !== 'authenticated') {
           </div>
         </div>
 
+        <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">📝 หัวข้อเพจ</h3>
+        <div class="space-y-4 mb-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Section Label</label>
+              <input type="text" id="pagePortfolioLabel" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ผลงาน" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-brown mb-1">Section Heading</label>
+              <input type="text" id="pagePortfolioHeading" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="ผลงานติดตั้ง" />
+            </div>
+          </div>
+        </div>
+
         <h3 class="text-sm font-medium text-brown mb-4 border-b border-[#d4d0cb] pb-2">📁 รายการผลงาน</h3>
         <div class="mb-6">
           <label class="block text-sm font-medium text-brown mb-1">รายการผลงาน (JSON array)</label>
@@ -96,6 +110,8 @@ if (!session || session.value !== 'authenticated') {
         document.getElementById('pageColorStyle').value = p.colorStyle || '';
         document.getElementById('pageSizeText').value = p.sizeText || '';
         document.getElementById('pageInformation').value = p.information || '';
+        document.getElementById('pagePortfolioLabel').value = p.portfolioLabel || '';
+        document.getElementById('pagePortfolioHeading').value = p.portfolioHeading || '';
         document.getElementById('pageContact').value = p.contact || '';
       } catch (err) { console.error(err); }
     }
@@ -114,6 +130,8 @@ if (!session || session.value !== 'authenticated') {
         colorStyle: document.getElementById('pageColorStyle').value,
         sizeText: document.getElementById('pageSizeText').value,
         information: document.getElementById('pageInformation').value,
+        portfolioLabel: document.getElementById('pagePortfolioLabel').value,
+        portfolioHeading: document.getElementById('pagePortfolioHeading').value,
         contact: document.getElementById('pageContact').value,
       };
 

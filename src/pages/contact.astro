@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 const currentPage = '/contact';
 
 import { readPages } from '../lib/jsonDb';
-let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', active: true, social: {} };
+let pageData = { images: [], colorStyle: '', sizeText: '', information: '', contact: '', address: '', active: true, social: {} };
 
 const allPages = await readPages();
 const pageRecord = allPages.find((p: any) => p.key === 'contact');
@@ -24,6 +24,8 @@ const line = social.line || '@waisira';
 const facebook = social.facebook || '';
 const instagram = social.instagram || '';
 const lineQR = social.lineQR || '';
+const address = pageData.address || '';
+const hours = pageData.hours || '';
 ---
 
 <Layout title="ติดต่อ">
@@ -97,12 +99,12 @@ const lineQR = social.lineQR || '';
             
             <div>
               <p class="text-sm text-brown/50 mb-1">ที่อยู่</p>
-              <p class="text-brown/70">66/8 หมู่ที่ 5 ตำบลบางเสาธง<br/>อำเภอบางเสาธง จังหวัดสมุทรสาคร 10550</p>
+              <p class="text-brown/70" id="contactAddress">{address || '66/8 หมู่ที่ 5 ตำบลบางเสาธง อำเภอบางเสาธง จังหวัดสมุทรสาคร 10550'}</p>
             </div>
 
             <div>
               <p class="text-sm text-brown/50 mb-1">เปิดให้บริการ</p>
-              <p class="text-brown/70">วันจันทร์ - วันเสาร์ เวลา 08:00 - 17:00 น.</p>
+              <p class="text-brown/70" id="contactHours">{hours || 'วันจันทร์ - วันเสาร์ เวลา 08:00 - 17:00 น.'}</p>
             </div>
           </div>
 

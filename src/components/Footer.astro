@@ -22,6 +22,8 @@ const serviceLinks = footer.services || [
   { label: 'ทากันซึม', url: '/services' },
 ];
 const copyright = footer.copyright || '© 2026 ไวยศิลา (WAISIRA) สงวนลิขสิทธิ์';
+const address = footer.address || '';
+const hours = footer.hours || '';
 ---
 
 <footer class="bg-cream border-t border-[#d4d0cb] py-16 px-6">
@@ -38,6 +40,16 @@ const copyright = footer.copyright || '© 2026 ไวยศิลา (WAISIRA) �
         {social.phone && (
           <p class="text-sm text-brown/60">
             📞 <a href={`tel:${social.phone.replace(/[^0-9]/g, '')}`} class="hover:text-terracotta">{social.phone}</a>
+          </p>
+        )}
+        {address && (
+          <p class="text-sm text-brown/60">
+            📍 {address}
+          </p>
+        )}
+        {hours && (
+          <p class="text-sm text-brown/60">
+            🕐 {hours}
           </p>
         )}
         <div>

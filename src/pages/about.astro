@@ -39,6 +39,27 @@ const values = aboutData.values || [
   { emoji: '🤝', title: 'บริการหลังการขาย', desc: 'ให้คำปรึกษาดูแลตั้งแต่เลือกหินจนส่งมอบ' },
 ];
 
+// Section labels
+const storyLabel = aboutData.storyLabel || 'เรื่องราวของเรา';
+const whyLabel = aboutData.whyLabel || 'ทำไมต้องไวยศิลา';
+const valuesLabel = aboutData.valuesLabel || 'คุณค่าที่เราให้';
+
+// Products overview (from aboutData)
+const factoryImage = aboutData.factoryImage || '/assets/services/factory-interior.jpg';
+const productsOverviewLabel = aboutData.productsOverviewLabel || 'หินของเรา';
+const productsOverviewHeading = aboutData.productsOverviewHeading || '4 ประเภทหินคุณภาพ';
+const productsOverviewText = aboutData.productsOverviewText || 'ไวยศิลานำเข้าและจำหน่ายหินธรรมชาติและหินสังเคราะห์คุณภาพสูง ตอบโจทย์ทุกงาน';
+
+// 4 product categories — read from homepageData.categories (set in homepage admin)
+const homepageData = allPages.find((p: any) => p.key === 'homepage') || {};
+const productCategories = homepageData.categories || [];
+const cat1 = productCategories[0] || { name: 'หินอ่อน', en: 'Marble', image: '/assets/services/granite-texture.jpg' };
+const cat2 = productCategories[1] || { name: 'หินแกรนิต', en: 'Granite', image: '/assets/services/crane-loading.jpg' };
+const cat3 = productCategories[2] || { name: 'หินควอทซ์', en: 'Quartz', image: '/assets/services/worker.jpg' };
+const cat4 = productCategories[3] || { name: 'หินสังเคราะห์', en: 'Artificial', image: '/assets/services/factory-interior.jpg' };
+const ctaHeading = aboutData.ctaHeading || 'พร้อมเริ่มโครงการของคุณ?';
+const ctaSubtext = aboutData.ctaSubtext || 'ติดต่อเราวันนี้เพื่อนัดประเมินราคาฟรี รับคำแนะนำจากผู้เชี่ยวชาญ';
+
 // Product categories from service data (reuse services for product overview)
 const services = serviceData.services || [];
 const phone = settings.social?.phone || '098-519-2696';
@@ -71,8 +92,8 @@ const phone = settings.social?.phone || '098-519-2696';
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         <div>
-          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">เรื่องราวของเรา</p>
-          <h2 class="text-4xl font-heading mb-6">ผู้เชี่ยวชาญ<br/>ด้านหินธรรมชาติ</h2>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">{storyLabel}</p>
+          <h2 class="text-4xl font-heading mb-6">{aboutData.storyHeading || 'ผู้เชี่ยวชาญ'}<br/>{aboutData.storyHeading ? '' : 'ด้านหินธรรมชาติ'}</h2>
           <div class="space-y-4 text-brown/80 leading-relaxed">
             {information.split('\n\n').map((para: string) => (
               <p set:html={para.replace(/\n/g, '<br/>')} />
@@ -81,7 +102,7 @@ const phone = settings.social?.phone || '098-519-2696';
         </div>
         <div class="relative">
           <div class="rounded-md overflow-hidden aspect-[4/3]">
-            <img src="/assets/services/factory-interior.jpg" alt="โรงงานไวยศิลา" class="w-full h-full object-cover" />
+            <img src={factoryImage} alt="โรงงานไวยศิลา" class="w-full h-full object-cover" />
           </div>
           <div class="absolute -bottom-6 -left-6 bg-terracotta text-cream p-6 rounded-md">
             <p class="text-4xl font-heading mb-1">{yearsExperience}</p>
@@ -96,8 +117,8 @@ const phone = settings.social?.phone || '098-519-2696';
   <section class="py-24 px-6 bg-[#d4d0cb]">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-16">
-        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ทำไมต้องไวยศิลา</p>
-        <h2 class="text-4xl font-heading">คุณค่าที่เราให้</h2>
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">{whyLabel}</p>
+        <h2 class="text-4xl font-heading">{valuesLabel}</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {values.map((v: any) => (
@@ -115,45 +136,45 @@ const phone = settings.social?.phone || '098-519-2696';
   <section class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-16">
-        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">หินของเรา</p>
-        <h2 class="text-4xl font-heading mb-4">4 ประเภทหินคุณภาพ</h2>
-        <p class="text-brown/70 max-w-xl mx-auto">ไวยศิลานำเข้าและจำหน่ายหินธรรมชาติและหินสังเคราะห์คุณภาพสูง ตอบโจทย์ทุกงาน</p>
+        <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">{productsOverviewLabel}</p>
+        <h2 class="text-4xl font-heading mb-4">{productsOverviewHeading}</h2>
+        <p class="text-brown/70 max-w-xl mx-auto">{productsOverviewText}</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
-            <img src="/assets/services/granite-texture.jpg" alt="หินอ่อน" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            <img src={cat1.image} alt={cat1.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div class="p-4">
-            <h3 class="font-heading text-lg mb-1">หินอ่อน</h3>
-            <p class="text-xs text-brown/60">Marble — ความหรูหราระดับพรีเมียม</p>
+            <h3 class="font-heading text-lg mb-1">{cat1.name}</h3>
+            <p class="text-xs text-brown/60">{cat1.en}</p>
           </div>
         </div>
         <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
-            <img src="/assets/services/crane-loading.jpg" alt="หินแกรนิต" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            <img src={cat2.image} alt={cat2.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div class="p-4">
-            <h3 class="font-heading text-lg mb-1">หินแกรนิต</h3>
-            <p class="text-xs text-brown/60">Granite — ความแข็งแกร่งทนทาน</p>
+            <h3 class="font-heading text-lg mb-1">{cat2.name}</h3>
+            <p class="text-xs text-brown/60">{cat2.en}</p>
           </div>
         </div>
         <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
-            <img src="/assets/services/worker.jpg" alt="หินควอทซ์" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            <img src={cat3.image} alt={cat3.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div class="p-4">
-            <h3 class="font-heading text-lg mb-1">หินควอทซ์</h3>
-            <p class="text-xs text-brown/60">Quartz — สวยงาม ทนทาน ดูแลง่าย</p>
+            <h3 class="font-heading text-lg mb-1">{cat3.name}</h3>
+            <p class="text-xs text-brown/60">{cat3.en}</p>
           </div>
         </div>
         <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
-            <img src="/assets/services/factory-interior.jpg" alt="หินสังเคราะห์" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            <img src={cat4.image} alt={cat4.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div class="p-4">
-            <h3 class="font-heading text-lg mb-1">หินสังเคราะห์</h3>
-            <p class="text-xs text-brown/60">Artificial — ราคาย่อมเยา คุณภาพเยี่ยม</p>
+            <h3 class="font-heading text-lg mb-1">{cat4.name}</h3>
+            <p class="text-xs text-brown/60">{cat4.en}</p>
           </div>
         </div>
       </div>
@@ -163,8 +184,8 @@ const phone = settings.social?.phone || '098-519-2696';
   <!-- CTA -->
   <section class="py-24 px-6 bg-sage text-cream">
     <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-4xl font-heading mb-6">พร้อมเริ่มโครงการของคุณ?</h2>
-      <p class="text-cream/80 mb-8 text-lg">ติดต่อเราวันนี้เพื่อนัดประเมินราคาฟรี รับคำแนะนำจากผู้เชี่ยวชาญ</p>
+      <h2 class="text-4xl font-heading mb-6">{ctaHeading}</h2>
+      <p class="text-cream/80 mb-8 text-lg">{ctaSubtext}</p>
       <div class="flex flex-wrap justify-center gap-4">
         <a href={heroCTAUrl} class="bg-cream text-sage px-8 py-4 rounded-md font-medium hover:bg-white transition-colors">
           {heroCTA}

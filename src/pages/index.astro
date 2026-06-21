@@ -2,34 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
-import { Image } from 'astro:assets';
-
-// Service images
-import factoryImg from '../assets/services/factory-interior.jpg';
-import workerImg from '../assets/services/worker.jpg';
-import craneImg from '../assets/services/crane-loading.jpg';
-import engraveImg from '../assets/services/engrave.jpg';
-import sprayImg from '../assets/services/spray.jpg';
-import sealImg from '../assets/services/seal.jpg';
-
-// Product preview images
-import categoryMarble from '../assets/products/category-marble.jpg';
-import categoryGranite from '../assets/products/category-granite.jpg';
-import categoryArtificial from '../assets/products/category-artificial.jpg';
-import categoryQuartz from '../assets/products/category-quartz.jpg';
-
-// Portfolio preview images
-import portfolioMarble from '../assets/portfolio/marble-01.jpg';
-import portfolioGranite from '../assets/portfolio/granite-01.jpg';
-import portfolioQuartz from '../assets/portfolio/quartz-01.jpg';
-
-// Hero slider images
-import heroSlide1 from '../assets/hero-slider/marble-crema-marfil.jpg';
-import heroSlide2 from '../assets/hero-slider/marble-travertino.jpg';
-import heroSlide3 from '../assets/hero-slider/quartz-carrara-white.jpg';
-import heroSlide4 from '../assets/hero-slider/quartz-matte-white.jpg';
-import heroSlide5 from '../assets/hero-slider/granite-nero-absolute.jpg';
-import heroSlide6 from '../assets/hero-slider/install-marble-staircase.jpg';
 
 const currentPage = '/';
 
@@ -48,8 +20,8 @@ const trustBadges = settings.trustBadges || [
   { text: 'ลูกค้ากว่า 500+ ราย', icon: '✅' },
 ];
 
-// Hero section
-const heroImages = homepageData.images?.length > 0 ? homepageData.images : ['/assets/hero.jpg'];
+// Hero section — use heroImages array from admin
+const heroSlides = homepageData.images?.length > 0 ? homepageData.images : ['/assets/hero.jpg'];
 const heroTagline = homepageData.heroTagline || 'สุดหรู สุดประณีต สำหรับคนพิเศษ';
 const heroTitleLines = (homepageData.heroTitle || 'งานหินอ่อน|หินแกรนิต|หินสังเคราะห์|ระดับพรีเมียม').split('|');
 const heroTitleColors = (homepageData.heroTitleColors || 'white,cream,cream/80,cream/60,cream').split(',');
@@ -67,6 +39,13 @@ const contact = homepageData.contact || '098-519-2696';
 // Get portfolio items for preview
 const portfolioItems = (await readPortfolio()).filter((p: any) => p.active).slice(0, 3);
 
+// Story/About section fields
+const storyHeading = homepageData.storyHeading || 'ผู้เชี่ยวชาญด้านหินธรรมชาติ';
+const storySubheading = homepageData.storySubheading || 'เรื่องราวของเรา';
+const aboutText = homepageData.aboutText || '';
+const experienceLabel = homepageData.experienceLabel || 'ปีแห่งประสบการณ์';
+const factoryImage = homepageData.factoryImage || '/assets/services/factory-interior.jpg';
+
 // Get testimonials for review section
 const testimonials = await readTestimonials();
 const testimonialsJson = JSON.stringify(testimonials);
@@ -79,12 +58,12 @@ const testimonialsJson = JSON.stringify(testimonials);
   <section class="pt-40 pb-24 px-6 relative" id="hero-section">
     <div class="absolute inset-0 z-0">
       <div id="hero-slides" class="absolute inset-0">
-        <Image src={heroSlide1} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover" loading="eager" inferSize={{ width: 1920, height: 1080 }} />
-        <Image src={heroSlide2} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
-        <Image src={heroSlide3} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
-        <Image src={heroSlide4} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
-        <Image src={heroSlide5} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
-        <Image src={heroSlide6} alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover hidden" loading="lazy" inferSize={{ width: 1920, height: 1080 }} />
+        {heroSlides.map((src: string, i: number) => (
+          <img src={src} alt="หินหรู" class={`hero-slide absolute inset-0 w-full h-full object-cover${i > 0 ? ' hidden' : ''}`} loading={i === 0 ? 'eager' : 'lazy'} />
+        ))}
+        {heroSlides.length === 0 && (
+          <img src="/assets/hero.jpg" alt="หินหรู" class="hero-slide absolute inset-0 w-full h-full object-cover" loading="eager" />
+        )}
       </div>
       <!-- Dark gradient overlay for text contrast -->
       <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
@@ -92,13 +71,13 @@ const testimonialsJson = JSON.stringify(testimonials);
     <div class="max-w-6xl mx-auto relative z-10">
       <div class="max-w-2xl">
         <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/90 mb-4">{heroTagline}</p>
-        <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6 text-white">\
+        <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6 text-white">
 {heroTitleLines.map((line, i) => (
           <><span style={i === 0 ? {} : { color: heroTitleColors[i] === 'cream' ? '#EDE9E6' : heroTitleColors[i] === 'cream/80' ? 'rgba(237,233,230,0.8)' : heroTitleColors[i] === 'cream/60' ? 'rgba(237,233,230,0.6)' : '#EDE9E6' }}>{line}</span>{i < heroTitleLines.length - 1 ? <br/> : ''}</>
-        ))}\
+        ))}
 </h1>
         <p class="text-lg text-white/80 leading-relaxed max-w-md mb-6" id="heroInfo">
-          {information || 'ยกระดับความหรูหราให้พื้นที่ของคุณ ด้วยหินธรรมชาติคุณภาพระดับ World Class ที่คัดสรรมาอย่างพิถีพิถัน'}
+          {heroInfo || 'ยกระดับความหรูหราให้พื้นที่ของคุณ ด้วยหินธรรมชาติคุณภาพระดับ World Class ที่คัดสรรมาอย่างพิถีพิถัน'}
         </p>
         <a href={heroCTAUrl} class="inline-block bg-cream text-brown px-6 py-3 rounded-md font-medium hover:bg-white transition-colors">{heroCTA}</a>
       </div>
@@ -106,13 +85,37 @@ const testimonialsJson = JSON.stringify(testimonials);
     </div>
   </section>
 
+  <!-- About/Story Section -->
+  {storyHeading && (
+  <section class="py-24 px-6 bg-[#e0dcd7]" data-bg="#e0dcd7">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">{storySubheading || 'เรื่องราวของเรา'}</p>
+          <h2 class="text-3xl font-heading mb-6">{storyHeading}</h2>
+          {aboutText && <p class="text-brown/70 leading-relaxed mb-8">{aboutText}</p>}
+          {experienceLabel && (
+            <div class="inline-flex items-center gap-3 bg-sage/10 px-5 py-3 rounded-md">
+              <span class="text-2xl font-heading text-sage">✦</span>
+              <span class="text-sm font-medium text-brown">{experienceLabel}</span>
+            </div>
+          )}
+        </div>
+        <div class="rounded-md overflow-hidden aspect-[4/3]">
+          <img src={factoryImage} alt="โรงงานของเรา" class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+  )}
+
   <!-- Services -->
   <section class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
       <div class="flex items-end justify-between mb-12">
         <div>
-          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">บริการ</p>
-          <h2 class="text-3xl font-heading">บริการของเรา</h2>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">{storyHeading || 'บริการ'}</p>
+          <h2 class="text-3xl font-heading">{storyHeading ? 'บริการของเรา' : 'บริการของเรา'}</h2>
         </div>
         <a href="/services" class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">ดูทั้งหมด</a>
       </div>
@@ -128,7 +131,7 @@ const testimonialsJson = JSON.stringify(testimonials);
         ))}
       </div>
       <p class="text-center text-brown/60 text-sm mt-8">
-        บริการตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม พร้อมวัดขนาดหน้างานและจัดส่งสินค้า
+        {homepageData.servicesText || 'บริการตัด เจาะ เจียร์ แกะสลักป้าย พ่นทราย พ่นไฟ เซาะร่อง ทาน้ำยากันซึม พร้อมวัดขนาดหน้างานและจัดส่งสินค้า'}
       </p>
     </div>
   </section>
@@ -137,8 +140,8 @@ const testimonialsJson = JSON.stringify(testimonials);
   <section class="py-24 px-6 bg-[#d4d0cb] overflow-hidden" data-bg="#d4d0cb">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-12">
-        <p class="text-base font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">รีวิวจากลูกค้า</p>
-        <h2 class="text-4xl font-heading">ลูกค้าของเราพูดอย่างไร</h2>
+        <p class="text-base font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">{homepageData.testimonialLabel || 'รีวิวจากลูกค้า'}</p>
+        <h2 class="text-4xl font-heading">{homepageData.testimonialHeading || 'ลูกค้าของเราพูดอย่างไร'}</h2>
       </div>
     </div>
     <div class="relative">
@@ -191,43 +194,36 @@ const testimonialsJson = JSON.stringify(testimonials);
     <div class="max-w-6xl mx-auto">
       <div class="flex items-end justify-between mb-12">
         <div>
-          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">หมวดสินค้า</p>
-          <h2 class="text-3xl font-heading">สินค้าของเรา</h2>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">{homepageData.productsLabel || 'หมวดสินค้า'}</p>
+          <h2 class="text-3xl font-heading">{homepageData.productsHeading || 'สินค้าของเรา'}</h2>
         </div>
         <a href="/products" class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">ดูทั้งหมด</a>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <a href="/products" class="group">
-          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <Image src={categoryMarble} alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
-          </div>
-          <h3 class="font-heading text-xl mb-1">หินอ่อน</h3>
-          <p class="text-sm text-brown/60">Marble</p>
-        </a>
-
-        <a href="/products" class="group">
-          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <Image src={categoryGranite} alt="หินแกรนิต" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
-          </div>
-          <h3 class="font-heading text-xl mb-1">หินแกรนิต</h3>
-          <p class="text-sm text-brown/60">Granite</p>
-        </a>
-
-        <a href="/products" class="group">
-          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <Image src={categoryArtificial} alt="หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
-          </div>
-          <h3 class="font-heading text-xl mb-1">หินสังเคราะห์</h3>
-          <p class="text-sm text-brown/60">Artificial</p>
-        </a>
-
-        <a href="/products" class="group">
-          <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
-            <Image src={categoryQuartz} alt="หินควอทซ์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={400} height={400} loading="lazy" />
-          </div>
-          <h3 class="font-heading text-xl mb-1">หินควอทซ์</h3>
-          <p class="text-sm text-brown/60">Quartz</p>
-        </a>
+        {(homepageData.categories || []).map((cat: any, i: number) => (
+          <a href="/products" class="group">
+            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+              <img src={cat.image || ['/assets/products/category-marble.jpg','/assets/products/category-granite.jpg','/assets/products/category-artificial.jpg','/assets/products/category-quartz.jpg'][i]} alt={cat.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+            </div>
+            <h3 class="font-heading text-xl mb-1">{cat.name || ['หินอ่อน','หินแกรนิต','หินสังเคราะห์','หินควอทซ์'][i]}</h3>
+            <p class="text-sm text-brown/60">{cat.en || ''}</p>
+          </a>
+        ))}
+        {/* Fallback if no categories set in admin */}
+        {(homepageData.categories || []).length === 0 && [
+          { name: 'หินอ่อน', en: 'Marble', img: '/assets/products/category-marble.jpg' },
+          { name: 'หินแกรนิต', en: 'Granite', img: '/assets/products/category-granite.jpg' },
+          { name: 'หินสังเคราะห์', en: 'Artificial', img: '/assets/products/category-artificial.jpg' },
+          { name: 'หินควอทซ์', en: 'Quartz', img: '/assets/products/category-quartz.jpg' },
+        ].map((f, i) => (
+          <a href="/products" class="group">
+            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+              <img src={f.img} alt={f.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+            </div>
+            <h3 class="font-heading text-xl mb-1">{f.name}</h3>
+            <p class="text-sm text-brown/60">{f.en}</p>
+          </a>
+        ))}
       </div>
     </div>
   </section>
@@ -237,8 +233,8 @@ const testimonialsJson = JSON.stringify(testimonials);
     <div class="max-w-6xl mx-auto">
       <div class="flex items-end justify-between mb-12">
         <div>
-          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">ผลงาน</p>
-          <h2 class="text-3xl font-heading">ผลงานติดตั้ง</h2>
+          <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">{homepageData.portfolioLabel || 'ผลงาน'}</p>
+          <h2 class="text-3xl font-heading">{homepageData.portfolioHeading || 'ผลงานติดตั้ง'}</h2>
         </div>
         <a href="/portfolio" class="text-sm font-medium underline underline-offset-4 hover:text-sage transition-colors">ดูทั้งหมด</a>
       </div>
@@ -262,19 +258,19 @@ const testimonialsJson = JSON.stringify(testimonials);
           <>
             <a href="/portfolio" class="group">
               <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
-                <Image src={portfolioMarble} alt="หินอ่อน | Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={600} height={450} loading="lazy" />
+                <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน | Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <h3 class="font-heading text-lg mb-1">หินอ่อน | Marble</h3>
             </a>
             <a href="/portfolio" class="group">
               <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
-                <Image src={portfolioGranite} alt="หินแกรนิต | Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={600} height={450} loading="lazy" />
+                <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต | Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <h3 class="font-heading text-lg mb-1">หินแกรนิต | Granite</h3>
             </a>
             <a href="/portfolio" class="group">
               <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
-                <Image src={portfolioQuartz} alt="หินเทียม | หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={600} height={450} loading="lazy" />
+                <img src="/assets/portfolio/quartz-01.jpg" alt="หินเทียม | หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <h3 class="font-heading text-lg mb-1">หินเทียม | หินสังเคราะห์</h3>
             </a>
@@ -287,21 +283,12 @@ const testimonialsJson = JSON.stringify(testimonials);
   <!-- Contact CTA -->
   <section class="py-24 px-6 bg-terracotta/10" data-bg="#C9996B">
     <div class="max-w-6xl mx-auto text-center">
-      <h2 class="text-3xl font-heading mb-4">สนใจสินค้าหรือบริการ?</h2>
-      <p class="text-brown/70 mb-8" id="contactCta">ติดต่อเราได้ตลอดเวลา {contact}</p>
+      <h2 class="text-3xl font-heading mb-4">{homepageData.ctaHeading || 'สนใจสินค้าหรือบริการ?'}</h2>
+      <p class="text-brown/70 mb-8" id="contactCta">{homepageData.ctaSubtext || 'ติดต่อเราได้ตลอดเวลา'} {contact}</p>
       <a href="/contact" class="inline-block bg-brown text-cream px-8 py-4 rounded-md font-medium hover:bg-brown/90 transition-colors">ติดต่อเลย</a>
     </div>
   </section>
 
   <Footer />
 
-  <!-- Floating WhatsApp/LINE CTA -->
-  <!--<div class="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
-    <a href="https://line.me/ti/p/~waisira" target="_blank" rel="noopener" class="bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-colors" title="ติดต่อ LINE">
-      <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.349 0-.631-.285-.631-.629V8.108c0-.345.282-.63.631-.63.346 0 .626.285.626.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.915C23.176 14.393 24 12.458 24 10.314"/></svg>
-    </a>
-    <a href="https://wa.me/6685192696" target="_blank" rel="noopener" class="bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-700 transition-colors" title="ติดต่อ WhatsApp">
-      <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    </a>
-  </div>-->
 </Layout>

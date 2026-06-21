@@ -18,6 +18,8 @@ const heroDescription = portfolioPage?.information || 'รวบรบรวม�
 // Get unique stone categories from portfolio items
 const stoneCategories = [...new Set(portfolioData.map((p: any) => p.category).filter(Boolean))];
 const contact = portfolioPage?.contact || '098-519-2696';
+const portfolioLabel = portfolioPage?.portfolioLabel || 'ผลงาน';
+const portfolioHeading = portfolioPage?.portfolioHeading || 'ผลงานติดตั้ง';
 ---
 
 <Layout title="ผลงาน | ไวยศิลา">
@@ -27,8 +29,8 @@ const contact = portfolioPage?.contact || '098-519-2696';
   <section class="pt-40 pb-20 px-6 bg-gradient-to-br from-brown/90 via-brown/80 to-sage/60 relative overflow-hidden">
     <div class="absolute inset-0 opacity-60 bg-cover bg-center" style="background-image: url('/assets/portfolio/client-residence.jpg');"></div>
     <div class="max-w-6xl mx-auto relative z-10">
-      <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/70 mb-4">PORTFOLIO</p>
-      <h1 class="text-5xl lg:text-6xl font-heading text-white mb-6">ผลงาน<span class="text-cream">ติดตั้ง</span></h1>
+      <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/70 mb-4">{portfolioLabel}</p>
+      <h1 class="text-5xl lg:text-6xl font-heading text-white mb-6">{portfolioHeading.split(' ').slice(0, -1).join(' ')}<span class="text-cream">{portfolioHeading.split(' ').slice(-1).join(' ')}</span></h1>
       <p class="text-lg text-white/80 max-w-2xl leading-relaxed">
         {heroDescription}
       </p>

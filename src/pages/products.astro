@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
-import { readProducts } from '../lib/jsonDb';
+import { readProducts, readPages, readSettings } from '../lib/jsonDb';
 
 const currentPage = '/products';
 
@@ -12,11 +12,20 @@ const graniteProducts = allProducts.filter((p: any) => p.category === 'granite' 
 const artificialProducts = allProducts.filter((p: any) => p.category === 'artificial' && p.active);
 const quartzProducts = allProducts.filter((p: any) => p.category === 'quartz' && p.active);
 
+// Read tab labels from service page data
+const allPages = await readPages();
+const serviceData = allPages.find((p: any) => p.key === 'service') || {};
+const settings = await readSettings() || {};
+const marbleTabLabel = serviceData.marbleTab || 'หินอ่อน (Marble)';
+const graniteTabLabel = serviceData.graniteTab || 'หินแกรนิต (Granite)';
+const artificialTabLabel = serviceData.artificialTab || 'หินเทียม (Artificial)';
+const quartzTabLabel = serviceData.quartzTab || 'หินควอทซ์ (Quartz)';
+
 const contact = {
-  phone: "098-519-2696",
-  facebook: "https://www.facebook.com/waisira8",
-  line: "https://line.me/ti/p/-lmFbFbMFo",
-  instagram: "https://www.instagram.com/waisira_/",
+  phone: settings.social?.phone || '098-519-2696',
+  facebook: settings.social?.facebook || 'https://www.facebook.com/waisira8',
+  line: settings.social?.line || 'https://line.me/ti/p/-lmFbFbMFo',
+  instagram: settings.social?.instagram || 'https://www.instagram.com/waisira_/',
 };
 ---
 
@@ -34,10 +43,10 @@ const contact = {
   <section class="px-6 pb-8">
     <div class="max-w-6xl mx-auto">
       <div class="flex gap-4 border-b border-[#d4d0cb]">
-        <button onclick="showCategory('marble')" id="tab-marble" class="pb-4 px-2 text-sm font-medium border-b-2 border-sage text-sage">หินอ่อน (Marble) ({marbleProducts.length})</button>
-        <button onclick="showCategory('granite')" id="tab-granite" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">หินแกรนิต (Granite) ({graniteProducts.length})</button>
-        <button onclick="showCategory('artificial')" id="tab-artificial" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">หินเทียม (Artificial) ({artificialProducts.length})</button>
-        <button onclick="showCategory('quartz')" id="tab-quartz" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">หินควอทซ์ (Quartz) ({quartzProducts.length})</button>
+        <button onclick="showCategory('marble')" id="tab-marble" class="pb-4 px-2 text-sm font-medium border-b-2 border-sage text-sage">{marbleTabLabel} ({marbleProducts.length})</button>
+        <button onclick="showCategory('granite')" id="tab-granite" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{graniteTabLabel} ({graniteProducts.length})</button>
+        <button onclick="showCategory('artificial')" id="tab-artificial" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{artificialTabLabel} ({artificialProducts.length})</button>
+        <button onclick="showCategory('quartz')" id="tab-quartz" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{quartzTabLabel} ({quartzProducts.length})</button>
       </div>
     </div>
   </section>

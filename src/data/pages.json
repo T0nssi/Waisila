@@ -28,7 +28,43 @@
         "ส่งมอบตรงเวลา",
         "วัสดุเกรด A",
         "ลูกค้ากว่า 1000+ ราย"
-      ]
+      ],
+      "storyHeading": "เราเชื่อว่าหินธรรมชาติไม่ใช่แค่วัสดุก่อสร้าง แต่เป็นงานศิลปะที่จะอยู่คู่อาคารของคุณไปอีกนาน",
+      "storySubheading": "",
+      "aboutText": "ผู้เชียวชาญด้านหิน พร้อมรับฟัง ความต้องการ และแนะนำหินให้ตรงกับความต้องการของหน้างาน",
+      "experienceLabel": "ประสบการณ์ 15 ปี",
+      "factoryImage": "/assets/install-marble-reception.jpg",
+      "productsLabel": "หมวดสินค้า",
+      "productsHeading": "สินค้าของเรา",
+      "categories": [
+        {
+          "name": "หินอ่อน",
+          "en": "Marble",
+          "image": "/assets/marble-arabescato-2.jpg"
+        },
+        {
+          "name": "หินแกรนิต",
+          "en": "Granite",
+          "image": "/assets/quartz-espresso.jpg"
+        },
+        {
+          "name": "หินสังเคราะห์",
+          "en": "Artificial",
+          "image": "/assets/quartz-matte-white.jpg"
+        },
+        {
+          "name": "หินควอทซ์",
+          "en": "Quartz",
+          "image": "/assets/portfolio/client-restaurant.jpg"
+        }
+      ],
+      "testimonialLabel": "รีวิวจากลูกค้า",
+      "testimonialHeading": "ลูกค้าของเราพูดอย่างไร",
+      "ctaHeading": "สนใจสินค้าหรือบริการ?",
+      "ctaSubtext": "",
+      "servicesText": "",
+      "portfolioLabel": "ผลงาน",
+      "portfolioHeading": "ผลงานติดตั้ง"
     },
     {
       "id": "service",
@@ -103,7 +139,9 @@
         "facebook": "https://www.facebook.com/waisira8",
         "instagram": "https://www.instagram.com/waisira_/",
         "lineQR": "/assets/S__32006161.jpg.avif"
-      }
+      },
+      "address": "Office 1 :  45/10 ตำบลลาดสวาย อำเภอลำลูกกา จังหวัดปทุมธานี 12150\n(45/10 Lad sa whay sub district, Lam luk ka district, Pathumthanee 12150)",
+      "hours": "วันจันทร์ - วันเสาร์ 08:00 - 18:00 น."
     },
     {
       "id": "portfolio",
@@ -124,7 +162,7 @@
       "name": "เกี่ยวกับเรา",
       "active": true,
       "images": [
-        "/assets/hero.jpg"
+        "/assets/quartz-slate-blue.jpg"
       ],
       "colorStyle": "มืออาชีพ, น่าเชื่อถือ",
       "heroTagline": "เกี่ยวกับเรา",
@@ -143,21 +181,30 @@
           "desc": "คัดสรรหินคุณภาพจากอิตาลี สเปน อินเดีย จีน ไต้หวัน และอีกมากมาย"
         },
         {
-          "emoji": "🔪",
+          "emoji": "",
           "title": "โรงงานครบวงจร",
           "desc": "ตัด เจาะ เจียร์ แกะสลัก พ่นผิว ทากันซึม ด้วยเครื่องจักรทันสมัย"
         },
         {
-          "emoji": "⭐",
+          "emoji": "",
           "title": "ช่างฝีมือเชี่ยวชาญ",
           "desc": "ทีมช่างมืออาชีพ รับประกันงานติดตั้งเนียบเกลี้ยง ละเอียดอย่างยิ่ง"
         },
         {
-          "emoji": "🤝",
+          "emoji": "",
           "title": "บริการหลังการขาย",
           "desc": "ให้คำปรึกษาดูแลตั้งแต่เลือกหินจนส่งมอบ พร้อมรับประกันงาน"
         }
-      ]
+      ],
+      "factoryImage": "/assets/quartz-slate-blue.jpg",
+      "productsOverviewLabel": "",
+      "productsOverviewHeading": "",
+      "productsOverviewText": "",
+      "ctaHeading": "",
+      "ctaSubtext": "",
+      "storyLabel": "",
+      "whyLabel": "",
+      "valuesLabel": ""
     }
   ]
 }

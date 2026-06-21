@@ -77,6 +77,14 @@ if (!session || session.value !== 'authenticated') {
             <label class="block text-sm font-medium text-brown mb-1">ติดต่อ (ข้อความหลัก)</label>
             <input type="text" id="pageContact" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="098-xxx-xxxx, Line: @xxx" />
           </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">ที่อยู่บริษัท</label>
+            <textarea id="pageAddress" rows="2" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="66/8 หมู่ที่ 5 ตำบลบางเสาธง อำเภอบางเสาธง จังหวัดสมุทรสาคร 10550"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-brown mb-1">เวลาทำการ</label>
+            <input type="text" id="pageHours" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50" placeholder="วันจันทร์ - วันเสาร์ เวลา 08:00 - 17:00 น." />
+          </div>
         </div>
 
         <div class="flex gap-4 pt-6 mt-6 border-t border-[#d4d0cb]">
@@ -100,6 +108,8 @@ if (!session || session.value !== 'authenticated') {
         document.getElementById('pageColorStyle').value = p.colorStyle || '';
         document.getElementById('pageInformation').value = p.information || '';
         document.getElementById('pageContact').value = p.contact || '';
+        document.getElementById('pageAddress').value = p.address || '';
+        document.getElementById('pageHours').value = p.hours || '';
         const social = p.social || {};
         document.getElementById('socialPhone').value = social.phone || '';
         document.getElementById('socialLine').value = social.line || '';
@@ -121,6 +131,8 @@ if (!session || session.value !== 'authenticated') {
         colorStyle: document.getElementById('pageColorStyle').value,
         information: document.getElementById('pageInformation').value,
         contact: document.getElementById('pageContact').value,
+        address: document.getElementById('pageAddress').value,
+        hours: document.getElementById('pageHours').value,
         social: {
           phone: document.getElementById('socialPhone').value,
           line: document.getElementById('socialLine').value,
