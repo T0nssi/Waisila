@@ -273,6 +273,12 @@ if (!session || session.value !== 'authenticated') {
         </div>
 
         <div>
+          <label class="block text-sm font-medium text-brown mb-2">รูปภาพเพิ่มเติม (หลายรูป)</label>
+          <textarea name="images" id="pfImages" rows="3" placeholder="วาง URL รูปภาพ แต่ละรูปขึ้นบรรทัดใหม่" class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 font-mono text-xs"></textarea>
+          <div id="pfImagesPreview" class="mt-2 flex flex-wrap gap-2"></div>
+        </div>
+
+        <div>
           <label class="block text-sm font-medium text-brown mb-2">รายละเอียด</label>
           <textarea name="description" id="pfDescription" rows="3" placeholder="รายละเอียดผลงาน..." class="w-full px-4 py-2 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50"></textarea>
         </div>
@@ -693,6 +699,8 @@ if (!session || session.value !== 'authenticated') {
       document.getElementById('portfolioId').value = '';
       portfolioForm.reset();
       document.getElementById('pfType').value = currentPfCategory;
+      updatePfImagePreview('');
+      updatePfImagesPreview([]);
       portfolioModal.classList.remove('hidden');
       portfolioModal.classList.add('flex');
     });
@@ -733,6 +741,9 @@ if (!session || session.value !== 'authenticated') {
       document.getElementById('pfType').value = p.type;
       document.getElementById('pfCategory').value = p.category || '';
       document.getElementById('pfImage').value = p.image || '';
+      document.getElementById('pfImages').value = (p.images || []).join('\n');
+      updatePfImagePreview(p.image || '');
+      updatePfImagesPreview(p.images || []);
       document.getElementById('pfDescription').value = p.description || '';
       portfolioModal.classList.remove('hidden');
       portfolioModal.classList.add('flex');
@@ -783,7 +794,11 @@ if (!session || session.value !== 'authenticated') {
     portfolioForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData);
+      const data: any = Object.fromEntries(formData);
+      
+      // Convert pfImages newline-separated to array
+      const pfImagesVal = document.getElementById('pfImages').value.trim();
+      data.images = pfImagesVal ? pfImagesVal.split('\n').map((s: string) => s.trim()).filter(Boolean) : [];
       
       const isEdit = !!data.id;
       const method = isEdit ? 'PUT' : 'POST';
@@ -818,18 +833,45 @@ if (!session || session.value !== 'authenticated') {
     const pfImageInput = document.getElementById('pfImage');
     const pfImagePreview = document.getElementById('pfImagePreview');
     const pfPreviewImg = document.getElementById('pfPreviewImg');
+    const pfImagesInput = document.getElementById('pfImages');
+    const pfImagesPreview = document.getElementById('pfImagesPreview');
     
-    pfImageInput.addEventListener('input', () => {
-      const src = pfImageInput.value.trim();
+    function updatePfImagePreview(src: string) {
       if (src) {
         pfPreviewImg.src = src;
         pfImagePreview.classList.remove('hidden');
-        pfPreviewImg.onerror = () => {
-          pfPreviewImg.src = '/assets/placeholder.jpg';
-        };
+        pfPreviewImg.onerror = () => { pfPreviewImg.src = '/assets/placeholder.jpg'; };
       } else {
         pfImagePreview.classList.add('hidden');
       }
+    }
+    
+    function updatePfImagesPreview(urls: string[]) {
+      if (!urls || urls.length === 0) {
+        pfImagesPreview.innerHTML = '';
+        return;
+      }
+      pfImagesPreview.innerHTML = urls.map(url => `
+        <div class="relative group">
+          <img src="${url}" class="w-20 h-20 object-cover rounded border border-[#d4d0cb]" />
+          <button type="button" onclick="this.parentElement.remove(); updatePfImagesFromDom()" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs leading-none opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+        </div>
+      `).join('');
+    }
+    
+    // Global function for remove buttons
+    (window as any).updatePfImagesFromDom = () => {
+      const imgs = pfImagesPreview.querySelectorAll('img');
+      pfImagesInput.value = Array.from(imgs).map((img: any) => img.src).join('\n');
+    };
+    
+    pfImageInput.addEventListener('input', () => {
+      updatePfImagePreview(pfImageInput.value.trim());
+    });
+    
+    pfImagesInput.addEventListener('input', () => {
+      const urls = pfImagesInput.value.split('\n').map((s: string) => s.trim()).filter(Boolean);
+      updatePfImagesPreview(urls);
     });
 
 

@@ -57,18 +57,27 @@ const related = portfolioData
             <p class="text-brown/80 leading-relaxed whitespace-pre-wrap">{item.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</p>
           </div>
 
-          <!-- Image Gallery -->
+          <!-- Image Gallery (Collapsible) -->
           {item.images && item.images.length > 0 && (
-            <div>
-              <h2 class="text-xl font-heading mb-4">รูปภาพเพิ่มเติม</h2>
-              <div class="grid grid-cols-2 gap-4">
+            <div class="mb-10">
+              <button 
+                id="galleryToggle" 
+                type="button"
+                class="flex items-center justify-between w-full text-left focus:outline-none"
+                onclick="toggleGallery()"
+              >
+                <h2 class="text-xl font-heading">รูปภาพเพิ่มเติม <span class="text-brown/40 text-sm">({item.images.length} รูป)</span></h2>
+                <span id="galleryToggleIcon" class="text-2xl text-brown/40 transition-transform duration-300">−</span>
+              </button>
+              <div id="galleryContent" class="grid grid-cols-2 gap-4 mt-4">
                 {item.images.map((img: string, i: number) => (
                   <div class="aspect-[4/3] overflow-hidden rounded-md bg-[#d4d0cb]">
                     <img 
                       src={img} 
                       alt={`${item.title} - รูปที่ ${i + 1}`}
-                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer"
                       loading="lazy"
+                      onclick="openLightbox(this.src)"
                     />
                   </div>
                 ))}
@@ -157,4 +166,46 @@ const related = portfolioData
   )}
 
   <Footer />
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 bg-black/90 z-[100] hidden items-center justify-center p-6" onclick="closeLightbox()">
+    <button class="absolute top-4 right-4 text-white/80 hover:text-white text-4xl leading-none">&times;</button>
+    <img id="lightboxImg" src="" alt="" class="max-w-full max-h-[90vh] object-contain" />
+  </div>
+
+  <script>
+    function toggleGallery() {
+      const content = document.getElementById('galleryContent');
+      const icon = document.getElementById('galleryToggleIcon');
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.textContent = '−';
+        icon.style.transform = '';
+      } else {
+        content.classList.add('hidden');
+        icon.textContent = '+';
+        icon.style.transform = 'rotate(90deg)';
+      }
+    }
+    
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </Layout>
