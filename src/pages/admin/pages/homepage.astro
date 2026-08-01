@@ -416,17 +416,20 @@ if (!session || session.value !== 'authenticated') {
         } else {
           let errorMsg = `Error ${res.status}`;
           try {
-            const errData = await res.json();
-            errorMsg = errData.error || errorMsg;
-          } catch {
-            const text = await res.text();
-            errorMsg = text.substring(0, 100) || errorMsg;
+            const responseText = await res.text();
+            try {
+              const errData = JSON.parse(responseText);
+              errorMsg = errData.error || errorMsg;
+            } catch {
+              errorMsg = responseText.substring(0, 100) || errorMsg;
+            }
+          } catch (e) {
+            errorMsg = `Error ${res.status}: ${e.message}`;
           }
           status.textContent = '❌ ผิดพลาด: ' + errorMsg;
           status.classList.remove('hidden', 'text-green-600');
           status.classList.add('text-red-500');
           console.error('[Save Error] HTTP ' + res.status, errorMsg);
-          console.error('[Save Error] Full response:', await res.clone().text());
           console.error('[Save Error] Sent data:', data);
         }
       } catch (err) {
