@@ -107,14 +107,11 @@ const { title } = Astro.props;
   </div>
 
   <script is:inline>
-    console.log('[AdminLayout] Script loaded');
-    
     let currentFolder = '';
     let selectedCallback = null;
     let currentTab = 'local';
     
     function openImageLibrary(callback) {
-      console.log('[ImageLibrary] openImageLibrary called, callback:', typeof callback);
       selectedCallback = callback;
       currentFolder = '';
       currentTab = 'local';
@@ -129,7 +126,6 @@ const { title } = Astro.props;
       var selectedSection = document.getElementById('selectedImageSection');
       if (selectedSection) selectedSection.classList.add('hidden');
       switchTab('local');
-      console.log('[ImageLibrary] Modal opened');
     }
     
     function switchTab(tab) {
@@ -190,32 +186,27 @@ const { title } = Astro.props;
     }
     
     function closeImageLibrary() {
-      console.log('[ImageLibrary] closeImageLibrary called');
       var modal = document.getElementById('imageLibraryModal');
       if (modal) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
       }
       selectedCallback = null;
-      console.log('[ImageLibrary] Modal closed');
     }
     
     var closeBtn = document.getElementById('closeImageLibrary');
     if (closeBtn) {
       closeBtn.addEventListener('click', closeImageLibrary);
-      console.log('[ImageLibrary] Close button listener attached');
     }
-    
+
     var modalEl = document.getElementById('imageLibraryModal');
     if (modalEl) {
       modalEl.addEventListener('click', function(e) {
-        console.log('[ImageLibrary] Modal click target:', e.target.id);
         if (e.target.id === 'imageLibraryModal') closeImageLibrary();
       });
     }
     
     async function loadImages(folder) {
-      console.log('[ImageLibrary] loadImages called with folder:', folder, 'tab:', currentTab);
       currentFolder = folder;
       var content = document.getElementById('imageLibraryContent');
       if (!content) {
@@ -233,13 +224,9 @@ const { title } = Astro.props;
         if (currentTab === 'local' && folder) {
           apiUrl += '&folder=' + encodeURIComponent(folder);
         }
-        console.log('[ImageLibrary] Fetching', apiUrl);
-        console.log('[ImageLibrary] Fetching', apiUrl);
         var res = await fetch(apiUrl, { credentials: 'include' });
-        console.log('[ImageLibrary] Fetch response status:', res.status);
         if (!res.ok) throw new Error('Failed to load: ' + res.status);
         var data = await res.json();
-        console.log('[ImageLibrary] Received data:', data.images ? data.images.length + ' items' : 'no images');
         
         if (!data.images || data.images.length === 0) {
           content.innerHTML = '<div class="col-span-full text-center py-12 text-brown/40">ไม่มีรูปภาพในโฟลเดอร์นี้</div>';
@@ -268,8 +255,7 @@ const { title } = Astro.props;
           }
         }
         content.innerHTML = html;
-        console.log('[ImageLibrary] Rendered ' + data.images.length + ' items');
-        
+
       } catch (err) {
         console.error('[ImageLibrary] Error:', err);
         content.innerHTML = '<div class="col-span-full text-center py-12 text-red-400">เกิดข้อผิดพลาดในการโหลด: ' + err.message + '</div>';
@@ -277,17 +263,15 @@ const { title } = Astro.props;
     }
     
     function selectImage(url) {
-      console.log('[ImageLibrary] selectImage called with url:', url);
       var preview = document.getElementById('selectedPreview');
       var urlInput = document.getElementById('selectedImageUrl');
       var selectedSection = document.getElementById('selectedImageSection');
-      
+
       if (preview) preview.src = url;
       if (urlInput) urlInput.value = url;
       if (selectedSection) selectedSection.classList.remove('hidden');
-      
+
       navigator.clipboard.writeText(url).then(function() {
-        console.log('[ImageLibrary] URL copied to clipboard');
         var btn = document.getElementById('useImageBtn');
         if (btn) {
           var originalText = btn.textContent;
@@ -302,11 +286,8 @@ const { title } = Astro.props;
     var useBtn = document.getElementById('useImageBtn');
     if (useBtn) {
       useBtn.addEventListener('click', function() {
-        console.log('[ImageLibrary] Use button clicked');
         var url = document.getElementById('selectedImageUrl').value;
-        console.log('[ImageLibrary] Selected URL:', url);
         if (selectedCallback) {
-          console.log('[ImageLibrary] Calling callback with URL:', url);
           selectedCallback(url);
         } else {
           console.warn('[ImageLibrary] No callback set!');
@@ -314,9 +295,8 @@ const { title } = Astro.props;
         closeImageLibrary();
       });
     }
-    
+
     function navigateToFolder(folder) {
-      console.log('[ImageLibrary] navigateToFolder:', folder);
       loadImages(folder);
     }
     
@@ -385,8 +365,6 @@ const { title } = Astro.props;
         alert('เกิดข้อผิดพลาด: ' + e.message);
       }
     }
-    
-    console.log('[AdminLayout] All functions defined');
   </script>
 </body>
 </html>

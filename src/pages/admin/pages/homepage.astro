@@ -271,15 +271,13 @@ if (!session || session.value !== 'authenticated') {
         const pages = await pagesRes.json();
         pageData = pages.find((p: any) => p.key === 'homepage');
         if (!pageData) { document.body.innerHTML = '<p class="p-8 text-center text-red-500">ไม่พบข้อมูลหน้าแรก</p>'; return; }
-        
+
         // Load settings (for trustBadges)
         const settingsRes = await fetch('/api/admin/settings', { credentials: 'include' });
         if (settingsRes.ok) {
           settingsData = await settingsRes.json();
         }
-        
-        console.log('[DEBUG] Homepage loaded, page trustBadges:', pageData.trustBadges);
-        console.log('[DEBUG] Settings trustBadges:', settingsData?.trustBadges);
+
         renderForm(pageData, settingsData);
       } catch (err) { console.error(err); }
     }
@@ -298,7 +296,6 @@ if (!session || session.value !== 'authenticated') {
       // Use settings trustBadges (with text/icon objects) or fallback to page trustBadges
       const trustBadges = settings?.trustBadges || p.trustBadges || [];
       const trustBadgeValue = Array.isArray(trustBadges) ? JSON.stringify(trustBadges, null, 2) : '';
-      console.log('[DEBUG] renderForm trustBadges:', trustBadgeValue);
       document.getElementById('pageTrustBadges').value = trustBadgeValue;
       
       document.getElementById('pageColorStyle').value = p.colorStyle || '';
@@ -349,6 +346,7 @@ if (!session || session.value !== 'authenticated') {
 
       const images = document.getElementById('pageImages').value.split(',').map((s: string) => s.trim()).filter(Boolean);
       const data: any = {
+        key: 'homepage',
         id: document.getElementById('pageId').value,
         active: document.getElementById('pageActive').checked,
         images,
@@ -386,7 +384,6 @@ if (!session || session.value !== 'authenticated') {
 
       // Parse trustBadges and save to settings.json
       const tbRaw = document.getElementById('pageTrustBadges').value.trim();
-      console.log('[DEBUG] Save - tbRaw:', tbRaw);
       if (tbRaw) {
         try {
           const parsedBadges = JSON.parse(tbRaw);
@@ -397,7 +394,6 @@ if (!session || session.value !== 'authenticated') {
             body: JSON.stringify({ trustBadges: parsedBadges }),
             credentials: 'include'
           });
-          console.log('[DEBUG] Settings save response:', settingsRes.status);
         }
         catch (e) { alert('รูปแบบ Trust Badges JSON ไม่ถูกต้อง'); btn.disabled = false; btn.textContent = '💾 บันทึก'; return; }
       }
@@ -416,15 +412,24 @@ if (!session || session.value !== 'authenticated') {
           setTimeout(() => status.classList.add('hidden'), 3000);
           loadPage();
         } else {
-          const err = await res.text();
-          status.textContent = '❌ ผิดพลาด: ' + err;
+          let errorMsg = `Error ${res.status}`;
+          try {
+            const errData = await res.json();
+            errorMsg = errData.error || errorMsg;
+          } catch {
+            const text = await res.text();
+            errorMsg = text.substring(0, 100) || errorMsg;
+          }
+          status.textContent = '❌ ผิดพลาด: ' + errorMsg;
           status.classList.remove('hidden', 'text-green-600');
           status.classList.add('text-red-500');
+          console.error('[Save Error] HTTP ' + res.status, errorMsg);
         }
       } catch (err) {
-        status.textContent = '❌ เกิดข้อผิดพลาด';
+        status.textContent = '❌ เกิดข้อผิดพลาด: ' + (err.message || 'Network error');
         status.classList.remove('hidden');
         status.classList.add('text-red-500');
+        console.error('[Save Error]', err);
       }
       btn.disabled = false;
       btn.textContent = '💾 บันทึก';
