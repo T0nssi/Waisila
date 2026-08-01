@@ -112,27 +112,32 @@ export const PUT: APIRoute = async ({ request, cookies }) => {
   
   try {
     const body = await request.json();
-    
+    console.log('[API] PUT /api/admin/pages - body:', body);
+    console.log('[API] USE_MONGODB:', USE_MONGODB);
+
     if (USE_MONGODB) {
       const collection = await getCollection(COLLECTIONS.PAGES);
-      const existing = await collection.findOne({ id: body.id });
+      const query = body.key ? { key: body.key } : { id: body.id };
+      const existing = await collection.findOne(query);
       if (!existing) {
         return new Response(JSON.stringify({ error: 'Page not found' }), { status: 404 });
       }
-      
+
       const updated = {
         ...existing,
         ...body,
         updatedAt: new Date(),
       };
-      
-      await collection.updateOne({ id: body.id }, { $set: updated });
+
+      await collection.updateOne({ _id: existing._id }, { $set: updated });
       return new Response(JSON.stringify(updated), { status: 200 });
     }
-    
+
     // Fallback to JSON
     const data = readJsonFile(getDataFile('pages.json'), { pages: [] });
-    const index = data.pages.findIndex((p: any) => p.id === body.id);
+    const index = body.key
+      ? data.pages.findIndex((p: any) => p.key === body.key)
+      : data.pages.findIndex((p: any) => p.id === body.id);
     if (index === -1) {
       return new Response(JSON.stringify({ error: 'Page not found' }), { status: 404 });
     }
