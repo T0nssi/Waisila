@@ -90,7 +90,7 @@ const testimonialsJson = JSON.stringify(testimonials);
 
   <!-- About/Story Section -->
   {storyHeading && (
-  <section class="py-24 px-6 bg-[#e0dcd7]" data-bg="#e0dcd7">
+  <section class="py-24 px-6 bg-sand" data-bg="#e0dcd7">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div>
@@ -140,7 +140,7 @@ const testimonialsJson = JSON.stringify(testimonials);
   </section>
 
   <!-- Testimonials -->
-  <section class="py-24 px-6 bg-[#d4d0cb] overflow-hidden" data-bg="#d4d0cb">
+  <section class="py-24 px-6 bg-pebble overflow-hidden" data-bg="#d4d0cb">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-12">
         <p class="text-base font-medium tracking-[0.2em] uppercase text-brown/50 mb-3">{homepageData.testimonialLabel || 'รีวิวจากลูกค้า'}</p>
@@ -193,7 +193,7 @@ const testimonialsJson = JSON.stringify(testimonials);
   </script>
 
   <!-- Products Preview -->
-  <section class="py-24 px-6 bg-[#e0dcd7]" data-bg="#e0dcd7">
+  <section class="py-24 px-6 bg-sand" data-bg="#e0dcd7">
     <div class="max-w-6xl mx-auto">
       <div class="flex items-end justify-between mb-12">
         <div>
@@ -205,7 +205,7 @@ const testimonialsJson = JSON.stringify(testimonials);
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         {(homepageData.categories || []).map((cat: any, i: number) => (
           <a href="/products" class="group">
-            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+            <div class="bg-pebble rounded-md aspect-square mb-4 overflow-hidden">
               <img src={cat.image || ['/assets/products/category-marble.jpg','/assets/products/category-granite.jpg','/assets/products/category-artificial.jpg','/assets/products/category-quartz.jpg'][i]} alt={cat.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
             </div>
             <h3 class="font-heading text-xl mb-1">{cat.name || ['หินอ่อน','หินแกรนิต','หินสังเคราะห์','หินควอทซ์'][i]}</h3>
@@ -220,7 +220,7 @@ const testimonialsJson = JSON.stringify(testimonials);
           { name: 'หินควอทซ์', en: 'Quartz', img: '/assets/products/category-quartz.jpg' },
         ].map((f, i) => (
           <a href="/products" class="group">
-            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-4 overflow-hidden">
+            <div class="bg-pebble rounded-md aspect-square mb-4 overflow-hidden">
               <img src={f.img} alt={f.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
             </div>
             <h3 class="font-heading text-xl mb-1">{f.name}</h3>
@@ -245,7 +245,7 @@ const testimonialsJson = JSON.stringify(testimonials);
         {portfolioItems.length > 0 ? (
           portfolioItems.map((p: any) => (
             <a href={`/portfolio/${p.slug}`} class="group">
-              <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+              <div class="bg-pebble rounded-md aspect-[4/3] mb-4 overflow-hidden">
                 <img 
                   src={p.image || p.images?.[0] || '/assets/portfolio/marble-01.jpg'} 
                   alt={p.title} 
@@ -260,19 +260,19 @@ const testimonialsJson = JSON.stringify(testimonials);
         ) : (
           <>
             <a href="/portfolio" class="group">
-              <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+              <div class="bg-pebble rounded-md aspect-[4/3] mb-4 overflow-hidden">
                 <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน | Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <h3 class="font-heading text-lg mb-1">หินอ่อน | Marble</h3>
             </a>
             <a href="/portfolio" class="group">
-              <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+              <div class="bg-pebble rounded-md aspect-[4/3] mb-4 overflow-hidden">
                 <img src="/assets/portfolio/granite-01.jpg" alt="หินแกรนิต | Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <h3 class="font-heading text-lg mb-1">หินแกรนิต | Granite</h3>
             </a>
             <a href="/portfolio" class="group">
-              <div class="bg-[#d4d0cb] rounded-md aspect-[4/3] mb-4 overflow-hidden">
+              <div class="bg-pebble rounded-md aspect-[4/3] mb-4 overflow-hidden">
                 <img src="/assets/portfolio/quartz-01.jpg" alt="หินเทียม | หินสังเคราะห์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <h3 class="font-heading text-lg mb-1">หินเทียม | หินสังเคราะห์</h3>
@@ -288,7 +288,7 @@ const testimonialsJson = JSON.stringify(testimonials);
     <div class="max-w-6xl mx-auto text-center">
       <h2 class="text-3xl font-heading mb-4">{homepageData.ctaHeading || 'สนใจสินค้าหรือบริการ?'}</h2>
       <p class="text-brown/70 mb-8" id="contactCta">{homepageData.ctaSubtext || 'ติดต่อเราได้ตลอดเวลา'} {contact}</p>
-      <a href="/contact" class="inline-block bg-brown text-cream px-8 py-4 rounded-md font-medium hover:bg-brown/90 transition-colors">ติดต่อเลย</a>
+      <a href="/contact" class="inline-block bg-terracotta text-cream px-8 py-4 rounded-md font-medium hover:bg-terracotta/90 transition-colors">ติดต่อเลย</a>
     </div>
   </section>
 

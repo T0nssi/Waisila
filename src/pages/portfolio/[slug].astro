@@ -26,7 +26,7 @@ const related = portfolioData
   <NavBar currentPage="/portfolio" />
 
   <!-- Hero Image -->
-  <section class="pt-24 relative h-[50vh] min-h-[400px]">
+  <section class="pt-40 relative h-[50vh] min-h-[400px]">
     <div class="absolute inset-0 bg-gradient-to-b from-brown/60 to-transparent z-10"></div>
     <img 
       src={item.image || '/assets/portfolio/marble-01.jpg'} 
@@ -35,9 +35,17 @@ const related = portfolioData
     />
     <div class="absolute bottom-0 left-0 right-0 z-20 p-8">
       <div class="max-w-6xl mx-auto">
-        <a href="/portfolio" class="inline-flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors text-sm">
-          ← กลับสู่ผลงานทั้งหมด
-        </a>
+        <nav class="flex items-center gap-2 text-sm text-white/70 mb-4">
+          <a href="/" class="hover:text-white transition-colors">หน้าแรก</a>
+          <span>/</span>
+          <a href="/portfolio" class="hover:text-white transition-colors">ผลงาน</a>
+          {item.category && (
+            <>
+              <span>/</span>
+              <span class="text-white/90">{item.category}</span>
+            </>
+          )}
+        </nav>
         <p class="text-xs font-medium tracking-[0.2em] uppercase text-white/60 mb-2">{item.category || item.type}</p>
         <h1 class="text-4xl lg:text-5xl font-heading text-white">{item.title}</h1>
       </div>
@@ -70,7 +78,7 @@ const related = portfolioData
               </button>
               <div id="galleryContent" class="grid grid-cols-2 gap-4 mt-4">
                 {item.images.map((img: string, i: number) => (
-                  <div class="aspect-[4/3] overflow-hidden rounded-md bg-[#d4d0cb]">
+                  <div class="aspect-[4/3] overflow-hidden rounded-md bg-pebble">
                     <img 
                       src={img} 
                       alt={`${item.title} - รูปที่ ${i + 1}`}
@@ -85,7 +93,7 @@ const related = portfolioData
           )}
 
           {(!item.images || item.images.length === 0) && (
-            <div class="text-center py-12 bg-[#f5f3f0] rounded-md">
+            <div class="text-center py-12 bg-linen rounded-md">
               <p class="text-brown/40">ไม่มีรูปภาพเพิ่มเติม</p>
             </div>
           )}
@@ -94,7 +102,7 @@ const related = portfolioData
         <!-- Sidebar -->
         <div>
           <!-- Project Info Card -->
-          <div class="bg-white rounded-md border border-[#d4d0cb] p-6 mb-6">
+          <div class="bg-white rounded-md border border-pebble p-6 mb-6">
             <h3 class="font-heading text-lg mb-4">ข้อมูลโปรเจกต์</h3>
             <div class="space-y-3 text-sm">
               <div class="flex justify-between">
@@ -139,7 +147,7 @@ const related = portfolioData
 
   <!-- Related Projects -->
   {related.length > 0 && (
-    <section class="py-16 px-6 bg-[#f5f3f0]">
+    <section class="py-16 px-6 bg-linen">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-2xl font-heading mb-8">ผลงานที่เกี่ยวข้อง</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
