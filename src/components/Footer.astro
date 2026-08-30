@@ -1,7 +1,7 @@
 ---
-import { readSettingsSync } from '../lib/jsonDb';
+import { readSettings } from '../lib/jsonDb';
 
-const settings = readSettingsSync();
+const settings = await readSettings();
 const footer = settings.footer || {};
 const social = settings.social || {};
 

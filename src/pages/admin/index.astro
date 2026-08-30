@@ -312,33 +312,15 @@ if (!session || session.value !== 'authenticated') {
     </div>
   </div>
 
-  <!-- DEBUG CONSOLE -->
-  <div id="debugConsole" style="position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;background:#1a1a1a;color:#0f0;padding:12px;font-family:monospace;font-size:12px;z-index:9999;display:none;">
-    <div style="margin-bottom:4px;font-weight:bold;color:#ff0;">DEBUG LOG:</div>
-    <div id="debugLog"></div>
-  </div>
-  <button onclick="toggleDebug()" style="position:fixed;bottom:10px;right:10px;background:#333;color:#0f0;padding:8px 12px;border:none;border-radius:4px;cursor:pointer;z-index:9998;font-size:11px;">🐛 Debug</button>
-
   <script is:inline>
-    // ============== DEBUG SYSTEM ==============
-    let debugVisible = false;
-    const logs = [];
-    function toggleDebug() {
-      debugVisible = !debugVisible;
-      document.getElementById('debugConsole').style.display = debugVisible ? 'block' : 'none';
-    }
+    // ============== DEBUG LOGGING (console only, no UI) ==============
     function debug(msg, data) {
-      const time = new Date().toLocaleTimeString();
-      const logLine = '[' + time + '] ' + msg + (data !== undefined ? ' ' + JSON.stringify(data) : '');
-      logs.push(logLine);
-      if (logs.length > 100) logs.shift();
-      const el = document.getElementById('debugLog');
-      el.innerHTML = logs.map(l => '<div style="margin-bottom:2px;">' + l.replace(/</g, '&lt;') + '</div>').join('');
-      el.scrollTop = el.scrollHeight;
-      console.log('[DEBUG]', msg, data);
+      if (data !== undefined) {
+        console.log('[admin]', msg, data);
+      } else {
+        console.log('[admin]', msg);
+      }
     }
-    
-    debug('=== ADMIN PAGE LOADING ===');
 
     // ============== STATE ==============
     let products = [];

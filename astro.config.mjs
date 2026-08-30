@@ -4,7 +4,7 @@ import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://waisira.com',
+  site: 'https://waisira.vercel.app',
   integrations: [sitemap()],
   output: 'server',
   adapter: vercel(),

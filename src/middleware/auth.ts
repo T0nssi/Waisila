@@ -8,7 +8,35 @@ export function getSession(cookies: any): boolean {
   return session?.value === 'authenticated';
 }
 
+// Simple in-memory rate limiter for login attempts: ip -> { count, resetTime }
+const loginAttempts = new Map<string, { count: number; resetTime: number }>();
+const LOGIN_RATE_LIMIT = 5; // max attempts
+const LOGIN_RATE_WINDOW_MS = 5 * 60 * 1000; // per 5 minutes
+
+function checkLoginRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = loginAttempts.get(ip);
+  if (!entry || now > entry.resetTime) {
+    loginAttempts.set(ip, { count: 1, resetTime: now + LOGIN_RATE_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= LOGIN_RATE_LIMIT) return false;
+  entry.count++;
+  return true;
+}
+
 export const loginHandler: APIRoute = async ({ request, cookies }) => {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || request.headers.get('cf-connecting-ip')?.trim()
+    || 'unknown';
+
+  if (!checkLoginRateLimit(ip)) {
+    return new Response(
+      JSON.stringify({ success: false, error: 'พยายามเข้าสู่ระบบบ่อยเกินไป กรุณาลองใหม่ภายหลัง' }),
+      { status: 429 }
+    );
+  }
+
   const formData = await request.formData();
   const password = formData.get('password')?.toString();
 
@@ -16,7 +44,7 @@ export const loginHandler: APIRoute = async ({ request, cookies }) => {
     cookies.set(SESSION_COOKIE, 'authenticated', {
       path: '/',
       httpOnly: true,
-      secure: false,
+      secure: import.meta.env.PROD,
       sameSite: 'strict',
       maxAge: 60 * 60 * 24,
     });

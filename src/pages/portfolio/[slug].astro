@@ -6,14 +6,13 @@ import { readPortfolio, readPages } from '../../lib/jsonDb';
 
 const { slug } = Astro.params;
 
-const portfolioData = await readPortfolio();
+const [portfolioData, allPages] = await Promise.all([readPortfolio(), readPages()]);
 const item = portfolioData.find((p: any) => p.slug === slug);
 
 if (!item) {
   return Astro.redirect('/portfolio');
 }
 
-const allPages = await readPages();
 const portfolioPage = allPages.find((p: any) => p.key === 'portfolio');
 const contact = portfolioPage?.contact || '098-519-2696';
 

@@ -7,10 +7,14 @@ const currentPage = '/';
 
 // Read from MongoDB (with JSON fallback)
 import { readPages, readPortfolio, readTestimonials, readSettings } from '../lib/jsonDb';
-const allPages = await readPages();
+const [allPages, settings, portfolioRaw, testimonials] = await Promise.all([
+  readPages(),
+  readSettings(),
+  readPortfolio(),
+  readTestimonials(),
+]);
 const homepageData = allPages.find((p: any) => p.key === 'homepage') || {};
 const serviceData = allPages.find((p: any) => p.key === 'service') || {};
-const settings = await readSettings() || {};
 
 // Trust badges from settings
 const trustBadges = settings.trustBadges || [
@@ -37,7 +41,7 @@ const information = homepageData.information || '';
 const contact = homepageData.contact || '098-519-2696';
 
 // Get portfolio items for preview
-const portfolioItems = (await readPortfolio()).filter((p: any) => p.active).slice(0, 3);
+const portfolioItems = portfolioRaw.filter((p: any) => p.active).slice(0, 3);
 
 // Story/About section fields
 const storyHeading = homepageData.storyHeading || 'ผู้เชี่ยวชาญด้านหินธรรมชาติ';
@@ -46,8 +50,7 @@ const aboutText = homepageData.aboutText || '';
 const experienceLabel = homepageData.experienceLabel || 'ปีแห่งประสบการณ์';
 const factoryImage = homepageData.factoryImage || '/assets/services/factory-interior.jpg';
 
-// Get testimonials for review section
-const testimonials = await readTestimonials();
+// Testimonials for review section
 const testimonialsJson = JSON.stringify(testimonials);
 ---
 

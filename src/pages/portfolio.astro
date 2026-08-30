@@ -6,12 +6,9 @@ import { readPortfolio, readPages } from '../lib/jsonDb';
 
 const currentPage = '/portfolio';
 
-// Get portfolio items from MongoDB/JSON
-const portfolioData = await readPortfolio();
+// Get portfolio items and page info from MongoDB/JSON
+const [portfolioData, allPages] = await Promise.all([readPortfolio(), readPages()]);
 const activePortfolio = portfolioData.filter((p: any) => p.active);
-
-// Get page info from pages
-const allPages = await readPages();
 const portfolioPage = allPages.find((p: any) => p.key === 'portfolio');
 const heroDescription = portfolioPage?.information || 'รวบรบรวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา';
 

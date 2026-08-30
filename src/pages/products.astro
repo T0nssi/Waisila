@@ -6,16 +6,18 @@ import { readProducts, readPages, readSettings } from '../lib/jsonDb';
 
 const currentPage = '/products';
 
-const allProducts = await readProducts();
+const [allProducts, allPages, settings] = await Promise.all([
+  readProducts(),
+  readPages(),
+  readSettings(),
+]);
 const marbleProducts = allProducts.filter((p: any) => p.category === 'marble' && p.active);
 const graniteProducts = allProducts.filter((p: any) => p.category === 'granite' && p.active);
 const artificialProducts = allProducts.filter((p: any) => p.category === 'artificial' && p.active);
 const quartzProducts = allProducts.filter((p: any) => p.category === 'quartz' && p.active);
 
 // Read tab labels from service page data
-const allPages = await readPages();
 const serviceData = allPages.find((p: any) => p.key === 'service') || {};
-const settings = await readSettings() || {};
 const marbleTabLabel = serviceData.marbleTab || 'หินอ่อน (Marble)';
 const graniteTabLabel = serviceData.graniteTab || 'หินแกรนิต (Granite)';
 const artificialTabLabel = serviceData.artificialTab || 'หินเทียม (Artificial)';
