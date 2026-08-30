@@ -3,6 +3,15 @@ import { readJsonFile, getDataFile } from './apiHelpers';
 // Check if MongoDB should be used
 const USE_MONGODB = !!process.env.MONGODB_URI;
 
+console.log(
+  '[jsonDb] MONGODB_URI is',
+  USE_MONGODB ? 'set — will try MongoDB first' : 'NOT set — using JSON files only'
+);
+
+function logMongoError(source: string, error: any) {
+  console.error(`[jsonDb] Falling back to JSON for "${source}":`, error?.message || error);
+}
+
 // Products - uses JSON (with optional MongoDB fallback)
 export async function readProducts(): Promise<any[]> {
   if (USE_MONGODB) {
@@ -11,7 +20,7 @@ export async function readProducts(): Promise<any[]> {
       const collection = await getCollection(COLLECTIONS.PRODUCTS);
       return await collection.find({}).toArray();
     } catch (error) {
-      console.error('MongoDB read error, falling back to JSON:', error);
+      logMongoError('products', error);
     }
   }
   const data = readJsonFile(getDataFile('products.json'), { products: [] });
@@ -26,7 +35,7 @@ export async function readPages(): Promise<any[]> {
       const collection = await getCollection(COLLECTIONS.PAGES);
       return await collection.find({}).toArray();
     } catch (error) {
-      console.error('MongoDB read error, falling back to JSON:', error);
+      logMongoError('pages', error);
     }
   }
   const data = readJsonFile(getDataFile('pages.json'), { pages: [] });
@@ -41,7 +50,7 @@ export async function readPortfolio(): Promise<any[]> {
       const collection = await getCollection(COLLECTIONS.PORTFOLIO);
       return await collection.find({}).toArray();
     } catch (error) {
-      console.error('MongoDB read error, falling back to JSON:', error);
+      logMongoError('portfolio', error);
     }
   }
   const data = readJsonFile(getDataFile('portfolio.json'), { portfolio: [] });
@@ -72,7 +81,7 @@ export async function readTestimonials(): Promise<any[]> {
       const collection = await getCollection(COLLECTIONS.TESTIMONIALS);
       return await collection.find({ active: true }).toArray();
     } catch (error) {
-      console.error('MongoDB read error, falling back to JSON:', error);
+      logMongoError('testimonials', error);
     }
   }
   const data = readJsonFile(getDataFile('testimonials.json'), { testimonials: [] });
@@ -88,7 +97,7 @@ export async function readSettings(): Promise<any> {
       const doc = await collection.findOne({});
       return doc || {};
     } catch (error) {
-      console.error('MongoDB read error, falling back to JSON:', error);
+      logMongoError('settings', error);
     }
   }
   return readJsonFile(getDataFile('settings.json'), {});

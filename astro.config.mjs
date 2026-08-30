@@ -1,11 +1,14 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://waisira.com',
-  integrations: [tailwind(), sitemap()],
+  integrations: [sitemap()],
   output: 'server',
   adapter: vercel(),
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
