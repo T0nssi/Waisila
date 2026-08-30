@@ -14,6 +14,10 @@ export default {
         terracotta: '#C9996B',
         brown: '#5C4F4A',
         sage: '#5C766D',
+        // Neutral surface shades used throughout section backgrounds/borders
+        linen: '#F5F3F0',
+        sand: '#E0DCD7',
+        pebble: '#D4D0CB',
       },
     },
   },

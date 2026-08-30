@@ -36,7 +36,7 @@ const servicesJson = JSON.stringify(servicesList);
         <img src={heroImages[0]} alt="ไวยศิลา workshop" class="w-full h-full object-cover" id="heroImage" />
       </div>
       <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">บริการ</p>
-      <h1 class="text-5xl font-heading leading-[1.1] mb-6">{mainHeading}</h1>
+      <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6">{mainHeading}</h1>
       <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-16" id="infoText">
         {information || defaultInfo}
       </p>
@@ -91,7 +91,7 @@ const servicesJson = JSON.stringify(servicesList);
     
     if (servicesGrid && services.length >= 2) {
       servicesGrid.innerHTML = 
-        '<div class="lg:col-span-2 bg-[#e0dcd7] rounded-md p-10 lg:p-12">' +
+        '<div class="lg:col-span-2 bg-sand rounded-md p-10 lg:p-12">' +
           '<div class="rounded-md overflow-hidden mb-6" style="height: 240px;">' +
             '<img src="' + services[0].image + '" alt="' + services[0].title + '" class="w-full h-full object-cover" />' +
           '</div>' +
@@ -99,7 +99,7 @@ const servicesJson = JSON.stringify(servicesList);
           '<h2 class="text-3xl font-heading mb-3">' + services[0].title + '</h2>' +
           '<p class="text-brown/60 leading-relaxed">' + services[0].desc + '</p>' +
         '</div>' +
-        '<div class="bg-[#e0dcd7] rounded-md p-8">' +
+        '<div class="bg-sand rounded-md p-8">' +
           '<div class="rounded-md overflow-hidden mb-4" style="height: 160px;">' +
             '<img src="' + services[1].image + '" alt="' + services[1].title + '" class="w-full h-full object-cover" />' +
           '</div>' +
@@ -112,7 +112,7 @@ const servicesJson = JSON.stringify(servicesList);
     if (additionalServices && services.length > 2) {
       let html = '';
       for (let i = 2; i < services.length; i++) {
-        html += '<div class="bg-[#e0dcd7] rounded-md p-6">' +
+        html += '<div class="bg-sand rounded-md p-6">' +
           '<div class="rounded-md overflow-hidden mb-4" style="height: 140px;">' +
             '<img src="' + services[i].image + '" alt="' + services[i].title + '" class="w-full h-full object-cover" />' +
           '</div>' +

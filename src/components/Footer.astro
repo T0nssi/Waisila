@@ -1,7 +1,7 @@
 ---
-import { readSettingsSync } from '../lib/jsonDb';
+import { readSettings } from '../lib/jsonDb';
 
-const settings = readSettingsSync();
+const settings = await readSettings();
 const footer = settings.footer || {};
 const social = settings.social || {};
 
@@ -26,7 +26,7 @@ const address = footer.address || '';
 const hours = footer.hours || '';
 ---
 
-<footer class="bg-cream border-t border-[#d4d0cb] py-16 px-6">
+<footer class="bg-cream border-t border-pebble py-16 px-6">
   <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
       <!-- Column 1: Logo, About, Social -->
@@ -110,7 +110,7 @@ const hours = footer.hours || '';
     </div>
 
     <!-- Copyright -->
-    <div class="mt-12 pt-8 border-t border-[#d4d0cb] text-center">
+    <div class="mt-12 pt-8 border-t border-pebble text-center">
       <p class="text-sm text-brown/50">{copyright}</p>
     </div>
   </div>

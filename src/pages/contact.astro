@@ -34,7 +34,7 @@ const hours = pageData.hours || '';
   <section class="pt-32 pb-24 px-6">
     <div class="max-w-6xl mx-auto">
       <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">ติดต่อ</p>
-      <h1 class="text-5xl font-heading leading-[1.1] mb-6">ติดต่อเรา</h1>
+      <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-6">ติดต่อเรา</h1>
       
       {information && (
         <p class="text-lg text-brown/70 max-w-2xl leading-relaxed mb-12" id="infoText">{information}</p>
@@ -48,7 +48,7 @@ const hours = pageData.hours || '';
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <!-- Contact Info -->
-        <div class="bg-[#e0dcd7] rounded-md p-8 lg:p-10">
+        <div class="bg-sand rounded-md p-8 lg:p-10">
           <h2 class="text-2xl font-heading mb-6">ข้อมูลติดต่อ</h2>
           
           <!-- Social Icons -->
@@ -116,25 +116,25 @@ const hours = pageData.hours || '';
         </div>
 
         <!-- Contact Form -->
-        <div class="bg-[#e0dcd7] rounded-md p-8 lg:p-10">
+        <div class="bg-sand rounded-md p-8 lg:p-10">
           <h2 class="text-2xl font-heading mb-6">ส่งข้อความ</h2>
           
           <form id="contactForm" class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-brown mb-2">ชื่อ</label>
-              <input type="text" name="name" required class="w-full px-4 py-3 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white" placeholder="ชื่อของคุณ" />
+              <input type="text" name="name" required class="w-full px-4 py-3 border border-pebble rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white" placeholder="ชื่อของคุณ" />
             </div>
             <div>
               <label class="block text-sm font-medium text-brown mb-2">เบอร์โทร</label>
-              <input type="tel" name="phone" required class="w-full px-4 py-3 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white" placeholder="08x-xxx-xxxx" />
+              <input type="tel" name="phone" required class="w-full px-4 py-3 border border-pebble rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white" placeholder="08x-xxx-xxxx" />
             </div>
             <div>
               <label class="block text-sm font-medium text-brown mb-2">อีเมล</label>
-              <input type="email" name="email" class="w-full px-4 py-3 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white" placeholder="example@email.com" />
+              <input type="email" name="email" class="w-full px-4 py-3 border border-pebble rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white" placeholder="example@email.com" />
             </div>
             <div>
               <label class="block text-sm font-medium text-brown mb-2">ข้อความ</label>
-              <textarea name="message" rows="4" required class="w-full px-4 py-3 border border-[#d4d0cb] rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white resize-none" placeholder="สอบถามรายละเอียด..."></textarea>
+              <textarea name="message" rows="4" required class="w-full px-4 py-3 border border-pebble rounded-md focus:outline-none focus:ring-2 focus:ring-sage/50 bg-white resize-none" placeholder="สอบถามรายละเอียด..."></textarea>
             </div>
             <button type="submit" class="w-full bg-sage text-cream py-3 rounded-md font-medium hover:bg-sage/90 transition-colors">
               ส่งข้อความ

@@ -2,23 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
-import { Image } from 'astro:assets';
-
-// Images
-import heroFactoryInterior from '../assets/services/factory-interior.jpg';
-import heroCraneLoading from '../assets/services/crane-loading.jpg';
-import heroYardWide from '../assets/services/granite-texture.jpg';
-import heroStoneWorker from '../assets/services/worker.jpg';
-import heroHero from '../assets/hero.jpg';
 
 const currentPage = '/about';
 
 // Read from MongoDB (with JSON fallback)
 const { readPages, readSettings } = await import('../lib/jsonDb');
-const allPages = await readPages();
+const [allPages, settings] = await Promise.all([readPages(), readSettings()]);
 const aboutData = allPages.find((p: any) => p.key === 'about') || {};
 const serviceData = allPages.find((p: any) => p.key === 'service') || {};
-const settings = await readSettings() || {};
 
 // Hero
 const heroTagline = aboutData.heroTagline || 'เกี่ยองเรา';
@@ -114,7 +105,7 @@ const phone = settings.social?.phone || '098-519-2696';
   </section>
 
   <!-- Values -->
-  <section class="py-24 px-6 bg-[#d4d0cb]">
+  <section class="py-24 px-6 bg-pebble">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-16">
         <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">{whyLabel}</p>
@@ -141,7 +132,7 @@ const phone = settings.social?.phone || '098-519-2696';
         <p class="text-brown/70 max-w-xl mx-auto">{productsOverviewText}</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+        <div class="bg-linen rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
             <img src={cat1.image} alt={cat1.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
@@ -150,7 +141,7 @@ const phone = settings.social?.phone || '098-519-2696';
             <p class="text-xs text-brown/60">{cat1.en}</p>
           </div>
         </div>
-        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+        <div class="bg-linen rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
             <img src={cat2.image} alt={cat2.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
@@ -159,7 +150,7 @@ const phone = settings.social?.phone || '098-519-2696';
             <p class="text-xs text-brown/60">{cat2.en}</p>
           </div>
         </div>
-        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+        <div class="bg-linen rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
             <img src={cat3.image} alt={cat3.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
@@ -168,7 +159,7 @@ const phone = settings.social?.phone || '098-519-2696';
             <p class="text-xs text-brown/60">{cat3.en}</p>
           </div>
         </div>
-        <div class="bg-[#f5f3f0] rounded-md overflow-hidden">
+        <div class="bg-linen rounded-md overflow-hidden">
           <div class="aspect-square overflow-hidden">
             <img src={cat4.image} alt={cat4.name} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>

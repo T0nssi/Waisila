@@ -2,6 +2,7 @@
 export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
 import NavBar from '../../components/NavBar.astro';
+import Footer from '../../components/Footer.astro';
 import { readProducts } from '../../lib/jsonDb';
 
 const { slug } = Astro.params;
@@ -36,7 +37,7 @@ const otherProducts = allProducts
   <NavBar currentPage="/products" />
 
   <!-- Breadcrumb -->
-  <div class="pt-28 px-6 bg-[#e0dcd7]/50">
+  <div class="pt-28 px-6 bg-sand/50">
     <div class="max-w-6xl mx-auto py-4">
       <nav class="flex items-center gap-2 text-sm text-brown/60">
         <a href="/" class="hover:text-sage transition-colors">หน้าแรก</a>
@@ -57,7 +58,7 @@ const otherProducts = allProducts
         
         <!-- Image Gallery -->
         <div class="relative">
-          <div class="sticky top-28 rounded-md overflow-hidden bg-[#d4d0cb] aspect-square lg:aspect-[4/5]">
+          <div class="sticky top-28 rounded-md overflow-hidden bg-pebble aspect-square lg:aspect-[4/5]">
             {product.images && product.images.length > 0 ? (
               <img id="mainImage" src={product.images[0]} alt={product.name} class="w-full h-full object-contain" />
             ) : product.image ? (
@@ -92,7 +93,7 @@ const otherProducts = allProducts
           <h1 class="text-4xl lg:text-5xl font-heading leading-tight mb-2">{product.name}</h1>
           <p class="text-xl text-brown/60 mb-8">{product.en || '-'}</p>
 
-          <div class="border-t border-[#d4d0cb] mb-8"></div>
+          <div class="border-t border-pebble mb-8"></div>
 
           <div class="space-y-4 mb-10">
             {product.origin && (
@@ -116,7 +117,7 @@ const otherProducts = allProducts
           </div>
 
           {product.description && (
-            <div class="bg-[#e0dcd7]/50 rounded-md p-6 mb-8">
+            <div class="bg-sand/50 rounded-md p-6 mb-8">
               <p class="text-brown/80 leading-relaxed">{product.description}</p>
             </div>
           )}
@@ -136,7 +137,7 @@ const otherProducts = allProducts
 
   <!-- Other Products -->
   {otherProducts.length > 0 && (
-    <section class="px-6 py-16 bg-[#e0dcd7]/50">
+    <section class="px-6 py-16 bg-sand/50">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-2xl font-heading mb-8">สินค้าในหมวดเดียวกัน</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -146,7 +147,7 @@ const otherProducts = allProducts
                 {p.image ? (
                   <img src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
-                  <div class="w-full h-full bg-[#d4d0cb]"></div>
+                  <div class="w-full h-full bg-pebble"></div>
                 )}
               </div>
               <h3 class="font-heading text-base mb-0.5 group-hover:text-sage transition-colors">{p.name}</h3>
@@ -174,19 +175,7 @@ const otherProducts = allProducts
     </div>
   </section>
 
-  <footer class="py-12 px-6 border-t border-[#d4d0cb]">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-      <div>
-        <p class="font-heading text-xl mb-1">ไวยศิลา</p>
-        <p class="text-sm text-brown/60">WAISIRA</p>
-      </div>
-      <ul class="flex gap-6 text-sm text-brown/60">
-        <li><a href="/" class="hover:text-sage transition-colors">หน้าแรก</a></li>
-        <li><a href="/products" class="hover:text-sage transition-colors">สินค้า</a></li>
-        <li><a href="/contact" class="hover:text-sage transition-colors">ติดต่อ</a></li>
-      </ul>
-    </div>
-  </footer>
+  <Footer />
 
   <script is:inline define:vars={{ product }}>
     const images = product.images || [];

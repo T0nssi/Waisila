@@ -2,13 +2,12 @@ import type { APIRoute } from 'astro';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import { getSession } from '../../../middleware/auth';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  // Check auth
-  const session = cookies.get('session');
-  if (!session || session.value !== 'authenticated') {
+  if (!getSession(cookies)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
 

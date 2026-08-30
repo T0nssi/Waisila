@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
 }
@@ -10,38 +12,11 @@ const { title } = Astro.props;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            terracotta: '#c4785a',
-            sage: '#7d8c6e',
-            brown: '#4a3f35',
-            cream: '#f5f3f0',
-          },
-          fontFamily: {
-            heading: ['DM Serif Display', 'serif'],
-            body: ['Noto Sans Thai', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
-  <style>
-    :root {
-      --color-terracotta: #c4785a;
-      --color-sage: #7d8c6e;
-      --color-brown: #4a3f35;
-      --color-cream: #f5f3f0;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
-<body class="min-h-screen bg-[#e0dcd7] font-body">
+<body class="min-h-screen bg-[#e0dcd7] font-sans">
   <slot />
 
   <!-- IMAGE LIBRARY MODAL -->

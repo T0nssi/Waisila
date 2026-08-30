@@ -6,12 +6,9 @@ import { readPortfolio, readPages } from '../lib/jsonDb';
 
 const currentPage = '/portfolio';
 
-// Get portfolio items from MongoDB/JSON
-const portfolioData = await readPortfolio();
+// Get portfolio items and page info from MongoDB/JSON
+const [portfolioData, allPages] = await Promise.all([readPortfolio(), readPages()]);
 const activePortfolio = portfolioData.filter((p: any) => p.active);
-
-// Get page info from pages
-const allPages = await readPages();
 const portfolioPage = allPages.find((p: any) => p.key === 'portfolio');
 const heroDescription = portfolioPage?.information || 'รวบรบรวมผลงานการติดตั้งหินอ่อน หินแกรนิต และหินสังเคราะห์ ที่ผ่านการคัดเลือกและติดตั้งโดยทีมช่างมืออาชีพของเรา';
 
@@ -40,12 +37,12 @@ const portfolioHeading = portfolioPage?.portfolioHeading || 'ผลงานต�
   <!-- Filter Tabs -->
   <section class="pt-8 px-6">
     <div class="max-w-6xl mx-auto">
-      <div class="flex flex-wrap gap-2 mb-8 border-b border-[#d4d0cb] pb-4">
+      <div class="flex flex-wrap gap-2 mb-8 border-b border-pebble pb-4">
         <button data-filter="all" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-brown text-cream transition-colors">
           ทั้งหมด
         </button>
         {stoneCategories.map((cat: string) => (
-          <button data-filter={cat} class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white text-brown border border-[#d4d0cb] hover:bg-brown hover:text-cream transition-colors">
+          <button data-filter={cat} class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white text-brown border border-pebble hover:bg-brown hover:text-cream transition-colors">
             {cat}
           </button>
         ))}
@@ -55,7 +52,7 @@ const portfolioHeading = portfolioPage?.portfolioHeading || 'ผลงานต�
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="portfolioGrid">
         {activePortfolio.length > 0 ? (
           activePortfolio.map((p: any) => (
-            <div class="group portfolio-item bg-[#d4d0cb] rounded-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-category={p.category || ''}>
+            <div class="group portfolio-item bg-pebble rounded-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-category={p.category || ''}>
               <a href={`/portfolio/${p.slug}`} class="block">
                 <div class="aspect-[4/3] overflow-hidden">
                   <img 
@@ -74,7 +71,7 @@ const portfolioHeading = portfolioPage?.portfolioHeading || 'ผลงานต�
             </div>
           ))
         ) : (
-          <div class="bg-[#d4d0cb] rounded-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div class="bg-pebble rounded-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div class="aspect-[4/3] overflow-hidden">
               <img src="/assets/portfolio/marble-01.jpg" alt="หินอ่อน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop'" />
             </div>
@@ -98,7 +95,7 @@ const portfolioHeading = portfolioPage?.portfolioHeading || 'ผลงานต�
     <div class="max-w-6xl mx-auto text-center">
       <h2 class="text-3xl font-heading mb-4">สนใจสินค้าหรือบริการ?</h2>
       <p class="text-brown/70 mb-8">ติดต่อเราได้ตลอดเวลา {contact}</p>
-      <a href="/contact" class="inline-block bg-brown text-cream px-8 py-4 rounded-md font-medium hover:bg-brown/90 transition-colors">ติดต่อเลย</a>
+      <a href="/contact" class="inline-block bg-terracotta text-cream px-8 py-4 rounded-md font-medium hover:bg-terracotta/90 transition-colors">ติดต่อเลย</a>
     </div>
   </section>
 
@@ -117,10 +114,10 @@ const portfolioHeading = portfolioPage?.portfolioHeading || 'ผลงานต�
         // Update active button
         filterBtns.forEach(b => {
           b.classList.remove('bg-brown', 'text-cream');
-          b.classList.add('bg-white', 'text-brown', 'border', 'border-[#d4d0cb]');
+          b.classList.add('bg-white', 'text-brown', 'border', 'border-pebble');
         });
         btn.classList.add('bg-brown', 'text-cream');
-        btn.classList.remove('bg-white', 'text-brown', 'border', 'border-[#d4d0cb]');
+        btn.classList.remove('bg-white', 'text-brown', 'border', 'border-pebble');
         
         // Filter items
         let visibleCount = 0;

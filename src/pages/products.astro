@@ -6,16 +6,18 @@ import { readProducts, readPages, readSettings } from '../lib/jsonDb';
 
 const currentPage = '/products';
 
-const allProducts = await readProducts();
+const [allProducts, allPages, settings] = await Promise.all([
+  readProducts(),
+  readPages(),
+  readSettings(),
+]);
 const marbleProducts = allProducts.filter((p: any) => p.category === 'marble' && p.active);
 const graniteProducts = allProducts.filter((p: any) => p.category === 'granite' && p.active);
 const artificialProducts = allProducts.filter((p: any) => p.category === 'artificial' && p.active);
 const quartzProducts = allProducts.filter((p: any) => p.category === 'quartz' && p.active);
 
 // Read tab labels from service page data
-const allPages = await readPages();
 const serviceData = allPages.find((p: any) => p.key === 'service') || {};
-const settings = await readSettings() || {};
 const marbleTabLabel = serviceData.marbleTab || 'หินอ่อน (Marble)';
 const graniteTabLabel = serviceData.graniteTab || 'หินแกรนิต (Granite)';
 const artificialTabLabel = serviceData.artificialTab || 'หินเทียม (Artificial)';
@@ -35,32 +37,32 @@ const contact = {
   <section class="pt-32 pb-16 px-6">
     <div class="max-w-6xl mx-auto">
       <p class="text-xs font-medium tracking-[0.2em] uppercase text-brown/50 mb-4">หมวดสินค้า</p>
-      <h1 class="text-5xl font-heading leading-[1.1] mb-4">สินค้าของเรา</h1>
+      <h1 class="text-5xl lg:text-6xl font-heading leading-[1.1] mb-4">สินค้าของเรา</h1>
       <p class="text-lg text-brown/70 max-w-2xl">ไวยศิลานำเข้าและจำหน่ายหินอ่อน หินแกรนิต หินเทียม และหินควอทซ์คุณภาพ premium จากทั่วโลก</p>
     </div>
   </section>
 
   <section class="px-6 pb-8">
     <div class="max-w-6xl mx-auto">
-      <div class="flex gap-4 border-b border-[#d4d0cb]">
-        <button onclick="showCategory('marble')" id="tab-marble" class="pb-4 px-2 text-sm font-medium border-b-2 border-sage text-sage">{marbleTabLabel} ({marbleProducts.length})</button>
-        <button onclick="showCategory('granite')" id="tab-granite" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{graniteTabLabel} ({graniteProducts.length})</button>
-        <button onclick="showCategory('artificial')" id="tab-artificial" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{artificialTabLabel} ({artificialProducts.length})</button>
-        <button onclick="showCategory('quartz')" id="tab-quartz" class="pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{quartzTabLabel} ({quartzProducts.length})</button>
+      <div class="flex gap-4 border-b border-pebble">
+        <button data-tab="marble" class="tab-btn pb-4 px-2 text-sm font-medium border-b-2 border-sage text-sage">{marbleTabLabel} ({marbleProducts.length})</button>
+        <button data-tab="granite" class="tab-btn pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{graniteTabLabel} ({graniteProducts.length})</button>
+        <button data-tab="artificial" class="tab-btn pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{artificialTabLabel} ({artificialProducts.length})</button>
+        <button data-tab="quartz" class="tab-btn pb-4 px-2 text-sm font-medium border-b-2 border-transparent text-brown/60 hover:text-brown transition-colors">{quartzTabLabel} ({quartzProducts.length})</button>
       </div>
     </div>
   </section>
 
-  <section id="cat-marble" class="px-6 pb-24">
+  <section data-category-panel="marble" class="px-6 pb-24">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {marbleProducts.map((p: any) => (
           <a href={`/product/${p.slug}`} class="group block">
-            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+            <div class="bg-pebble rounded-md aspect-square mb-3 overflow-hidden">
               {p.image ? (
                 <img loading="lazy" decoding="async" src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
               ) : (
-                <div class="w-full h-full bg-[#d4d0cb]"></div>
+                <div class="w-full h-full bg-pebble"></div>
               )}
             </div>
             <h3 class="font-heading text-base mb-0.5 group-hover:text-sage transition-colors">{p.name}</h3>
@@ -71,16 +73,16 @@ const contact = {
     </div>
   </section>
 
-  <section id="cat-granite" class="px-6 pb-24 hidden">
+  <section data-category-panel="granite" class="px-6 pb-24 hidden">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {graniteProducts.map((p: any) => (
           <a href={`/product/${p.slug}`} class="group block">
-            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+            <div class="bg-pebble rounded-md aspect-square mb-3 overflow-hidden">
               {p.image ? (
                 <img loading="lazy" decoding="async" src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
               ) : (
-                <div class="w-full h-full bg-[#d4d0cb]"></div>
+                <div class="w-full h-full bg-pebble"></div>
               )}
             </div>
             <h3 class="font-heading text-base mb-0.5 group-hover:text-sage transition-colors">{p.name}</h3>
@@ -91,16 +93,16 @@ const contact = {
     </div>
   </section>
 
-  <section id="cat-artificial" class="px-6 pb-24 hidden">
+  <section data-category-panel="artificial" class="px-6 pb-24 hidden">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {artificialProducts.map((p: any) => (
           <a href={`/product/${p.slug}`} class="group block">
-            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+            <div class="bg-pebble rounded-md aspect-square mb-3 overflow-hidden">
               {p.image ? (
                 <img loading="lazy" decoding="async" src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
               ) : (
-                <div class="w-full h-full bg-[#d4d0cb]"></div>
+                <div class="w-full h-full bg-pebble"></div>
               )}
             </div>
             <h3 class="font-heading text-base mb-0.5 group-hover:text-sage transition-colors">{p.name}</h3>
@@ -111,16 +113,16 @@ const contact = {
     </div>
   </section>
 
-  <section id="cat-quartz" class="px-6 pb-24 hidden">
+  <section data-category-panel="quartz" class="px-6 pb-24 hidden">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {quartzProducts.map((p: any) => (
           <a href={`/product/${p.slug}`} class="group block">
-            <div class="bg-[#d4d0cb] rounded-md aspect-square mb-3 overflow-hidden">
+            <div class="bg-pebble rounded-md aspect-square mb-3 overflow-hidden">
               {p.image ? (
                 <img loading="lazy" decoding="async" src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'" />
               ) : (
-                <div class="w-full h-full bg-[#d4d0cb]"></div>
+                <div class="w-full h-full bg-pebble"></div>
               )}
             </div>
             <h3 class="font-heading text-base mb-0.5 group-hover:text-sage transition-colors">{p.name}</h3>
@@ -158,25 +160,26 @@ const contact = {
  -->
   <Footer />
 
-  <script is:inline>
-    function showCategory(cat) {
-      document.getElementById('cat-marble').classList.add('hidden');
-      document.getElementById('cat-granite').classList.add('hidden');
-      document.getElementById('cat-artificial').classList.add('hidden');
-      document.getElementById('cat-quartz').classList.add('hidden');
-      document.getElementById('cat-' + cat).classList.remove('hidden');
-      
-      document.getElementById('tab-marble').classList.remove('border-sage', 'text-sage');
-      document.getElementById('tab-marble').classList.add('border-transparent', 'text-brown/60');
-      document.getElementById('tab-granite').classList.remove('border-sage', 'text-sage');
-      document.getElementById('tab-granite').classList.add('border-transparent', 'text-brown/60');
-      document.getElementById('tab-artificial').classList.remove('border-sage', 'text-sage');
-      document.getElementById('tab-artificial').classList.add('border-transparent', 'text-brown/60');
-      document.getElementById('tab-quartz').classList.remove('border-sage', 'text-sage');
-      document.getElementById('tab-quartz').classList.add('border-transparent', 'text-brown/60');
-      
-      document.getElementById('tab-' + cat).classList.remove('border-transparent', 'text-brown/60');
-      document.getElementById('tab-' + cat).classList.add('border-sage', 'text-sage');
-    }
+  <script>
+    // Category tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const categoryPanels = document.querySelectorAll('[data-category-panel]');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-tab');
+
+        tabBtns.forEach(b => {
+          b.classList.remove('border-sage', 'text-sage');
+          b.classList.add('border-transparent', 'text-brown/60');
+        });
+        btn.classList.add('border-sage', 'text-sage');
+        btn.classList.remove('border-transparent', 'text-brown/60');
+
+        categoryPanels.forEach(panel => {
+          panel.classList.toggle('hidden', panel.getAttribute('data-category-panel') !== category);
+        });
+      });
+    });
   </script>
 </Layout>
