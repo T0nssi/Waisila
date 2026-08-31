@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const DB_NAME = process.env.MONGODB_DB || 'waisira';
+const MONGODB_URI = import.meta.env.MONGODB_URI || 'mongodb://localhost:27017';
+const DB_NAME = import.meta.env.MONGODB_DB || 'waisira';
 
 let cachedClient: MongoClient | null = null;
 let cachedClientPromise: Promise<MongoClient> | null = null;

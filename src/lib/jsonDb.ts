@@ -1,7 +1,8 @@
 import { readJsonFile, getDataFile } from './apiHelpers';
 
 // Check if MongoDB should be used
-const USE_MONGODB = !!process.env.MONGODB_URI;
+//const USE_MONGODB = !!process.env.MONGODB_URI;
+const USE_MONGODB = !!import.meta.env.MONGODB_URI;
 
 console.log(
   '[jsonDb] MONGODB_URI is',
