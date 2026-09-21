@@ -31,8 +31,23 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       return new Response(JSON.stringify({ error: 'File too large (max 5MB)' }), { status: 400 });
     }
 
-    // Create unique filename
-    const ext = file.name.split('.').pop() || 'jpg';
+    // Only ever write into a known asset folder. `folder` arrives from the
+    // client, so "../../src" or an absolute path must not be able to escape
+    // public/assets.
+    const ALLOWED_FOLDERS = ['products', 'portfolio', 'services', 'pages', 'uploads'];
+    if (!ALLOWED_FOLDERS.includes(folder)) {
+      return new Response(JSON.stringify({ error: 'Invalid folder' }), { status: 400 });
+    }
+
+    // Derive the extension from the validated MIME type rather than the
+    // attacker-supplied filename, so an "image/png" can't land as .html.
+    const EXT_BY_TYPE: Record<string, string> = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/webp': 'webp',
+      'image/gif': 'gif',
+    };
+    const ext = EXT_BY_TYPE[file.type];
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 8);
     const filename = `${timestamp}-${random}.${ext}`;

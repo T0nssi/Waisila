@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection, COLLECTIONS } from '../../../lib/mongodb';
 import { getSession } from '../../../middleware/auth';
 import { readdirSync } from 'fs';
-import { join } from 'path';
+import { resolve, sep } from 'path';
 
 export const prerender = false;
 
@@ -22,7 +22,12 @@ export const GET: APIRoute = async ({ cookies, request }) => {
   if (folder !== null || tab === 'local') {
     try {
       const folderPath = folder || '';
-      const publicPath = join(process.cwd(), 'public', 'assets', folderPath);
+      const assetsRoot = resolve(process.cwd(), 'public', 'assets');
+      const publicPath = resolve(assetsRoot, folderPath);
+      // `folder` is client-controlled — keep the listing inside public/assets.
+      if (publicPath !== assetsRoot && !publicPath.startsWith(assetsRoot + sep)) {
+        return new Response(JSON.stringify({ error: 'Invalid folder' }), { status: 400 });
+      }
       const files = readdirSync(publicPath, { withFileTypes: true });
       const images = files.map(entry => ({
         name: entry.name,
