@@ -1,5 +1,5 @@
 /* ==========================================================================
-   EPOXY PRO — behaviour (vanilla JS, no dependencies, ~2.5 KB)
+   EPOXY PRO — behaviour (vanilla JS, no dependencies, ~6 KB raw / ~2 KB gzipped)
    1) mobile menu   2) lead-form validation + submit
    ========================================================================== */
 (function () {
