@@ -45,7 +45,17 @@ export const POST: APIRoute = async ({ request }) => {
     const safeEmail = sanitize(email || '-');
     const safeMessage = sanitize(message);
 
-    if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+    // Without a delivery channel the message goes nowhere. Say so instead of
+    // reporting success — a lead that silently vanishes is worse than an error.
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+      console.error('[contact] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID are not set; message not delivered.');
+      return new Response(
+        JSON.stringify({ error: 'ระบบรับข้อความยังไม่พร้อมใช้งาน กรุณาติดต่อทางโทรศัพท์หรือ LINE' }),
+        { status: 503 }
+      );
+    }
+
+    {
       const text = `📩 ข้อความจากเว็บไซต์
 
 👤 ชื่อ: ${safeName}
@@ -55,15 +65,22 @@ export const POST: APIRoute = async ({ request }) => {
 
 ⏰ ${new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' })}`;
 
-      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: TELEGRAM_CHAT_ID,
           text,
-          parse_mode: 'HTML',
         }),
       });
+
+      if (!tgRes.ok) {
+        console.error('[contact] Telegram rejected the message:', tgRes.status, await tgRes.text());
+        return new Response(
+          JSON.stringify({ error: 'ส่งข้อความไม่สำเร็จ กรุณาติดต่อทางโทรศัพท์หรือ LINE' }),
+          { status: 502 }
+        );
+      }
     }
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
